@@ -60,6 +60,8 @@ class unpacking_vers2(Module):
         self.out.branch("Top_Is_dR_merg","I", lenVar="nTop")
         self.out.branch("Top_Costheta","F", lenVar="nTop")
         self.out.branch("Top_dR","F",lenVar="nTop")
+        self.out.branch("Top_Lep_Over_Jet_Pt","F", lenVar="nTop")
+        self.out.branch("Top_mT","F",lenVar="nTop")
 
         self.out.branch("Top_High_Truth","I", lenVar="nTop") 
         self.out.branch("Top_Tau_High_Truth","I", lenVar="nTop")
@@ -129,6 +131,8 @@ class unpacking_vers2(Module):
         top_pt_rel = []
         is_dR_merg = []
         top_dR = []
+        lep_over_jet_pt = []
+        mT = []
 
         top_high_truth = []
         tau_high_truth = []
@@ -255,7 +259,7 @@ class unpacking_vers2(Module):
                             top_nu_e.append(top_nu_momentum.E())
                             top_nu_M.append(top_nu_momentum.M())  
 
-          
+                            #Should we substract lepton from jet in merged case??          
                             top_pt_rel.append(((m.p4().Vect()).Cross(j.p4().Vect())).Mag()/((j.p4().Vect()).Mag())) 
 
                             """unboosting"""
@@ -284,6 +288,9 @@ class unpacking_vers2(Module):
                                 top_dR.append(deltaR(j.p4().Eta(),j.p4().Phi(),m.p4().Eta(),m.p4().Phi()))                                
 
                             costheta.append(top_nu_momentum_utils.costhetapol(m.p4(),j.p4(),top_nu_momentum))
+                            lep_over_jet_pt.append(m.pt/j.pt)
+                            mT.append( top_nu_momentum_utils.topMtw(m.p4(),j.p4(),MET.pt*math.cos(MET.phi), MET.pt*math.sin(MET.phi)) )
+                            
 
                             if self.isMC==1:
 
@@ -376,7 +383,7 @@ class unpacking_vers2(Module):
                             top_nu_e.append(top_nu_momentum.E())
                             top_nu_M.append(top_nu_momentum.M())  
 
-          
+                            #Should we substract lepton from jet in merged case??
                             top_pt_rel.append(((e.p4().Vect()).Cross(j.p4().Vect())).Mag()/((j.p4().Vect()).Mag())) 
 
                             """unboosting"""
@@ -406,6 +413,8 @@ class unpacking_vers2(Module):
                                 top_dR.append(deltaR(j.p4().Eta(),j.p4().Phi(),e.p4().Eta(),e.p4().Phi())) 
 
                             costheta.append(top_nu_momentum_utils.costhetapol(e.p4(),j.p4(),top_nu_momentum))
+                            lep_over_jet_pt.append(e.pt/j.pt)
+                            mT.append( top_nu_momentum_utils.topMtw(e.p4(),j.p4(),MET.pt*math.cos(MET.phi), MET.pt*math.sin(MET.phi)) )
 
                             if self.isMC==1:
 
@@ -490,7 +499,9 @@ class unpacking_vers2(Module):
         self.out.fillBranch("Top_Is_dR_merg",is_dR_merg)
         self.out.fillBranch("Top_Costheta", costheta)
         self.out.fillBranch("Top_dR", top_dR)
-        
+        self.out.fillBranch("Top_Lep_Over_Jet_Pt", lep_over_jet_pt)
+        self.out.fillBranch("Top_mT", mT)
+
         self.out.fillBranch("Top_High_Truth",top_high_truth)
         self.out.fillBranch("Top_Tau_High_Truth",tau_high_truth)
         self.out.fillBranch("Top_Lep_MomId",lep_MomId)

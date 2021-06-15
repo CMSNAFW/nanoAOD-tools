@@ -166,6 +166,8 @@ int main(int argc, char **argv)
     Float_t Top_relPt[sizeMaxTop];
     Float_t Top_cosTheta[sizeMaxTop];
     Float_t Top_dR[sizeMaxTop];
+    Float_t lep_over_jet_pt[sizeMaxTop];
+    Float_t mT[sizeMaxTop];
     Int_t Top_isMerged[sizeMaxTop];
     Int_t Top_Category[sizeMaxTop];
     Int_t Top_Tau_High_Truth[sizeMaxTop];
@@ -258,6 +260,8 @@ int main(int argc, char **argv)
     chain.SetBranchAddress("Top_pt_rel", &Top_relPt);
     chain.SetBranchAddress("Top_Costheta", &Top_cosTheta);
     chain.SetBranchAddress("Top_dR", &Top_dR);
+    chain.SetBranchAddress("Top_Lep_Over_Jet_Pt", &lep_over_jet_pt);
+    chain.SetBranchAddress("Top_mT", &mT);
     chain.SetBranchAddress("Top_Is_dR_merg", &Top_isMerged);
     chain.SetBranchAddress("Top_High_Truth", &Top_Category);
     chain.SetBranchAddress("Top_Tau_High_Truth", &Top_Tau_High_Truth);
@@ -1018,7 +1022,7 @@ int main(int argc, char **argv)
 		el_noIsoL_resolved = El_noIsoL[el_idx[k]];
 		el_noIso90_resolved = El_noIso90[el_idx[k]];
 		el_noIso80_resolved = El_noIso80[el_idx[k]];
-		eljet_pt_resolved = El_pt[el_idx[k]]/Jet_pt[jet_idx[k]];
+		eljet_pt_resolved = lep_over_jet_pt[k];
 		nElectron_resolved = El_size;
 		el_idx_resolved = el_idx[k];
 
@@ -1032,7 +1036,7 @@ int main(int argc, char **argv)
 		lj_eta_el_resolved = lj_eta[k];
 		lj_phi_el_resolved = lj_phi[k];
 		lj_E_el_resolved = lj_E[k];
-		top_mT_el_resolved = sqrt(2*lj_pt[k]*MET*(1-cos(deltaPhi(MET_phi,lj_phi[k]))));
+		top_mT_el_resolved = mT[k];
 		top_jetUnboost_m_el_resolved = Top_jet_unboosted_mass[k];
 		top_jetUnboost_pt_el_resolved = Top_jet_unboosted_pt[k];
 		top_jetUnboost_eta_el_resolved = Top_jet_unboosted_eta[k];
@@ -1102,7 +1106,7 @@ int main(int argc, char **argv)
 		el_noIsoL_merged = El_noIsoL[el_idx[k]];
 		el_noIso90_merged = El_noIso90[el_idx[k]];
 		el_noIso80_merged = El_noIso80[el_idx[k]];
-		eljet_pt_merged = El_pt[el_idx[k]]/Jet_pt[jet_idx[k]];
+		eljet_pt_merged = lep_over_jet_pt[k];
 		nElectron_merged = El_size;
 		el_idx_merged = el_idx[k];
 
@@ -1116,7 +1120,7 @@ int main(int argc, char **argv)
 		lj_eta_el_merged = lj_eta[k];
 		lj_phi_el_merged = lj_phi[k];
 		lj_E_el_merged = lj_E[k];
-		top_mT_el_merged = sqrt(2*lj_pt[k]*MET*(1-cos(deltaPhi(MET_phi,lj_phi[k]))));
+		top_mT_el_merged = mT[k];
 		top_jetUnboost_m_el_merged = Top_jet_unboosted_mass[k];
 		top_jetUnboost_pt_el_merged = Top_jet_unboosted_pt[k];
 		top_jetUnboost_eta_el_merged = Top_jet_unboosted_eta[k];
@@ -1187,7 +1191,7 @@ int main(int argc, char **argv)
 		mu_genPFlav_resolved = Mu_genPFlav[mu_idx[k]];
 	        mu_MiniIso_resolved = Mu_MiniIso[mu_idx[k]];
 		mu_Iso04_resolved = Mu_Iso04[mu_idx[k]];
-		mujet_pt_resolved = Mu_pt[mu_idx[k]]/Jet_pt[jet_idx[k]];
+		mujet_pt_resolved = lep_over_jet_pt[k];
 		nMuon_resolved = Mu_size;
 		mu_idx_resolved = mu_idx[k];
 
@@ -1201,7 +1205,7 @@ int main(int argc, char **argv)
 		lj_eta_mu_resolved = lj_eta[k];
 		lj_phi_mu_resolved = lj_phi[k];
 		lj_E_mu_resolved = lj_E[k];
-		top_mT_mu_resolved = sqrt(2*lj_pt[k]*MET*(1-cos(deltaPhi(MET_phi,lj_phi[k]))));
+		top_mT_mu_resolved = mT[k];
 		top_jetUnboost_m_mu_resolved = Top_jet_unboosted_mass[k];
 		top_jetUnboost_pt_mu_resolved = Top_jet_unboosted_pt[k];
 		top_jetUnboost_eta_mu_resolved = Top_jet_unboosted_eta[k];
@@ -1272,7 +1276,7 @@ int main(int argc, char **argv)
 		mu_genPFlav_merged = Mu_genPFlav[mu_idx[k]];
 	        mu_MiniIso_merged = Mu_MiniIso[mu_idx[k]];
 		mu_Iso04_merged = Mu_Iso04[mu_idx[k]];
-		mujet_pt_merged = Mu_pt[mu_idx[k]]/Jet_pt[jet_idx[k]];
+		mujet_pt_merged = lep_over_jet_pt[k];
 		nMuon_merged = Mu_size;
 		mu_idx_merged = mu_idx[k];
 
@@ -1286,7 +1290,7 @@ int main(int argc, char **argv)
 		lj_eta_mu_merged = lj_eta[k];
 		lj_phi_mu_merged = lj_phi[k];
 		lj_E_mu_merged = lj_E[k];
-		top_mT_mu_merged = sqrt(2*lj_pt[k]*MET*(1-cos(deltaPhi(MET_phi,lj_phi[k]))));
+		top_mT_mu_merged = mT[k];
 		top_jetUnboost_m_mu_merged = Top_jet_unboosted_mass[k];
 		top_jetUnboost_pt_mu_merged = Top_jet_unboosted_pt[k];
 		top_jetUnboost_eta_mu_merged = Top_jet_unboosted_eta[k];
