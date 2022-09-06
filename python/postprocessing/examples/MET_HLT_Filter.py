@@ -16,16 +16,19 @@ class MET_HLT_Filter(Module):
         """process event, return True (go to next module) or False (fail, go to next event)"""
         HLT = Object(event, "HLT")
         flag = Object(event, 'Flag')
-        good_MET = flag.goodVertices and flag.globalSuperTightHalo2016Filter and flag.HBHENoiseFilter and flag.HBHENoiseIsoFilter and flag.EcalDeadCellTriggerPrimitiveFilter and flag.BadPFMuonFilter
         if(self.year == 2016):
-            good_HLT = HLT.PFHT800 or HLT.PFHT900 or HLT.Mu50 or HLT.TkMu50 or HLT.Ele115_CaloIdVT_GsfTrkIdT or HLT.Photon175 or HLT.Ele27_WPTight_Gsf
+            good_HLT = HLT.Mu50 or HLT.IsoMu24 or HLT.Ele27_WPTight_Gsf or HLT.Photon175 or HLT.AK8PFJet360_TrimMass30
+            good_MET = flag.goodVertices and flag.globalSuperTightHalo2016Filter and flag.HBHENoiseFilter and flag.HBHENoiseIsoFilter and flag.EcalDeadCellTriggerPrimitiveFilter and flag.BadPFMuonFilter and flag.eeBadScFilter #and flag.BadPFMuonDzFilter
         elif(self.year == 2017):
-            good_HLT = HLT.PFHT780 or HLT.PFHT890 or HLT.Mu50 or HLT.OldMu100 or HLT.TkMu100 or HLT.Ele115_CaloIdVT_GsfTrkIdT or HLT.Photon200 or HLT.Ele35_WPTight_Gsf
+            good_HLT = HLT.Mu50 or HLT.IsoMu24 or HLT.Ele32_WPTight_Gsf or HLT.Photon200 or HLT_AK8PFJet500
+            good_MET = flag.goodVertices and flag.globalSuperTightHalo2016Filter and flag.HBHENoiseFilter and flag.HBHENoiseIsoFilter and flag.EcalDeadCellTriggerPrimitiveFilter and flag.BadPFMuonFilter and flag.ecalBadCalibFilter and flag.eeBadScFilter #and flag.BadPFMuonDzFilter
         elif(self.year == 2018):
-            good_HLT = HLT.PFHT780 or HLT.PFHT890 or HLT.Mu50 or HLT.OldMu100 or HLT.TkMu100 or HLT.Ele115_CaloIdVT_GsfTrkIdT or HLT.Photon200 or HLT.Ele35_WPTight_Gsf
+            good_HLT = HLT.Mu50 or HLT.IsoMu27 or HLT.Ele32_WPTight_Gsf or HLT.Photon200 or HLT.AK8PFJet400_TrimMass30
+            good_MET = flag.goodVertices and flag.globalSuperTightHalo2016Filter and flag.HBHENoiseFilter and flag.HBHENoiseIsoFilter and flag.EcalDeadCellTriggerPrimitiveFilter and flag.BadPFMuonFilter and flag.ecalBadCalibFilter and flag.eeBadScFilter #and flag.BadPFMuonDzFilter
         else:
             print "Please specify the year: possible choices are 2016, 2017 or 2018"
         return good_MET and good_HLT
+
 
 MET_HLT_Filter_2016 = lambda : MET_HLT_Filter(2016)
 MET_HLT_Filter_2017 = lambda : MET_HLT_Filter(2017)

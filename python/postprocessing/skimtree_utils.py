@@ -8,6 +8,7 @@ import array
 import types
 ROOT.PyConfig.IgnoreCommandLineOptions = True
 
+
 def Chi_TopMass(mT):
   sigma = 28.8273
   mST = 174.729
@@ -260,8 +261,85 @@ def bjet_filter(jets, tagger, WP): #returns collections of b jets and no b jets 
     else:
         print('Only DeepFlv and DeepCSV accepted! Pleae implement other taggers if you want them.')
 
+
+def getBDT_SF(sample, isMerg, pt, top_region, lepton):
+  key=""
+
+  BDT_SFs={"QCD_MHL_e":[0.866573354384,0.966663614401,0.766483094368], 
+           "QCD_MHT_e":[0.866573354384,0.966663614401,0.766483094368], 
+           "QCD_MHL_m":[0.868467139997,1.0107566025,0.726177677489], 
+           "QCD_MHT_m":[0.868467139997,1.0107566025,0.726177677489], 
+           "QCD_MLL_e":[0.855860040246,0.901825231107,0.809894849386], 
+           "QCD_MLT_e":[0.855860040246,0.901825231107,0.809894849386], 
+           "QCD_MLL_m":[0.978664573813,1.0331467818,0.924182365821], 
+           "QCD_MLT_m":[0.978664573813,1.0331467818,0.924182365821], 
+           "QCD_RHL_e":[0.937606393292,1.02314193347,0.852070853115], 
+           "QCD_RHT_e":[0.937606393292,1.02314193347,0.852070853115], 
+           "QCD_RHL_m":[1.17057708742,1.37962972655,0.961524448286], 
+           "QCD_RHT_m":[1.17057708742,1.37962972655,0.961524448286], 
+           "QCD_RLL_e":[2.41094100543,2.56301478799,2.25886722288], 
+           "QCD_RLT_e":[2.41094100543,2.56301478799,2.25886722288], 
+           "QCD_RLL_m":[3.80239611298,4.31663202776,3.2881601982], 
+           "QCD_RLT_m":[3.80239611298,4.31663202776,3.2881601982], 
+           "TT_MHL_e":[0.672886905345,0.735847661501,0.609926149189], 
+           "TT_MHL_m":[0.593443072888,0.664007531452,0.522878614325], 
+           "TT_MHT_e":[0.661834563298,0.709126454502,0.614542672094], 
+           "TT_MHT_m":[0.700355854215,0.737901794965,0.662809913466], 
+           "TT_MLL_e":[0.649475744767,0.755646496921,0.543304992614], 
+           "TT_MLL_m":[0.869454401681,0.974344924562,0.764563878801], 
+           "TT_MLT_e":[0.7302211899,0.756394215811,0.704048163988], 
+           "TT_MLT_m":[0.810053403144,0.831350878281,0.788755928007], 
+           "TT_RHL_e":[0.722372312231,0.742590900642,0.70215372382], 
+           "TT_RHL_m":[0.722807464929,0.743586103113,0.702028826745], 
+           "TT_RHT_e":[0.724990619792,0.748084611389,0.701896628195], 
+           "TT_RHT_m":[0.763969847594,0.784929286619,0.743010408569], 
+           "TT_RLL_e":[0.856278952008,0.865420175828,0.847137728188], 
+           "TT_RLL_m":[0.904254152945,0.914874010499,0.893634295391], 
+           "TT_RLT_e":[0.817800234807,0.825482369062,0.810118100552], 
+           "TT_RLT_m":[0.875915713386,0.883976515683,0.867854911089], 
+  }
+  if ("QCD" in sample) or ("TT" in sample):
+    if ("QCD" in sample): key="QCD_"
+    else: key= "TT_"
+
+    if isMerg==1: key=key+"M"
+    else: key=key+"R"
+
+    if pt<500: key=key+"L"
+    else: key=key+"H"
+
+    if top_region==1: key=key+"T_"
+    else: key=key+"L_"
+
+    if abs(lepton)==11: key=key+"e"
+    else: key=key+"m"
+
+    return BDT_SFs[key]
+
+  else: return [1.,1.,1.]
+
+def getPN_SF(sample, MC_Truth):
+  key=""
+  PN_SFs={
+    "Other":[1.73,1.84,1.62],
+    "TT_fake":[1.36,1.43,1.29],
+    "TT_1b2q":[1.20,1.26,1.14],
+    "TT_2q":[1.03,1.17,0.89],
+    "Tprime":[0.93,1.06,0.8]
+  }
+  if (not "TT" in sample) and (not "Tprime" in sample): key="Other"
+  else:
+    if "Tprime" in sample: key = "Tprime"
+    else:
+      key="TT_"
+      if MC_Truth == 200: key = key+"2q"
+      elif MC_Truth == 201 : key = key+"1b2q"
+      else: key = key+"fake"
+  return PN_SFs[key]
+
+
 def fatjet_tagger(fatjets, tagger, tagger_min, tagger_max=1.01, mass=[0,100000]):
-    fatjets_selected = list(filter(lambda x : (x[tagger] >= tagger_min) and (x[tagger] < tagger_max) and (x["msoftdrop"]>=mass[0]) and (x["msoftdrop"]<=mass[1]) , fatjets))
+    fatjets_selected = list(filter(lambda x : (x[tagger] >= tagger_min) and (x[tagger] < tagger_max) and (x["msoftdrop"]>=mass[0]) and (x["msoftdrop"]<mass[1]) , fatjets))
     return  fatjets_selected, list(set(fatjets)-set(fatjets_selected))
 
 def fatjet_tag_tot(fatjets):
@@ -269,14 +347,14 @@ def fatjet_tag_tot(fatjets):
     mass_Z = [60,110]
     jet_sel=[]
     excluded_jet= fatjets
-    selection=[["btagDDBvLV2",0.91,1.01,mass_H],
-               ["deepTagMD_ZvsQCD",0.731,1.01,mass_Z],
-               ["btagDDBvLV2",0.91,1.01,mass_Z],
-               ["deepTagMD_ZvsQCD",0.731,1.01,mass_H],
-               ["btagDDBvLV2",0.7,0.91,mass_H],
-               ["deepTagMD_ZvsQCD",0.274,0.731,mass_Z],
-               ["btagDDBvLV2",0.7,0.91,mass_Z],
-               ["deepTagMD_ZvsQCD",0.274,0.731,mass_H]]
+    selection=[["btagDDBvL",0.91,1.01,mass_H],
+               ["deepTagMD_WvsQCD",0.731,1.01,mass_Z],
+               ["btagDDBvL",0.91,1.01,mass_Z],
+               ["deepTagMD_WvsQCD",0.731,1.01,mass_H],
+               ["btagDDBvL",0.7,0.91,mass_H],
+               ["deepTagMD_WvsQCD",0.274,0.731,mass_Z],
+               ["btagDDBvL",0.7,0.91,mass_Z],
+               ["deepTagMD_WvsQCD",0.274,0.731,mass_H]]
     for i in range(len(selection)):
       sel = fatjet_tagger(excluded_jet,selection[i][0],selection[i][1],tagger_max=selection[i][2],mass=selection[i][3])
       for k in range(len(sel[0])):jet_sel.append(sel[0][k])
@@ -850,6 +928,7 @@ class TopUtilities():
 ###          End of topreco_utils           ###   
 ###############################################
 
+
 ###############################################
 ### Begin of framework/treeReaderArrayTools ###   
 ###############################################
@@ -1249,6 +1328,13 @@ class systWeights(object):
             self.weightedNames[20] = "trigDown"
             self.weightedNames[21] = "pdf_totalUp"
             self.weightedNames[22] = "pdf_totalDown"
+            self.weightedNames[23] = "ParNetSF"
+            self.weightedNames[24] = "ParNetUp"
+            self.weightedNames[25] = "ParNetDown"
+            self.weightedNames[26] = "w_pt"
+            self.weightedNames[27] = "BDTSF"
+            self.weightedNames[28] = "BDTUp"
+            self.weightedNames[29] = "BDTDown"
             '''
             self.weightedNames[13] = "btagShape"
             self.weightedNames[14] = "btagShapeUpCferr1"
@@ -1275,8 +1361,8 @@ class systWeights(object):
             #self.weightedNames[11] = "trigUp"
             #self.weightedNames[12] = "trigDown"
             '''
-            self.setMax(23)
-            self.setMaxNonPDF(23)
+            self.setMax(30)
+            self.setMaxNonPDF(30)
             self.weightedNames[self.maxSysts] = ""
 
         if addQ2: 

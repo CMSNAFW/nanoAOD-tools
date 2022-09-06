@@ -4,7 +4,7 @@ drop GenDressedLepton*
 drop GenIsolatedPhoton*
 drop GenVisTau*
 drop HTXS*
-drop HLT_AK*
+#drop HLT_AK*
 drop HLT_BTag*
 drop HLT_CDC*
 drop HLT_Calo*
@@ -13,7 +13,7 @@ drop HLT_Double*
 drop HLT_ECAL*
 drop HLT_Ecal*
 drop HLT_Hcal*
-drop HLT_Iso*
+#drop HLT_Iso*
 drop HLT_L*
 drop HLT_Medium*
 drop HLT_Mono*

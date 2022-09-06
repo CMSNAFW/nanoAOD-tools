@@ -60,6 +60,8 @@ class unpacking_vers2(Module):
         self.out.branch("Top_Is_dR_merg","I", lenVar="nTop")
         self.out.branch("Top_Costheta","F", lenVar="nTop")
         self.out.branch("Top_dR","F",lenVar="nTop")
+        self.out.branch("Top_Lep_Over_Jet_Pt","F", lenVar="nTop")
+        self.out.branch("Top_mT","F",lenVar="nTop")
 
         self.out.branch("Top_High_Truth","I", lenVar="nTop") 
         self.out.branch("Top_Tau_High_Truth","I", lenVar="nTop")
@@ -69,22 +71,26 @@ class unpacking_vers2(Module):
         self.out.branch("Electron_mindR","F", lenVar="nElectron")
         self.out.branch("Electron_mindR_jIndex","I", lenVar="nElectron") 
 
+        """Branch Variabili Fat Jets"""
+        self.out.branch("LooseFatJet_index","I",lenVar="nLooseFatJet")
 
     def endFile(self, inputFile, outputFile, inputTree, wrappedOutputTree):
         pass
     def analyze(self, event):
         """process event, return True (go to next module) or False (fail, go to next event)"""
         
-
+        
         muons = Collection(event, "Muon")
         jets = Collection(event, "Jet")
         electrons = Collection(event, "Electron")
         MET = Object(event, "MET")
+        fatjets = Collection(event, "FatJet")
         if self.isMC==1 :
             genpart = Collection(event, "GenPart")
             LHE = Collection(event, "LHEPart")
     
         
+
         """Variabili top senza nu"""
         top_momentum=ROOT.TLorentzVector()
         top_pt =[]
@@ -129,6 +135,8 @@ class unpacking_vers2(Module):
         top_pt_rel = []
         is_dR_merg = []
         top_dR = []
+        lep_over_jet_pt = []
+        mT = []
 
         top_high_truth = []
         tau_high_truth = []
@@ -140,16 +148,27 @@ class unpacking_vers2(Module):
         electron_mindR = []
         electron_mindR_jIndex = []
 
+        looseFatJet_index=[]
 
         bjets, nobjets = bjet_filter(jets, 'DeepCSV', 'L')
         
-        goodMu = list(filter(lambda x : x.pt>10, muons))
+        goodMu = list(filter(lambda x : x.pt>10 and x.looseId==1 and x.miniPFRelIso_all<4 and abs(x.dxy)<0.02, muons))
         goodJet = list(filter(lambda x :  x.pt>30, jets)) #noDeePCSV
-        goodEl = list(filter(lambda x : x.pt>10, electrons))
+        goodEl = list(filter(lambda x : x.pt>10 and x.mvaFall17V2noIso_WPL==1 and abs(x.dxy)<0.05 and x.miniPFRelIso_all<4, electrons))
 
         allMu = list(filter(lambda x : x.pt>0, muons))
         allJet = list(filter(lambda x :  x.pt>0 , jets))
         allEl = list(filter(lambda x : x.pt>0, electrons))
+
+        looseFatJet = list(filter(lambda x : (x.msoftdrop>=60 and x.msoftdrop<=220) or x.particleNetMD_Xbb>=0.8 or weird_division(x.particleNetMD_Xbb,x.particleNetMD_Xbb+x.particleNetMD_QCD)>=0.8,fatjets))
+        nLooseFatJet= len(looseFatJet)
+        #looseFatJet.sort(key=lambda x:x.particleNetMD_Xbb,reverse=True)
+        fatjets_list = list(fatjets)
+        fatjets_list.sort(key=lambda x:x.particleNetMD_Xbb,reverse=True)
+        
+        for fj in fatjets_list:
+            if fj in looseFatJet: looseFatJet_index.append(list(fatjets).index(fj))
+        
 
         if not ((len(goodMu)>0 or len(goodEl)>0) and len(goodJet)>0 ):
             
@@ -255,7 +274,7 @@ class unpacking_vers2(Module):
                             top_nu_e.append(top_nu_momentum.E())
                             top_nu_M.append(top_nu_momentum.M())  
 
-          
+                            #Should we substract lepton from jet in merged case??          
                             top_pt_rel.append(((m.p4().Vect()).Cross(j.p4().Vect())).Mag()/((j.p4().Vect()).Mag())) 
 
                             """unboosting"""
@@ -284,6 +303,9 @@ class unpacking_vers2(Module):
                                 top_dR.append(deltaR(j.p4().Eta(),j.p4().Phi(),m.p4().Eta(),m.p4().Phi()))                                
 
                             costheta.append(top_nu_momentum_utils.costhetapol(m.p4(),j.p4(),top_nu_momentum))
+                            lep_over_jet_pt.append(m.pt/j.pt)
+                            mT.append( top_nu_momentum_utils.topMtw(m.p4(),j.p4(),MET.pt*math.cos(MET.phi), MET.pt*math.sin(MET.phi)) )
+                            
 
                             if self.isMC==1:
 
@@ -376,7 +398,7 @@ class unpacking_vers2(Module):
                             top_nu_e.append(top_nu_momentum.E())
                             top_nu_M.append(top_nu_momentum.M())  
 
-          
+                            #Should we substract lepton from jet in merged case??
                             top_pt_rel.append(((e.p4().Vect()).Cross(j.p4().Vect())).Mag()/((j.p4().Vect()).Mag())) 
 
                             """unboosting"""
@@ -406,6 +428,8 @@ class unpacking_vers2(Module):
                                 top_dR.append(deltaR(j.p4().Eta(),j.p4().Phi(),e.p4().Eta(),e.p4().Phi())) 
 
                             costheta.append(top_nu_momentum_utils.costhetapol(e.p4(),j.p4(),top_nu_momentum))
+                            lep_over_jet_pt.append(e.pt/j.pt)
+                            mT.append( top_nu_momentum_utils.topMtw(e.p4(),j.p4(),MET.pt*math.cos(MET.phi), MET.pt*math.sin(MET.phi)) )
 
                             if self.isMC==1:
 
@@ -490,7 +514,9 @@ class unpacking_vers2(Module):
         self.out.fillBranch("Top_Is_dR_merg",is_dR_merg)
         self.out.fillBranch("Top_Costheta", costheta)
         self.out.fillBranch("Top_dR", top_dR)
-        
+        self.out.fillBranch("Top_Lep_Over_Jet_Pt", lep_over_jet_pt)
+        self.out.fillBranch("Top_mT", mT)
+
         self.out.fillBranch("Top_High_Truth",top_high_truth)
         self.out.fillBranch("Top_Tau_High_Truth",tau_high_truth)
         self.out.fillBranch("Top_Lep_MomId",lep_MomId)
@@ -499,6 +525,7 @@ class unpacking_vers2(Module):
         self.out.fillBranch("Electron_mindR", electron_mindR)
         self.out.fillBranch("Electron_mindR_jIndex", electron_mindR_jIndex)
         
+        self.out.fillBranch("LooseFatJet_index",looseFatJet_index)
 
         return True
 

@@ -25,15 +25,16 @@ class preselection_Tprime(Module):
         electrons = Collection(event, "Electron")
         muons = Collection(event, "Muon")
         met = Object(event, "MET")
+        fatjets= Collection(event,"FatJet")
 
         looseEle = []
         looseMu = []
+        looseFatJet=[]
 
-
-        
+        looseFatJet = list(filter(lambda x : (x.msoftdrop>=60 and x.msoftdrop<=220) or x.particleNetMD_Xbb>=0.8 or  weird_division(x.particleNetMD_Xbb,x.particleNetMD_Xbb+x.particleNetMD_QCD)>=0.8,fatjets))
         looseMu = list(filter(lambda x : x.looseId , muons))
         looseEle = list(filter(lambda x : x.mvaFall17V2noIso_WPL, electrons))
-        goodEvent = (len(looseMu)>0 or len(looseEle)>0) and met.pt>25
+        goodEvent = (len(looseMu)>0 or len(looseEle)>0) and met.pt>25 and len(looseFatJet)>0
 
         return goodEvent
 
