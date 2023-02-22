@@ -1,6 +1,9 @@
 from math import hypot, pi
 
 #### ========= UTILITIES =======================                                                                                                                                                                                     
+def weird_division(n, d):
+    return n / d if d else 0
+
 def deltaPhi(phi1,phi2):
     ## Catch if being called with two objects                                                                                                                                                                                        
     if type(phi1) != float and type(phi1) != int:

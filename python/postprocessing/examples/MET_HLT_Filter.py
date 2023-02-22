@@ -20,7 +20,7 @@ class MET_HLT_Filter(Module):
             good_HLT = HLT.Mu50 or HLT.IsoMu24 or HLT.Ele27_WPTight_Gsf or HLT.Photon175 or HLT.AK8PFJet360_TrimMass30
             good_MET = flag.goodVertices and flag.globalSuperTightHalo2016Filter and flag.HBHENoiseFilter and flag.HBHENoiseIsoFilter and flag.EcalDeadCellTriggerPrimitiveFilter and flag.BadPFMuonFilter and flag.eeBadScFilter #and flag.BadPFMuonDzFilter
         elif(self.year == 2017):
-            good_HLT = HLT.Mu50 or HLT.IsoMu24 or HLT.Ele32_WPTight_Gsf or HLT.Photon200 or HLT_AK8PFJet500
+            good_HLT = HLT.Mu50 or HLT.IsoMu27 or HLT.Ele35_WPTight_Gsf or HLT.Photon200 or HLT.AK8PFJet500
             good_MET = flag.goodVertices and flag.globalSuperTightHalo2016Filter and flag.HBHENoiseFilter and flag.HBHENoiseIsoFilter and flag.EcalDeadCellTriggerPrimitiveFilter and flag.BadPFMuonFilter and flag.ecalBadCalibFilter and flag.eeBadScFilter #and flag.BadPFMuonDzFilter
         elif(self.year == 2018):
             good_HLT = HLT.Mu50 or HLT.IsoMu27 or HLT.Ele32_WPTight_Gsf or HLT.Photon200 or HLT.AK8PFJet400_TrimMass30

@@ -31,9 +31,9 @@ def sub_writer(sample, n, files, folder, training, train_files):
     f.write("use_x509userproxy       = true\n")
     f.write("should_transfer_files   = YES\n")
     f.write("when_to_transfer_output = ON_EXIT\n")
-    f.write("transfer_input_files    = $(Proxy_path), tree_skimmer_Tprime_vers2.py, training.py, samples/samples.py, skimtree_utils.py, __init__.py, "+train_files+"\n")
+    #f.write("transfer_input_files    = $(Proxy_path), tree_skimmer_Tprime_vers2.py, training.py, samples/samples.py, skimtree_utils.py, __init__.py, "+train_files+"\n")
     #f.write("transfer_output_remaps  = \""+ sample.label + "_part" + str(n) + ".root=/eos/user/"+inituser + "/" + username+"/Wprime/nosynch/" + folder + "/" + sample.label +"/"+ sample.label + "_part" + str(n) + ".root\"\n")
-    f.write("+JobFlavour             = \"longlunch\"\n") # options are espresso = 20 minutes, microcentury = 1 hour, longlunch = 2 hours, workday = 8 hours, tomorrow = 1 day, testmatch = 3 days, nextweek     = 1 week
+    f.write("+JobFlavour             = \"tomorrow\"\n") # options are espresso = 20 minutes, microcentury = 1 hour, longlunch = 2 hours, workday = 8 hours, tomorrow = 1 day, testmatch = 3 days, nextweek     = 1 week
     f.write("executable              = runner_"+sample.label+"_"+str(n)+".sh \n")
     #f.write("arguments               = " + sample.label + " " + str(n) + " " + str(files) + " " + str(folder) "\n")
     #f.write("input                   = input.txt\n")
@@ -106,7 +106,7 @@ for sample in samples:
             print("python tree_skimmer.py " + sample.label + " " + str(i) + " " + str(files) + " " + str(final_folder)+" "+str(training))
     else:
         for i in range(len(files_list)/split+1):
-            runner_writer(sample, i, files, final_folder,training)
+            runner_writer(sample, i, ",".join( e for e in files_list[split*i:split*(i+1)]), final_folder,training)
             sub_writer(sample, i,  ",".join( e for e in files_list[split*i:split*(i+1)]), final_folder,training,train_files)
             print('condor_submit condor.sub')
             os.popen('condor_submit condor.sub')

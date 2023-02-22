@@ -83,22 +83,31 @@ def crab_script_writer(sample, outpath, isMC, modules, presel):
     #f.write("infile = "+str(sample.files)+"\n")
     #f.write("outpath = '"+ outpath+"'\n")
     #Deafult PostProcessor(outputDir,inputFiles,cut=None,branchsel=None,modules=[],compression='LZMA:9',friend=False,postfix=None, jsonInput=None,noOut=False,justcount=False,provenance=False,haddFileName=None,fwkJobReport=False,histFileName=None,histDirName=None, outputbranchsel=None,maxEntries=None,firstEntry=0, prefetch=False,longTermCache=False)\n")
+    year = str(sample.year)
+    if sample.year==2016:
+        if "preVFP" in sample.label:
+            year_tag = "\""+year+"preVFP\""
+        else:
+            year_tag = "\""+year+"preVFP\""
+    else:
+        year_tag = year
+
     if isMC:
-        f.write("metCorrector = createJMECorrector(isMC="+str(isMC)+", dataYear="+str(sample.year)+", jesUncert='All', redojec=True)\n")
-        #f.write("fatJetCorrector = createJMECorrector(isMC="+str(isMC)+", dataYear="+str(sample.year)+", jesUncert='All', redojec=True, jetType = 'AK8PFchs')\n")
-        f.write("fatJetCorrector = createJMECorrector(isMC="+str(isMC)+", dataYear="+str(sample.year)+", jesUncert='All', redojec=True)\n")
-        f.write("metCorrector_tot = createJMECorrector(isMC="+str(isMC)+", dataYear="+str(sample.year)+", jesUncert='Total', redojec=True)\n")
-        #f.write("fatJetCorrector_tot = createJMECorrector(isMC="+str(isMC)+", dataYear="+str(sample.year)+", jesUncert='Total', redojec=True, jetType = 'AK8PFchs')\n")
-        f.write("fatJetCorrector_tot = createJMECorrector(isMC="+str(isMC)+", dataYear="+str(sample.year)+", jesUncert='Total', redojec=True)\n")
+        f.write("metCorrector = createJMECorrector(isMC="+str(isMC)+", dataYear="+year_tag+", jesUncert='All', redojec=True)\n")
+        #f.write("fatJetCorrector = createJMECorrector(isMC="+str(isMC)+", dataYear="+year_tag+", jesUncert='All', redojec=True, jetType = 'AK8PFchs')\n")
+        f.write("fatJetCorrector = createJMECorrector(isMC="+str(isMC)+", dataYear="+year_tag+", jesUncert='All', redojec=True,jetType = 'AK8PFPuppi')\n")
+        f.write("metCorrector_tot = createJMECorrector(isMC="+str(isMC)+", dataYear="+year_tag+", jesUncert='Total', redojec=True)\n")
+        #f.write("fatJetCorrector_tot = createJMECorrector(isMC="+str(isMC)+", dataYear="+year_tag+", jesUncert='Total', redojec=True, jetType = 'AK8PFchs')\n")
+        f.write("fatJetCorrector_tot = createJMECorrector(isMC="+str(isMC)+", dataYear="+year_tag+", jesUncert='Total', redojec=True,jetType = 'AK8PFPuppi')\n")
         f.write("p=PostProcessor('.', inputFiles(), '', modules=["+modules+"], provenance=True, fwkJobReport=True, histFileName='hist.root', histDirName='plots', outputbranchsel='keep_and_drop.txt')\n")# haddFileName='"+sample.label+".root'
     else: 
-        f.write("metCorrector = createJMECorrector(isMC="+str(isMC)+", dataYear="+str(sample.year)+", runPeriod='"+str(sample.runP)+"', jesUncert='All', redojec=True)\n")
-        #f.write("fatJetCorrector = createJMECorrector(isMC="+str(isMC)+", dataYear="+str(sample.year)+", runPeriod='"+str(sample.runP)+"', jesUncert='All', redojec=True, jetType = 'AK8PFchs')\n")
-        f.write("fatJetCorrector = createJMECorrector(isMC="+str(isMC)+", dataYear="+str(sample.year)+", runPeriod='"+str(sample.runP)+"', jesUncert='All', redojec=True)\n")
-        f.write("metCorrector_tot = createJMECorrector(isMC="+str(isMC)+", dataYear="+str(sample.year)+", runPeriod='"+str(sample.runP)+"', jesUncert='Total', redojec=True)\n")
-        #f.write("fatJetCorrector_tot = createJMECorrector(isMC="+str(isMC)+", dataYear="+str(sample.year)+", runPeriod='"+str(sample.runP)+"', jesUncert='Total', redojec=True, jetType = 'AK8PFchs')\n")
-        f.write("fatJetCorrector_tot = createJMECorrector(isMC="+str(isMC)+", dataYear="+str(sample.year)+", runPeriod='"+str(sample.runP)+"', jesUncert='Total', redojec=True)\n")
-        #f.write("HLT = HLT_fun('"+str(sample.year)+"', '"+str(sample.runP)+"')\n")
+        f.write("metCorrector = createJMECorrector(isMC="+str(isMC)+", dataYear="+year_tag+", runPeriod='"+str(sample.runP)+"', jesUncert='All', redojec=True)\n")
+        #f.write("fatJetCorrector = createJMECorrector(isMC="+str(isMC)+", dataYear="+year_tag+", runPeriod='"+str(sample.runP)+"', jesUncert='All', redojec=True, jetType = 'AK8PFchs')\n")
+        f.write("fatJetCorrector = createJMECorrector(isMC="+str(isMC)+", dataYear="+year_tag+", runPeriod='"+str(sample.runP)+"', jesUncert='All', redojec=True,jetType = 'AK8PFPuppi')\n")
+        f.write("metCorrector_tot = createJMECorrector(isMC="+str(isMC)+", dataYear="+year_tag+", runPeriod='"+str(sample.runP)+"', jesUncert='Total', redojec=True)\n")
+        #f.write("fatJetCorrector_tot = createJMECorrector(isMC="+str(isMC)+", dataYear="+year_tag+", runPeriod='"+str(sample.runP)+"', jesUncert='Total', redojec=True, jetType = 'AK8PFchs')\n")
+        f.write("fatJetCorrector_tot = createJMECorrector(isMC="+str(isMC)+", dataYear="+year_tag+", runPeriod='"+str(sample.runP)+"', jesUncert='Total', redojec=True,jetType = 'AK8PFPuppi')\n")
+        #f.write("HLT = HLT_fun('"+year_tag+"', '"+str(sample.runP)+"')\n")
         f.write("p=PostProcessor('.', inputFiles(), '"+presel+"', modules=["+modules+"], provenance=True, fwkJobReport=True, jsonInput=runsAndLumis(), haddFileName='tree_hadd.root', outputbranchsel='keep_and_drop.txt')\n")#
 
     f.write("p.run()\n")
@@ -158,12 +167,21 @@ for sample in samples:
     if submit:
         #Writing the script file 
         year = str(sample.year)
-        lep_mod = 'lepSF_'+year+'()'
+        if sample.year==2016:
+            if "preVFP" in sample.label:
+                year_tag = year+"preVFP"
+            else:
+                year_tag = year+"preVFP"
+        else:
+            year_tag = year
+        Tightlep_mod = 'TightlepSF_'+year_tag+'()'
+        Looselep_mod = 'LooselepSF_'+year_tag+'()'
+        IsoLooselep_mod = 'IsoLooselepSF_'+year_tag+'()'
         trg_mod = 'trigSF_'+year+'()'
-        btag_mod = 'btagSF_'+year+'()'
+        #btag_mod = 'btagSF_'+year+'()'
         #btag_mod=''
         print(' no b tag mode')
-        met_hlt_mod = 'MET_HLT_Filter_'+year+'()'
+        #met_hlt_mod = 'MET_HLT_Filter_'+year+'()'
         pu_mod = 'puAutoWeight_'+year+'()'
         prefire_mod = 'PrefCorr_'+year+'()'
         if ('Data' in sample.label):
@@ -181,12 +199,13 @@ for sample in samples:
 
         print "Producing crab configuration file"
         cfg_writer(sample, isMC, "Tprime")
-
+        
+        #print("no Jes/Jer modules!!!!! Rememeber to add them in the next submission amche nei datiiiiii!!,  metCorrector(), fatJetCorrector(), metCorrector_tot(), fatJetCorrector_tot() ")
         if isMC:
-            modules = "MCweight_writer(),MET_HLT_Filter("+year+"), preselection_Tprime(), GenPart_MomFirstCp(flavour=\"11,12,13,14,15,16,5,6,24,23,25\"), unpacking_MC(),scoring(),"+pu_mod+", metCorrector(), fatJetCorrector(), metCorrector_tot(), fatJetCorrector_tot()"
+            modules = "MCweight_writer(),MET_HLT_Filter("+year+"), preselection_Tprime(), GenPart_MomFirstCp(flavour=\"11,12,13,14,15,16,5,6,24,23,25\"), unpacking_MC(),scoring(),  metCorrector(), fatJetCorrector(), metCorrector_tot(), fatJetCorrector_tot(),"+pu_mod+","+Tightlep_mod+","+IsoLooselep_mod+","+Looselep_mod
         
             if year!="2018": 
-                modules = "MCweight_writer(),MET_HLT_Filter("+year+"), preselection_Tprime(), GenPart_MomFirstCp(flavour=\"11,12,13,14,15,16,5,6,24,23,25\"), unpacking_MC(),scoring(),"+pu_mod+","+ prefire_mod+", metCorrector(), fatJetCorrector(), metCorrector_tot(), fatJetCorrector_tot()"
+                modules = "MCweight_writer(),MET_HLT_Filter("+year+"), preselection_Tprime(), GenPart_MomFirstCp(flavour=\"11,12,13,14,15,16,5,6,24,23,25\"), unpacking_MC(),scoring(),  metCorrector(), fatJetCorrector(), metCorrector_tot(), fatJetCorrector_tot(),"+pu_mod+","+ prefire_mod+","+Tightlep_mod+","+IsoLooselep_mod+","+Looselep_mod
                 
             #modules = "MCweight_writer(), preselection_Tprime(), GenPart_MomFirstCp(flavour=\"11,12,13,14,15,16,5,6,24,23,25\"), unpacking_MC()"
             if ("WJets" in sample.label) and ("1200to" in sample.label): modules = "random_cut()," + modules  
@@ -198,7 +217,7 @@ for sample in samples:
             """
         else:
             #modules = "HLT(), preselection(), metCorrector(), fatJetCorrector(), metCorrector_tot(), fatJetCorrector_tot()" # Put here all the modules you want to be runned by crab
-            modules = "MET_HLT_Filter("+year+"), preselection_Tprime(),unpacking_Data(),scoring(), metCorrector(), fatJetCorrector(), metCorrector_tot(), fatJetCorrector_tot()"
+            modules = "MET_HLT_Filter("+year+"), preselection_Tprime(),unpacking_Data(),scoring(),  metCorrector(), fatJetCorrector(), metCorrector_tot(), fatJetCorrector_tot()"
             
         print "Producing crab script"
         crab_script_writer(sample,'/eos/user/'+str(os.environ.get('USER')[0]) + '/'+str(os.environ.get('USER'))+'/Tprime/nosynch/', isMC, modules, presel)

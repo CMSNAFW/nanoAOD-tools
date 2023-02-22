@@ -512,9 +512,10 @@ def makestack(lep_, reg_, variabile_, samples_, cut_tag_, syst_, lumi):
      pad2.Draw()
      pad2.cd()
      ratio = hdata.Clone("ratio")
+     print("Data MC Discrepancy: "+str((ratio.Integral()-hratio.Integral())/ratio.Integral()))
      ratio.SetLineColor(ROOT.kBlack)
-     ratio.SetMaximum(2)
-     ratio.SetMinimum(0)
+     ratio.SetMaximum(1.2)
+     ratio.SetMinimum(0.8)
      ratio.Sumw2()
      ratio.SetStats(0)
      
@@ -556,7 +557,7 @@ def makestack(lep_, reg_, variabile_, samples_, cut_tag_, syst_, lumi):
      ratio.GetYaxis().SetLabelSize(0.15)
      ratio.GetXaxis().SetTitleSize(0.16)
      ratio.GetYaxis().SetTitleSize(0.16)
-     ratio.GetYaxis().SetRangeUser(0.,2.0)
+     ratio.GetYaxis().SetRangeUser(0,2)
      ratio.GetXaxis().SetTitle(variabile_._title)
      ratio.GetXaxis().SetLabelOffset(0.04)
      ratio.GetYaxis().SetLabelOffset(0.02)
@@ -564,6 +565,7 @@ def makestack(lep_, reg_, variabile_, samples_, cut_tag_, syst_, lumi):
 
      c1.cd()
      #ROOT.TGaxis.SetMaxDigits(3)
+     
      c1.RedrawAxis()
      pad2.RedrawAxis()
      c1.Update()
@@ -755,7 +757,8 @@ for year in years:
      for lep in leptons:
           dataset_new = dataset_dict[year]
           variables = []
-          wzero = 'w_nominal*PFSF*puSF*w_pt*BDTSF*ParNetSF'                                                                                                               
+          wzero = 'w_nominal*PFSF*puSF*w_pt*ParNetSF*BDTSF'               
+          print("No BDT and PN SF!!! Check")
           cut = cut_dict[lep]
           cut_tag_coll=[]
           #dR_jet_AK8_nominal
@@ -778,8 +781,9 @@ for year in years:
           """
           variables.append(variabile('Top_pt_nominal','Best Top p_{T}',wzero+'*('+cut+')',  50, 50, 600))
           variables.append(variabile('Top_TvsQCD_nominal','Best Top ScoreVsQCD',wzero+'*('+cut+')',  20, 0, 1))
-          variables.append(variabile('Top_TvsOth_nominal','Best Top ScoreVsOth',wzero+'*('+cut+')',  20, 0, 1))
           """
+          #variables.append(variabile('Top_TvsOth_nominal','Best Top ScoreVsOth',wzero+'*('+cut+')',  20, 0, 1))
+          
           #variables.append(variabile('FatJet_M_nominal','FatJet M',wzero+'*('+cut+')',  30, 0, 300))
           
           #variables.append(variabile('FatJet_XbbVsQCD_nominal','FatJet XbbVsQCD',wzero+'*('+cut+')',  20, 0, 1))
@@ -787,9 +791,10 @@ for year in years:
           #variables.append(variabile('FatJet_eta_nominal','FatJet Eta',wzero+'*('+cut+')',  20, -5, 5))
           #variables.append(variabile('FatJet_pt_nominal','FatJet p_{T}',wzero+'*('+cut+')',  20, 25, 625))
           #variables.append(variabile('Top_M_nominal','Best Top M',wzero+'*('+cut+')',  25, 50, 300))
-          """
-          variables.append(variabile('MET_nominal','MET p_{T}',wzero+'*('+cut+')',  20, 25, 625))
-          """
+          
+          
+          #variables.append(variabile('MET_nominal','MET p_{T}',wzero+'*('+cut+')',  20, 25, 625))
+         
           #variables.append(variabile('TightMu_pt_nominal','TightMu p_{T}',wzero+'*('+cut+')',  20, 25, 225))
           #variables.append(variabile('TightEl_pt_nominal','TightEl p_{T}',wzero+'*('+cut+')',  20, 25, 225))
           """

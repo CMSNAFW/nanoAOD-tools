@@ -1,4 +1,4 @@
-#!/Bin/env python
+#!/bin/env python
 import os
 ##print(os.environ)
 ##print("**********************************************************************")
@@ -400,6 +400,7 @@ def reco(scenario, isMC, addPDF, training):
     print("isMC: ", isMC)
     pdf_xsweight = 1.
     pdf_weight_sum = 0.
+    print("Attention isMC always setted false!!!!")
     if(isMC):
         h_genweight = ROOT.TH1F()
         h_genweight.SetNameTitle('h_genweight', 'h_genweight')
@@ -444,7 +445,7 @@ def reco(scenario, isMC, addPDF, training):
 
         
 
-
+    print(tree.GetEntries())
     for i in range(tree.GetEntries()):
         AK8_region_nominal[0]=0        
         top_region_nominal[0]=0        
@@ -682,7 +683,7 @@ def reco(scenario, isMC, addPDF, training):
             print("Processed ", i+1, " out of ", tree.GetEntries(), " events")
 
         chain.GetEntry(i) #this is needed for branches that are not compatible with the NANOAOD convention (e.g. )
-        
+        print("Don't forget to change msdoftdrop from new JEC correction, _nom, ecc")
         if scenario == 'jesUp':
             MET = {'metPx': met.pt_jesTotalUp*ROOT.TMath.Cos(met.phi_jesTotalUp), 'metPy': met.pt_jesTotalUp*ROOT.TMath.Sin(met.phi_jesTotalUp)}
             for jet in jets:
@@ -757,7 +758,7 @@ def reco(scenario, isMC, addPDF, training):
             systTree.setWeightName("puDown", copy.deepcopy(PU_SFDown))
         
 
-        if isMC:
+        if isMC__:
             genpart = Collection(event, "GenPart")
             LHE = Collection(event, "LHEPart")
             LHEScaleWeight = Collection(event, 'LHEScaleWeight')

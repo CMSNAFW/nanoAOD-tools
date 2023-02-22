@@ -1,0 +1,5 @@
+python submit_condor.py -d "DataMuA_2018" -f "UL2018_v3" -t "BDT_Tprime" 
+#python submit_condor.py -d "QCD_2018" -f "UL2018_v3" -t "BDT_Tprime" 
+#python submit_condor.py -d "WJets_2018" -f "UL2018_v3" -t "BDT_Tprime" 
+#python submit_condor.py -d "TT_Mtt_2018" -f "UL2018_v3" -t "BDT_Tprime" 
+#python submit_condor.py -d "Tprime_LH_2018" -f "UL2018_v3" -t "BDT_Tprime" 

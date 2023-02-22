@@ -25,13 +25,13 @@ low=[0,500]
 model_dir = '../model/JSON/'
 
 #variabili 1 training
-var_top1 = ['Lep_Over_Jet_Pt', 'nu_M', 'nu_pt', 'mT', 'pt_rel', 'Costheta', 'dR']
+var_top1 = ['Lep_Over_Jet_Pt', 'nu_M', 'nu_pt', 'mT', 'pt_rel', 'dR']
 var_el1  = ['dxy','dz','miniPFRelIso_all','pfRelIso03_all']
 var_jet1 = ['mass','pt','btagDeepFlavB']
 
 #variabili 2 training
-var_top2 = ['Lep_Over_Jet_Pt','nu_M','nu_pt','M','pt','mT','pt_rel','Costheta','dR']
-var_el2  = ['pt','dxy','dxyErr','dz','dzErr','miniPFRelIso_all','pfRelIso03_all']
+var_top2 = ['nu_M','nu_pt','M','mT','dR']
+var_el2  = ['pt','dxy','dz','miniPFRelIso_all','pfRelIso03_all']
 var_jet2 = ['mass','pt','btagDeepFlavB']
 
 #variabili 3 training
@@ -50,8 +50,8 @@ var_mu5  = ['dxy','dz','miniPFRelIso_all','pfRelIso04_all']
 var_jet5 = ['mass','btagDeepFlavB']
 
 #variabili 6 training
-var_top6 = ['nu_M','nu_pt','M','Costheta','dR']
-var_mu6  = ['dxy','dxyErr','dz','dzErr','miniPFRelIso_all','pfRelIso04_all']
+var_top6 = ['nu_M','nu_pt','M','dR']
+var_mu6  = ['dxy','dz','miniPFRelIso_all','pfRelIso04_all']
 var_jet6 = ['mass','pt','btagDeepFlavB']
 
 #variabili 7 training
@@ -67,8 +67,8 @@ var_jet8 = ['mass','btagDeepFlavB']
 
 # Arrays with score cuts for different working points
 
-sig_eff_90 = [.15, .20, .51, .60, .15, .22, .285, .69]
-bkg_rej_90 = [.02, .065, .175, .365, .01, .04, .025, .38]
+sig_eff_90 = [.1, .155, .29, .525, .1, .175, .265, .58]
+bkg_rej_90 = [.025, .055, .195, .215, .01, .05, .025, .23]
 
 BDT_Tprime_low_el_merg = training("BDT_Tprime_low_el_merg",model_dir+'low_pt_el_merged.json',var_top1, var_el1, var_jet1, base_var_MET, 1, 1 , low, bkg_rej_90[0])
 BDT_Tprime_low_el_res = training("BDT_Tprime_low_el_res",model_dir+'low_pt_el_resolved.json',var_top2, var_el2, var_jet2, base_var_MET, 0, 1 , low, bkg_rej_90[1])
@@ -80,6 +80,12 @@ BDT_Tprime_high_mu_merg = training("BDT_Tprime_high_mu_merg",model_dir+'high_pt_
 BDT_Tprime_high_mu_res = training("BDT_Tprime_high_mu_res",model_dir+'high_pt_mu_resolved.json',var_top8, var_mu8, var_jet8, base_var_MET, 0, 0 , high, bkg_rej_90[7])
 
 
-training_dict = {"BDT_Tprime":[BDT_Tprime_low_el_merg,BDT_Tprime_low_el_res,BDT_Tprime_high_el_merg,BDT_Tprime_high_el_res,BDT_Tprime_low_mu_merg,BDT_Tprime_low_mu_res,BDT_Tprime_high_mu_merg,BDT_Tprime_high_mu_res]}
-
+training_dict = {"BDT_Tprime":[BDT_Tprime_high_mu_merg,
+                               BDT_Tprime_high_el_merg,
+                               BDT_Tprime_low_mu_res,
+                               BDT_Tprime_low_el_res,
+                               BDT_Tprime_high_mu_res,
+                               BDT_Tprime_high_el_res,
+                               BDT_Tprime_low_mu_merg,
+                               BDT_Tprime_low_el_merg]}
 

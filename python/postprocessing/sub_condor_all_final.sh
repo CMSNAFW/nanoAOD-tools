@@ -1,0 +1,23 @@
+#python submit_condor_final.py -d "DataMu_2016" -f "UL" -t "BDT_Tprime"                   
+#python submit_condor_final.py -d "QCD_2016" -f "UL" -t "BDT_Tprime"                      
+#python submit_condor_final.py -d "WJets_2016" -f "UL" -t "BDT_Tprime"                    
+#python submit_condor_final.py -d "TT_Mtt_2016" -f "UL" -t "BDT_Tprime"                   
+#python submit_condor_final.py -d "Tprime_LH_2016" -f "UL" -t "BDT_Tprime"                
+#python submit_condor_final.py -d "ST_2016" -f "UL" -t "BDT_Tprime" 
+
+#python submit_condor_final.py -d "DataMu_2017" -f "UL" -t "BDT_Tprime"                   
+#python submit_condor_final.py -d "QCD_2017" -f "UL" -t "BDT_Tprime"                      
+#python submit_condor_final.py -d "WJets_2017" -f "UL" -t "BDT_Tprime"                    
+#python submit_condor_final.py -d "TT_Mtt_2017" -f "UL" -t "BDT_Tprime"                   
+#python submit_condor_final.py -d "Tprime_LH_2017" -f "UL" -t "BDT_Tprime"                
+#python submit_condor_final.py -d "ST_2017" -f "UL" -t "BDT_Tprime" 
+
+python submit_condor_final_newselection.py -d "TT_Mtt_2018" -f "UL_v10" -t "BDT_Tprime"
+python submit_condor_final_newselection.py -d "DataMu_2018" -f "UL_v10" -t "BDT_Tprime" 
+python submit_condor_final_newselection.py -d "QCD_2018" -f "UL_v10" -t "BDT_Tprime" 
+python submit_condor_final_newselection.py -d "WJets_2018" -f "UL_v10" -t "BDT_Tprime"  
+python submit_condor_final_newselection.py -d "Tprime_LH_2018" -f "UL_v10" -t "BDT_Tprime" 
+python submit_condor_final_newselection.py -d "ST_2018" -f "UL_v10" -t "BDT_Tprime" 
+python submit_condor_final_newselection.py -d "DataEle_2018" -f "UL_v10" -t "BDT_Tprime" 
+python submit_condor_final_newselection.py -d "DataHT_2018" -f "UL_v10" -t "BDT_Tprime" 
+

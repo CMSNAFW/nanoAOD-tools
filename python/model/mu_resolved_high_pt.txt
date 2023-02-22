@@ -1,0 +1,1 @@
+{"n_gpus": 0, "num_class": 3, "eval_metric": "mlogloss", "learning_rate": 0.05, "reg_alpha": 0.1, "min_child_weight": 3, "n_estimators": 50, "objective": "multi:softmax", "min_split_loss": 0.1, "max_depth": 3}

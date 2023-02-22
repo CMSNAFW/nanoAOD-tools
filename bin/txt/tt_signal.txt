@@ -1,0 +1,6 @@
+root://cms-xrd-global.cern.ch//store/user/fcarneva/Tprime/TT_Mtt-1000toInf_TuneCP5_13TeV-powheg-pythia8/TT_Mtt1000toInf_2018/211026_131647/0000/tree_hadd_7.root
+root://cms-xrd-global.cern.ch//store/user/fcarneva/Tprime/TprimeBToTH_M-600_LH_TuneCP5_PSweights_13TeV-madgraph_pythia8/Tprime_tHq_600LH_2018/211026_131753/0000/tree_hadd_1.root
+root://cms-xrd-global.cern.ch//store/user/fcarneva/Tprime/TprimeBToTH_M-1200_LH_TuneCP5_PSweights_13TeV-madgraph_pythia8/Tprime_tHq_1200LH_2018/211026_132425/0000/tree_hadd_2.root
+root://cms-xrd-global.cern.ch//store/user/fcarneva/Tprime/TprimeBToTH_M-1800_LH_TuneCP5_PSweights_13TeV-madgraph_pythia8/Tprime_tHq_1800LH_2018/211026_133047/0000/tree_hadd_1.root
+root://cms-xrd-global.cern.ch//store/user/fcarneva/Tprime/TprimeBToTH_M-1800_LH_TuneCP5_PSweights_13TeV-madgraph_pythia8/Tprime_tHq_1800LH_2018/211026_133047/0000/tree_hadd_3.root
+root://cms-xrd-global.cern.ch//store/user/fcarneva/Tprime/TprimeBToTH_M-1800_LH_TuneCP5_PSweights_13TeV-madgraph_pythia8/Tprime_tHq_1800LH_2018/211026_133047/0000/tree_hadd_2.root

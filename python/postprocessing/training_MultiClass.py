@@ -25,7 +25,7 @@ class training:
 high=[500,100000]
 low=[0,500]
 
-model_dir = './'#'/afs/cern.ch/user/f/fcarneva/CMSSW_10_5_0/src/PhysicsTools/NanoAODTools/python/model/JSON_MultiClass/'
+model_dir = './'#'/afs/cern.ch/user/f/fcarneva/CMSSW_10_5_0/src/PhysicsTools/NanoAODTools/python/model/JSON_MultiClass/' #'./'
 
 #variabili 1 training
 var_top1 = ['Lep_Over_Jet_Pt', 'nu_M', 'nu_pt', 'mT', 'pt_rel','Costheta' ,'dR']

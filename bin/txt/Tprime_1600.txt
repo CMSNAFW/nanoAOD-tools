@@ -1,0 +1,1 @@
+root://cms-xrd-global.cern.ch//store/user/fcarneva/Tprime/TprimeBToTH_M-1600_LH_TuneCP5_PSweights_13TeV-madgraph_pythia8/Tprime_tHq_1600LH_2018/211026_132837/0000/tree_hadd_1.root

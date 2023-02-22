@@ -1,0 +1,2 @@
+root://cms-xrd-global.cern.ch//store/user/fcarneva/Tprime/TprimeBToTH_M-1300_LH_TuneCP5_13TeV-madgraph_pythia8/Tprime_tHq_1300LH_2017/230124_135334/0000/tree_hadd_1.root
+root://cms-xrd-global.cern.ch//store/user/fcarneva/Tprime/TprimeBToTH_M-1300_LH_TuneCP5_13TeV-madgraph_pythia8/Tprime_tHq_1300LH_2017/230124_135334/0000/tree_hadd_2.root

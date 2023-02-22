@@ -14,9 +14,8 @@
 </export>
 <flags cxxflags="-g -ggdb -O0" />
 <environment>
-  <bin file="Cpp/topTrueFalsePlot.cpp" name="topTrueFalsePlot"></bin>
   <bin file="Cpp/nano_unpacking.cpp" name="nano_unpacking"></bin>
   <bin file="Cpp/repacking_final.cpp" name="repacking_final"></bin>
-  <bin file="Cpp/repacking_2.cpp" name="repacking_2"></bin>
+  <bin file="Cpp/nano_unpacking_multiclass.cpp" name="nano_unpacking_multiclass"></bin>
 </environment>
 <flags EDM_PLUGIN="1"/>

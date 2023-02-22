@@ -11,29 +11,112 @@ class lepSFProducer(Module):
         self.muonSelectionTag = muonSelectionTag
         self.electronSelectionTag = electronSelectionTag
         # histograms for the analysis
-        if muonSelectionTag == "TightWP_2016":
-            mu_f = ["Mu_RunBCDEFGH_SF_ID_2016_syst.root", "Mu_RunBCDEFGH_SF_MiniIso_2016.root"]
-            mu_h = ["NUM_TightID_DEN_genTracks_eta_pt", "NUM_TightMiniIso_DEN_TightIDandIPCut/pt_abseta_ratio"]
 
-        if electronSelectionTag == "NoIsoMVA90_2016":
-            el_f = ["EGM2D_RECO_SF_2016.root", "2016LegacyReReco_ElectronMVA90noiso_Fall17V2.root", "EGM2D_MiniIso_SF_2016.root"]
-            el_h = ["EGamma_SF2D", "EGamma_SF2D", "EGamma_SF2D"]
+        # Tight WP (with Iso)
+        if muonSelectionTag == "TightWP_2016preVFP":
+            mu_f = ["Mu_2016preVFP_RECO.root","Mu_2016preVFP_ID.root", "Mu_2016preVFP_ISO.root"]
+            mu_h = ["NUM_TrackerMuon_DEN_genTracks_HighPt_abseta_p","NUM_TightID_DEN_TrackerMuons_abseta_pt", "NUM_TightRelIso_DEN_TightIDandIPCut_abseta_pt"]
+
+        if electronSelectionTag == "IsoMVA80_2016preVFP":
+            el_f = ["El_2016preVFP_reco.root", "El_2016preVFP_wp80iso.root"]
+            el_h = ["EGamma_SF2D", "EGamma_SF2D"]
+
+        if muonSelectionTag == "TightWP_2016postVFP":
+            mu_f = ["Mu_2016postVFP_RECO.root","Mu_2016postVFP_ID.root", "Mu_2016postVFP_ISO.root"]
+            mu_h = ["NUM_TrackerMuon_DEN_genTracks_HighPt_abseta_p","NUM_TightID_DEN_TrackerMuons_abseta_pt", "NUM_TightRelIso_DEN_TightIDandIPCut_abseta_pt"]
+
+        if electronSelectionTag == "IsoMVA80_2016postVFP":
+            el_f = ["El_2016postVFP_reco.root", "El_2016postVFP_wp80iso.root"]
+            el_h = ["EGamma_SF2D", "EGamma_SF2D"]
 
         if muonSelectionTag == "TightWP_2017":
-            mu_f = ["Mu_RunBCDEF_SF_ID_2017_syst.root", "Mu_RunBCDEF_SF_MiniIso_2017.root"]
-            mu_h = ["NUM_TightID_DEN_genTracks_pt_abseta_syst", "NUM_TightMiniIso_DEN_TightIDandIPCut/pt_abseta_ratio"]
+            mu_f = ["Mu_2017_RECO.root","Mu_2017_ID.root", "Mu_2017_ISO.root"]
+            mu_h = ["NUM_TrackerMuon_DEN_genTracks_HighPt_abseta_p","NUM_TightID_DEN_TrackerMuons_abseta_pt", "NUM_TightRelIso_DEN_TightIDandIPCut_abseta_pt"]
 
-        if electronSelectionTag == "NoIsoMVA90_2017":
-            el_f = ["EGM2D_RECO_SF_2017.root", "2017_ElectronMVA90noiso.root", "EGM2D_MiniIso_SF_2017.root"]
-            el_h = ["EGamma_SF2D", "EGamma_SF2D", "EGamma_SF2D"]
+        if electronSelectionTag == "IsoMVA80_2017":
+            el_f = ["El_2017_reco.root", "El_2017_wp80iso.root"]
+            el_h = ["EGamma_SF2D", "EGamma_SF2D"]
 
         if muonSelectionTag == "TightWP_2018":
-            mu_f = ["Mu_RunABCD_SF_ID_2018_syst.root", "Mu_RunABCD_SF_MiniIso_2018.root"]
-            mu_h = ["NUM_TightID_DEN_TrackerMuons_pt_abseta_syst", "NUM_TightMiniIso_DEN_TightIDandIPCut/pt_abseta_ratio"]
+            mu_f = ["Mu_2018_RECO.root","Mu_2018_ID.root", "Mu_2018_ISO.root"]
+            mu_h = ["NUM_TrackerMuon_DEN_genTracks_HighPt_abseta_p","NUM_TightID_DEN_TrackerMuons_abseta_pt", "NUM_TightRelIso_DEN_TightIDandIPCut_abseta_pt"]
 
+        if electronSelectionTag == "IsoMVA80_2018":
+            el_f = ["El_2018_reco.root", "El_2018_wp80iso.root"]
+            el_h = ["EGamma_SF2D", "EGamma_SF2D"]
+
+        #Loose WP
+
+
+        if muonSelectionTag == "LooseWP_2016preVFP":
+            mu_f = ["Mu_2016preVFP_RECO.root","Mu_2016preVFP_ID.root"]
+            mu_h = ["NUM_TrackerMuon_DEN_genTracks_HighPt_abseta_p","NUM_LooseID_DEN_TrackerMuons_abseta_pt"]
+
+        if electronSelectionTag == "NoIsoMVA90_2016preVFP":
+            el_f = ["El_2016preVFP_reco.root", "El_2016preVFP_wp90noiso.root"]
+            el_h = ["EGamma_SF2D", "EGamma_SF2D"]
+
+        if muonSelectionTag == "LooseWP_2016postVFP":
+            mu_f = ["Mu_2016postVFP_RECO.root","Mu_2016postVFP_ID.root"]
+            mu_h = ["NUM_TrackerMuon_DEN_genTracks_HighPt_abseta_p","NUM_LooseID_DEN_TrackerMuons_abseta_pt"]
+
+        if electronSelectionTag == "NoIsoMVA90_2016postVFP":
+            el_f = ["El_2016postVFP_reco.root", "El_2016postVFP_wp90noiso.root"]
+            el_h = ["EGamma_SF2D", "EGamma_SF2D"]
+
+        if muonSelectionTag == "LooseWP_2017":
+            mu_f = ["Mu_2017_RECO.root","Mu_2017_ID.root"]
+            mu_h = ["NUM_TrackerMuon_DEN_genTracks_HighPt_abseta_p","NUM_LooseID_DEN_TrackerMuons_abseta_pt"]
+
+        if electronSelectionTag == "NoIsoMVA90_2017":
+            el_f = ["El_2017_reco.root", "El_2017_wp90noiso.root"]
+            el_h = ["EGamma_SF2D", "EGamma_SF2D"]
+
+        if muonSelectionTag == "LooseWP_2018":
+            mu_f = ["Mu_2018_RECO.root","Mu_2018_ID.root"]
+            mu_h = ["NUM_TrackerMuon_DEN_genTracks_HighPt_abseta_p","NUM_LooseID_DEN_TrackerMuons_abseta_pt"]
+            #mu_f = ["Mu_2018_ID.root"]
+            #mu_h = ["NUM_LooseID_DEN_TrackerMuons_abseta_pt"]
+        
         if electronSelectionTag == "NoIsoMVA90_2018":
-            el_f = ["EGM2D_RECO_SF_2018.root", "2018_ElectronMVA90noiso.root", "EGM2D_MiniIso_SF_2018.root"]
-            el_h = ["EGamma_SF2D", "EGamma_SF2D", "EGamma_SF2D"]
+            el_f = ["El_2018_reco.root", "El_2018_wp90noiso.root"]
+            el_h = ["EGamma_SF2D", "EGamma_SF2D"]
+            #el_f = ["El_2018_wp90noiso.root"]
+            #el_h = ["EGamma_SF2D"]        
+
+        # LooseIso WP
+
+        if muonSelectionTag == "IsoLooseWP_2016preVFP":
+            mu_f = ["Mu_2016preVFP_RECO.root","Mu_2016preVFP_ID.root", "Mu_2016preVFP_ISO.root"]
+            mu_h = ["NUM_TrackerMuon_DEN_genTracks_HighPt_abseta_p","NUM_LooseID_DEN_TrackerMuons_abseta_pt", "NUM_LooseRelIso_DEN_LooseID_abseta_pt"]
+
+        if electronSelectionTag == "IsoMVA90_2016preVFP":
+            el_f = ["El_2016preVFP_reco.root", "El_2016preVFP_wp90iso.root"]
+            el_h = ["EGamma_SF2D", "EGamma_SF2D"]
+
+        if muonSelectionTag == "IsoLooseWP_2016postVFP":
+            mu_f = ["Mu_2016postVFP_RECO.root","Mu_2016postVFP_ID.root", "Mu_2016postVFP_ISO.root"]
+            mu_h = ["NUM_TrackerMuon_DEN_genTracks_HighPt_abseta_p","NUM_LooseID_DEN_TrackerMuons_abseta_pt", "NUM_LooseRelIso_DEN_LooseID_abseta_pt"]
+
+        if electronSelectionTag == "IsoMVA90_2016postVFP":
+            el_f = ["El_2016postVFP_reco.root", "El_2016postVFP_wp90iso.root"]
+            el_h = ["EGamma_SF2D", "EGamma_SF2D"]
+
+        if muonSelectionTag == "IsoLooseWP_2017":
+            mu_f = ["Mu_2017_RECO.root","Mu_2017_ID.root", "Mu_2017_ISO.root"]
+            mu_h = ["NUM_TrackerMuon_DEN_genTracks_HighPt_abseta_p","NUM_LooseID_DEN_TrackerMuons_abseta_pt", "NUM_LooseRelIso_DEN_LooseID_abseta_pt"]
+
+        if electronSelectionTag == "IsoMVA90_2017":
+            el_f = ["El_2017_reco.root", "El_2017_wp90iso.root"]
+            el_h = ["EGamma_SF2D", "EGamma_SF2D"]
+
+        if muonSelectionTag == "IsoLooseWP_2018":
+            mu_f = ["Mu_2018_RECO.root","Mu_2018_ID.root", "Mu_2018_ISO.root"]
+            mu_h = ["NUM_TrackerMuon_DEN_genTracks_HighPt_abseta_p","NUM_LooseID_DEN_TrackerMuons_abseta_pt", "NUM_LooseRelIso_DEN_LooseID_abseta_pt"]
+
+        if electronSelectionTag == "IsoMVA90_2018":
+            el_f = ["El_2018_reco.root", "El_2018_wp90iso.root"]
+            el_h = ["EGamma_SF2D", "EGamma_SF2D"]
 
         # histograms for the trigger studies
         if muonSelectionTag == "mutrg_2016":
@@ -94,12 +177,28 @@ class lepSFProducer(Module):
             self.out.branch("Muon_trigSF_Down", "F", lenVar="nMuon")
             self.out.branch("Electron_trigSF_Down", "F", lenVar="nElectron")
         else:
-            self.out.branch("Muon_effSF", "F", lenVar="nMuon")
-            self.out.branch("Electron_effSF", "F", lenVar="nElectron")
-            self.out.branch("Muon_effSF_Up", "F", lenVar="nMuon")
-            self.out.branch("Electron_effSF_Up", "F", lenVar="nElectron")
-            self.out.branch("Muon_effSF_Down", "F", lenVar="nMuon")
-            self.out.branch("Electron_effSF_Down", "F", lenVar="nElectron")
+            if not "Tight" in self.muonSelectionTag:
+                if "Iso" in self.muonSelectionTag:
+                    self.out.branch("Muon_IsoLooseeffSF", "F", lenVar="nMuon")
+                    self.out.branch("Electron_IsoLooseeffSF", "F", lenVar="nElectron")
+                    self.out.branch("Muon_IsoLooseeffSF_Up", "F", lenVar="nMuon")
+                    self.out.branch("Electron_IsoLooseeffSF_Up", "F", lenVar="nElectron")
+                    self.out.branch("Muon_IsoLooseeffSF_Down", "F", lenVar="nMuon")
+                    self.out.branch("Electron_IsoLooseeffSF_Down", "F", lenVar="nElectron")
+                else:
+                    self.out.branch("Muon_LooseeffSF", "F", lenVar="nMuon")
+                    self.out.branch("Electron_LooseeffSF", "F", lenVar="nElectron")
+                    self.out.branch("Muon_LooseeffSF_Up", "F", lenVar="nMuon")
+                    self.out.branch("Electron_LooseeffSF_Up", "F", lenVar="nElectron")
+                    self.out.branch("Muon_LooseeffSF_Down", "F", lenVar="nMuon")
+                    self.out.branch("Electron_LooseeffSF_Down", "F", lenVar="nElectron")
+            else:
+                self.out.branch("Muon_TighteffSF", "F", lenVar="nMuon")
+                self.out.branch("Electron_TighteffSF", "F", lenVar="nElectron")
+                self.out.branch("Muon_TighteffSF_Up", "F", lenVar="nMuon")
+                self.out.branch("Electron_TighteffSF_Up", "F", lenVar="nElectron")
+                self.out.branch("Muon_TighteffSF_Down", "F", lenVar="nMuon")
+                self.out.branch("Electron_TighteffSF_Down", "F", lenVar="nElectron")
     def endFile(self, inputFile, outputFile, inputTree, wrappedOutputTree):
         pass
     def analyze(self, event):
@@ -110,26 +209,54 @@ class lepSFProducer(Module):
         sf_mu = [ self._worker_mu.getSF(mu.pdgId,mu.pt,mu.eta) for mu in muons ]
         sferr_el = [ self._worker_el.getSFErr(el.pdgId,el.pt,el.eta) for el in electrons ]
         sferr_mu = [ self._worker_mu.getSFErr(mu.pdgId,mu.pt,mu.eta) for mu in muons ]
+        #print(sf_mu)
         if 'trg' in self.electronSelectionTag or 'trg' in self.muonSelectionTag:
             self.out.fillBranch("Muon_trigSF", sf_mu)
             self.out.fillBranch("Electron_trigSF", sf_el)
             self.out.fillBranch("Muon_trigSF_Up", [errsf + sf for errsf, sf in zip(sferr_mu, sf_mu)])
             self.out.fillBranch("Electron_trigSF_Up", [errsf + sf for errsf, sf in zip(sferr_el, sf_el)])
-            self.out.fillBranch("Muon_trigSF_Down", [errsf - sf for errsf, sf in zip(sferr_mu, sf_mu)])
-            self.out.fillBranch("Electron_trigSF_Down", [errsf - sf for errsf, sf in zip(sferr_el, sf_el)])
+            self.out.fillBranch("Muon_trigSF_Down", [sf - errsf for errsf, sf in zip(sferr_mu, sf_mu)])
+            self.out.fillBranch("Electron_trigSF_Down", [sf - errsf for errsf, sf in zip(sferr_el, sf_el)])
         else:
-            self.out.fillBranch("Muon_effSF", sf_mu)
-            self.out.fillBranch("Electron_effSF", sf_el)
-            self.out.fillBranch("Muon_effSF_Up", [errsf + sf for errsf, sf in zip(sferr_mu, sf_mu)])
-            self.out.fillBranch("Electron_effSF_Up", [errsf + sf for errsf, sf in zip(sferr_el, sf_el)])
-            self.out.fillBranch("Muon_effSF_Down", [errsf - sf for errsf, sf in zip(sferr_mu, sf_mu)])
-            self.out.fillBranch("Electron_effSF_Down", [errsf - sf for errsf, sf in zip(sferr_el, sf_el)])
+            if not "Tight" in self.muonSelectionTag:
+                if "Iso" in self.muonSelectionTag:
+                    self.out.fillBranch("Muon_IsoLooseeffSF", sf_mu)
+                    self.out.fillBranch("Electron_IsoLooseeffSF", sf_el)
+                    self.out.fillBranch("Muon_IsoLooseeffSF_Up", [errsf + sf for errsf, sf in zip(sferr_mu, sf_mu)])
+                    self.out.fillBranch("Electron_IsoLooseeffSF_Up", [errsf + sf for errsf, sf in zip(sferr_el, sf_el)])
+                    self.out.fillBranch("Muon_IsoLooseeffSF_Down", [sf - errsf for errsf, sf in zip(sferr_mu, sf_mu)])
+                    self.out.fillBranch("Electron_IsoLooseeffSF_Down", [sf - errsf for errsf, sf in zip(sferr_el, sf_el)])
+                else:
+                    self.out.fillBranch("Muon_LooseeffSF", sf_mu)
+                    self.out.fillBranch("Electron_LooseeffSF", sf_el)
+                    self.out.fillBranch("Muon_LooseeffSF_Up", [errsf + sf for errsf, sf in zip(sferr_mu, sf_mu)])
+                    self.out.fillBranch("Electron_LooseeffSF_Up", [errsf + sf for errsf, sf in zip(sferr_el, sf_el)])
+                    self.out.fillBranch("Muon_LooseeffSF_Down", [sf - errsf for errsf, sf in zip(sferr_mu, sf_mu)])
+                    self.out.fillBranch("Electron_LooseeffSF_Down", [sf - errsf for errsf, sf in zip(sferr_el, sf_el)])
+            else:
+                self.out.fillBranch("Muon_TighteffSF", sf_mu)
+                self.out.fillBranch("Electron_TighteffSF", sf_el)
+                self.out.fillBranch("Muon_TighteffSF_Up", [errsf + sf for errsf, sf in zip(sferr_mu, sf_mu)])
+                self.out.fillBranch("Electron_TighteffSF_Up", [errsf + sf for errsf, sf in zip(sferr_el, sf_el)])
+                self.out.fillBranch("Muon_TighteffSF_Down", [sf - errsf for errsf, sf in zip(sferr_mu, sf_mu)])
+                self.out.fillBranch("Electron_TighteffSF_Down", [sf - errsf for errsf, sf in zip(sferr_el, sf_el)])
         return True
 # define modules using the syntax 'name = lambda : constructor' to avoid having them loaded when not needed
 
-lepSF_2016 = lambda : lepSFProducer("TightWP_2016", "NoIsoMVA90_2016")
-lepSF_2017 = lambda : lepSFProducer("TightWP_2017", "NoIsoMVA90_2017")
-lepSF_2018 = lambda : lepSFProducer("TightWP_2018", "NoIsoMVA90_2018")
+TightlepSF_2016preVFP = lambda : lepSFProducer("TightWP_2016preVFP", "IsoMVA80_2016preVFP")
+TightlepSF_2016postVFP = lambda : lepSFProducer("TightWP_2016postVFP", "IsoMVA80_2016postVFP")
+TightlepSF_2017 = lambda : lepSFProducer("TightWP_2017", "IsoMVA80_2017")
+TightlepSF_2018 = lambda : lepSFProducer("TightWP_2018", "IsoMVA80_2018")
+
+LooselepSF_2016preVFP = lambda : lepSFProducer("LooseWP_2016preVFP", "NoIsoMVA90_2016preVFP")
+LooselepSF_2016postVFP = lambda : lepSFProducer("LooseWP_2016postVFP", "NoIsoMVA90_2016postVFP")
+LooselepSF_2017 = lambda : lepSFProducer("LooseWP_2017", "NoIsoMVA90_2017")
+LooselepSF_2018 = lambda : lepSFProducer("LooseWP_2018", "NoIsoMVA90_2018")
+
+IsoLooselepSF_2016preVFP = lambda : lepSFProducer("IsoLooseWP_2016preVFP", "IsoMVA90_2016preVFP")
+IsoLooselepSF_2016postVFP = lambda : lepSFProducer("IsoLooseWP_2016postVFP", "IsoMVA90_2016postVFP")
+IsoLooselepSF_2017 = lambda : lepSFProducer("IsoLooseWP_2017", "IsoMVA90_2017")
+IsoLooselepSF_2018 = lambda : lepSFProducer("IsoLooseWP_2018", "IsoMVA90_2018")
 
 trigSF_2016 = lambda : lepSFProducer("mutrg_2016", "eletrg_2016")
 trigSF_2017 = lambda : lepSFProducer("mutrg_2017", "eletrg_2017")

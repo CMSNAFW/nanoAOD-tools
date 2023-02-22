@@ -152,9 +152,9 @@ class unpacking_vers2(Module):
 
         bjets, nobjets = bjet_filter(jets, 'DeepCSV', 'L')
         
-        goodMu = list(filter(lambda x : x.pt>10 and x.looseId==1 and x.miniPFRelIso_all<4 and abs(x.dxy)<0.02, muons))
+        goodMu = list(filter(lambda x : x.pt>10 and x.looseId==1 and abs(x.dxy)<0.02, muons))
         goodJet = list(filter(lambda x :  x.pt>30, jets)) #noDeePCSV
-        goodEl = list(filter(lambda x : x.pt>10 and x.mvaFall17V2noIso_WPL==1 and abs(x.dxy)<0.05 and x.miniPFRelIso_all<4, electrons))
+        goodEl = list(filter(lambda x : x.pt>10 and x.mvaFall17V2noIso_WP90==1 and abs(x.dxy)<0.05, electrons))
 
         allMu = list(filter(lambda x : x.pt>0, muons))
         allJet = list(filter(lambda x :  x.pt>0 , jets))

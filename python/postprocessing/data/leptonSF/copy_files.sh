@@ -1,0 +1,29 @@
+cp muonefficiencies/Run2/UL/2016_postVFP/2016_postVFP_Z/Efficiencies_muon_generalTracks_Z_Run2016_UL_ISO.root Mu_2016postVFP_ISO.root
+cp muonefficiencies/Run2/UL/2016_postVFP/2016_postVFP_Z/Efficiencies_muon_generalTracks_Z_Run2016_UL_ID.root Mu_2016postVFP_ID.root
+
+cp muonefficiencies/Run2/UL/2017/2017_Z/Efficiencies_muon_generalTracks_Z_Run2017_UL_ISO.root Mu_2017_ISO.root
+cp muonefficiencies/Run2/UL/2017/2017_Z/Efficiencies_muon_generalTracks_Z_Run2017_UL_ID.root Mu_2017_ID.root
+
+cp muonefficiencies/Run2/UL/2018/2018_Z/Efficiencies_muon_generalTracks_Z_Run2018_UL_ISO.root Mu_2018_ISO.root
+cp muonefficiencies/Run2/UL/2018/2018_Z/Efficiencies_muon_generalTracks_Z_Run2018_UL_ID.root Mu_2018_ID.root
+
+
+cp ScaleFactorsJSON/EGdata/SF-Repository/UL_RecoSFs/egammaEffi_ptAbove20.txt_EGM2D_UL2016preVFP.root El_2016preVFP_reco.root
+cp ScaleFactorsJSON/EGdata/SF-Repository/UL_RecoSFs/egammaEffi_ptAbove20.txt_EGM2D_UL2016postVFP.root El_2016postVFP_reco.root
+cp ScaleFactorsJSON/EGdata/SF-Repository/UL_RecoSFs/egammaEffi_ptAbove20.txt_EGM2D_UL2017.root El_2017_reco.root
+cp ScaleFactorsJSON/EGdata/SF-Repository/UL_RecoSFs/egammaEffi_ptAbove20.txt_EGM2D_UL2018.root El_2018_reco.root
+
+cp ScaleFactorsJSON/EGdata/SF-Repository/UL16/preVFP/Electrons/wp80iso/egammaEffi.txt_Ele_wp80iso_preVFP_EGM2D.root El_2016preVFP_wp80iso.root
+cp ScaleFactorsJSON/EGdata/SF-Repository/UL16/postVFP/Electrons/wp80iso/egammaEffi.txt_EGM2D.root El_2016postVFP_wp80iso.root
+cp ScaleFactorsJSON/EGdata/SF-Repository/UL17/Electrons/MVA80Iso/passingMVA94Xwp80isoV2/egammaEffi.txt_EGM2D.root El_2017_wp80iso.root
+cp ScaleFactorsJSON/EGdata/SF-Repository/UL18/Electrons/wp80iso/passingMVA94Xwp80isoV2/egammaEffi.txt_EGM2D.root El_2018_wp80iso.root
+
+cp ScaleFactorsJSON/EGdata/SF-Repository/UL16/preVFP/Electrons/wp90iso/egammaEffi.txt_Ele_wp90iso_preVFP_EGM2D.root El_2016preVFP_wp90iso.root
+cp ScaleFactorsJSON/EGdata/SF-Repository/UL16/postVFP/Electrons/wp90iso/egammaEffi.txt_EGM2D.root El_2016postVFP_wp90iso.root
+cp ScaleFactorsJSON/EGdata/SF-Repository/UL17/Electrons/MVA90Iso/passingMVA94Xwp90isoV2/egammaEffi.txt_EGM2D.root El_2017_wp90iso.root
+cp ScaleFactorsJSON/EGdata/SF-Repository/UL18/Electrons/wp90iso/passingMVA94Xwp90isoV2/egammaEffi.txt_EGM2D.root El_2018_wp90iso.root
+
+cp ScaleFactorsJSON/EGdata/SF-Repository/UL16/preVFP/Electrons/wp90noiso/egammaEffi.txt_Ele_wp90noiso_preVFP_EGM2D.root El_2016preVFP_wp90noiso.root
+cp ScaleFactorsJSON/EGdata/SF-Repository/UL16/postVFP/Electrons/wp90noiso/egammaEffi.txt_EGM2D.root El_2016postVFP_wp90noiso.root
+cp ScaleFactorsJSON/EGdata/SF-Repository/UL17/Electrons/MVA90NoIso/passingMVA94Xwp90noisoV2/egammaEffi.txt_EGM2D.root El_2017_wp90noiso.root
+cp ScaleFactorsJSON/EGdata/SF-Repository/UL18/Electrons/wp90noiso/passingMVA94Xwp90noisoV2/egammaEffi.txt_EGM2D.root El_2018_wp90noiso.root

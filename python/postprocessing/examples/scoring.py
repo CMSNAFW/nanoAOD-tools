@@ -86,7 +86,7 @@ class scoring(Module):
                         for t in train.var_top:  lista.append(top[t])
                         X = xgb.DMatrix(np.array([lista,]))
                         #print(clf.predict(X))
-                        #score_ = (clf.predict(X)).ravel()
+                        score_ = (clf.predict(X)).ravel()
                         if(score_[2]/(1-score_[1])>train.QCDcut):
 
                             if(score_[2]/(1-score_[0])>train.Tcut): 
@@ -112,7 +112,7 @@ class scoring(Module):
         self.out.fillBranch("Top_TvsQCD",Top_TvsQCD)
         self.out.fillBranch("Top_Region",Top_Region)
         tightMu = list(filter(lambda x : x.tightId and x.pt>30 , muon))
-        tightEle = list(filter(lambda x : x.cutBased==4 and x.pt>30, electron))
+        tightEle = list(filter(lambda x : x.mvaFall17V2Iso_WP80==1 and x.pt>30, electron))
         goodEvent = (len(tightMu)>0 or len(tightEle)>0) or goodTops
         
         return goodEvent
