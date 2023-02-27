@@ -47,6 +47,24 @@ To more samples you can edit "submit_crab_all.sh" and run it directly:
 
     source submit_crab_all.sh
 
+Other useful options:
+
+--status, to check the status of yout jobs:
+    
+    python submit_crab.py -d <dataset.label> --status
+
+-r, to resubmit your failed jobs:
+
+    python submit_crab.py -d <dataset.label> -r
+    
+-g, to get the .txt file with the list of the output(s) location(s)
+
+    python submit_crab.py -d <dataset.label> -g
+
+The .txt can be found here:
+
+CMSSW_10_6_27/src/PhysicsTools/NanoAODTools/crab/macros/files/<dataset.label>.txt
+    
 
 
 
