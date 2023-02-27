@@ -29,6 +29,25 @@ Please never commit neither the build directory, nor the empty init.py files cre
 
 ## General instructions to run on CRAB
 
+Crab modules for the PostProcessor are already setted.
+
+To submit jobs on crab you need to run the "submit_crab.py" scrip:
+    
+    python submit_crab.py -d <dataset.label> -s
+
+for example
+    
+     python submit_crab.py -d TT_dilep_2016postVFP --status
+     
+The dataset.label could be found here:
+
+CMSSW_10_6_27/src/PhysicsTools/NanoAODTools/python/postprocessing/samples/samples.py
+
+To more samples you can edit "submit_crab_all.sh" and run it directly:
+
+    source submit_crab_all.sh
+
+
 
 
 
