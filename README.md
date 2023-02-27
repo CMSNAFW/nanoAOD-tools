@@ -37,7 +37,7 @@ To submit jobs on crab you need to run the "submit_crab.py" scrip:
 
 for example
     
-     python submit_crab.py -d TT_dilep_2016postVFP --status
+     python submit_crab.py -d TT_dilep_2016postVFP -s
      
 The dataset.label could be found here:
 
