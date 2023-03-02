@@ -88,7 +88,7 @@ def crab_script_writer(sample, outpath, isMC, modules, presel):
         if "preVFP" in sample.label:
             year_tag = "\""+year+"preVFP\""
         else:
-            year_tag = "\""+year+"preVFP\""
+            year_tag = "\""+year+"postVFP\""
     else:
         year_tag = year
 
@@ -171,7 +171,7 @@ for sample in samples:
             if "preVFP" in sample.label:
                 year_tag = year+"preVFP"
             else:
-                year_tag = year+"preVFP"
+                year_tag = year+"postVFP"
         else:
             year_tag = year
         Tightlep_mod = 'TightlepSF_'+year_tag+'()'
