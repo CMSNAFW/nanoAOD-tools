@@ -22,7 +22,7 @@ Please never commit neither the build directory, nor the empty init.py files cre
 
     cmsrel CMSSW_10_6_27
     cd CMSSW_10_6_27/src
-    git clone -b Tprime https://github.com/cms-nanoAOD/nanoAOD-tools.git PhysicsTools/NanoAODTools
+    git clone -b Tprime https://github.com/CMSNAFW/nanoAOD-tools.git PhysicsTools/NanoAODTools
     cd PhysicsTools/NanoAODTools
     cmsenv
     scram b -j 10
