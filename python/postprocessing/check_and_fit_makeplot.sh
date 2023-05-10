@@ -20,8 +20,8 @@
 #python makeplot.py  -f UL_v8 -S "all"  -C " Top_TvsQCD_nominal>0.6 && (N_muLoose_nominal+N_elLoose_nominal)==0 && AK8_region_nominal==2  && top_region_nominal==1 && Fwd4_region_nominal==1" -s -y "2018" -p
 #python makeplot.py  -f UL_v8 -S "all"  -C " Top_TvsQCD_nominal>0.6 && (N_muLoose_nominal+N_elLoose_nominal)==0 && AK8_region_nominal==2  && top_region_nominal==0 && Fwd4_region_nominal==1" -s -y "2018" -p
 
-python makeplot.py  -f UL_v10 -S "all"  -C " Top_TvsQCD_nominal>0.6 && (N_muLoose_nominal+N_elLoose_nominal)==0 && AK8_region_nominal==2  && top_region_nominal==1 && Fwd4_region_nominal==1 && FatJet_M_nominal>=100 && FatJet_M_nominal<=140" -s -y "2018" -p
-python makeplot.py  -f UL_v10 -S "all"  -C " Top_TvsQCD_nominal>0.6 && (N_muLoose_nominal+N_elLoose_nominal)==0 && AK8_region_nominal==2  && top_region_nominal==0 && Fwd4_region_nominal==1 && FatJet_M_nominal>=100 && FatJet_M_nominal<=140" -s -y "2018" -p
+#python makeplot.py  -f UL_v10 -S "all"  -C " Top_TvsQCD_nominal>0.6 && (N_muLoose_nominal+N_elLoose_nominal)==0 && AK8_region_nominal==2  && top_region_nominal==1 && Fwd4_region_nominal==1 && FatJet_M_nominal>=100 && FatJet_M_nominal<=140" -s -y "2018" -p
+#python makeplot.py  -f UL_v10 -S "all"  -C " Top_TvsQCD_nominal>0.6 && (N_muLoose_nominal+N_elLoose_nominal)==0 && AK8_region_nominal==2  && top_region_nominal==0 && Fwd4_region_nominal==1 && FatJet_M_nominal>=100 && FatJet_M_nominal<=140" -s -y "2018" -p
 
 
 
@@ -29,6 +29,17 @@ python makeplot.py  -f UL_v10 -S "all"  -C " Top_TvsQCD_nominal>0.6 && (N_muLoos
 #python makeplot.py  -f UL_v7 -S "noSyst"  -C " (N_muLoose_nominal+N_elLoose_nominal)==0 && AK8_region_nominal==0  && (TightMu_pt_nominal!=0 || TightEl_pt_nominal!=0) " -s -y "2018" -p
 #python makeplot.py  -f UL_v7 -S "noSyst"  -C " (N_muLoose_nominal+N_elLoose_nominal)==0 " -s -y "2018" -p
 #python makeplot.py  -f UL_v7 -S "all"  -C " (N_muLoose_nominal+N_elLoose_nominal)==0 && top_region_nominal==-1 && AK8_region_nominal==0" -s -y "2018" -p --fit
+
+#python makeplot.py  -f UL_v13 -S "noSyst"  -C " Top_TvsQCD_nominal>0.6 && (N_muLoose_nominal+N_elLoose_nominal)==0 && AK8_region_nominal==1  && top_region_nominal==1" -s -p -y "2018"
+#python makeplot.py  -f UL_v13 -S "noSyst"  -C " Top_TvsQCD_nominal>0.6 && (N_muLoose_nominal+N_elLoose_nominal)==0 && AK8_region_nominal==1  && top_region_nominal==0" -s -p  -y "2018"
+#python makeplot.py  -f UL_v13 -S "noSyst"  -C " Top_TvsQCD_nominal>0.6 && (N_muLoose_nominal+N_elLoose_nominal)==0 && AK8_region_nominal==1  && top_region_nominal==1" -s -p -y "2017" #"2018"
+#python makeplot.py  -f UL_v13 -S "noSyst"  -C " Top_TvsQCD_nominal>0.6 && (N_muLoose_nominal+N_elLoose_nominal)==0 && AK8_region_nominal==1  && top_region_nominal==0" -s -p  -y "2017" #"2018"
+
+python makeplot.py  -f UL_v13 -S "noSyst"  -C " Top_TvsQCD_nominal>0.6 && (N_muLoose_nominal+N_elLoose_nominal)==0 && AK8_region_nominal==0  && top_region_nominal==1" -s -p -y "2018"
+python makeplot.py  -f UL_v13 -S "noSyst"  -C " Top_TvsQCD_nominal>0.6 && (N_muLoose_nominal+N_elLoose_nominal)==0 && AK8_region_nominal==0  && top_region_nominal==0" -s -p  -y "2018"
+python makeplot.py  -f UL_v13 -S "noSyst"  -C " Top_TvsQCD_nominal>0.6 && (N_muLoose_nominal+N_elLoose_nominal)==0 && AK8_region_nominal==0  && top_region_nominal==1" -s -p -y "2017" #"2018"
+python makeplot.py  -f UL_v13 -S "noSyst"  -C " Top_TvsQCD_nominal>0.6 && (N_muLoose_nominal+N_elLoose_nominal)==0 && AK8_region_nominal==0  && top_region_nominal==0" -s -p  -y "2017" #"2018"
+
 
 #fit
 #python makeplot.py  -f UL_v7 -S "all"  -C "(N_muLoose_nominal+N_elLoose_nominal)==0 &&  AK8_region_nominal==2 && top_region_nominal==-1 " -p --fit -s

@@ -65,6 +65,19 @@ def mergetree(sample):
           print add
           os.system(str(add))
 
+def merge2016(sample):
+     label = sample.label.replace("postVFP","")
+     if not os.path.exists(filerepo + label):
+          os.makedirs(filerepo + label)
+     if hasattr(sample, 'components'): # How to check whether this exists or not
+          add = "hadd -f " + filerepo + label + "/"  + label + ".root"
+          for comp in sample.components:
+               add += " " + filerepo + comp.label + "/"  + comp.label + ".root"
+               add += " " + filerepo + comp.label.replace("post","pre") + "/"  + comp.label.replace("post","pre") + ".root"
+          print add
+          os.system(str(add))
+
+
 def lumi_writer(dataset, lumi):
      samples = []
      if hasattr(dataset, 'components'): # How to check whether this exists or not
@@ -200,6 +213,8 @@ def cutToTag(cut):
      if"Top_isMerg_nominal==0" in cut:newstring=newstring+"_Res"
      if "Top_pt_nominal>=500" in cut: newstring=newstring+"_HighPt"
      if"Top_pt_nominal<500" in cut: newstring=newstring+"_LowPt"
+     if"Top_M_nominal==0" in cut: newstring=newstring+"_noTop"
+     if"Top_M_nominal>=80" in cut: newstring=newstring+"_TopM"
      #newstring = cut.replace("-", "neg").replace(">=","_GE_").replace(">","_G_").replace(" ","").replace("&&","_AND_").replace("||","_OR_").replace("<=","_LE_").replace("<","_L_").replace(".","p").replace("(","").replace(")","").replace("==","_EQ_").replace("!=","_NEQ_").replace("=","_EQ_").replace("*","_AND_").replace("+","_OR_")
      return newstring
 
@@ -234,7 +249,9 @@ def plot(lep, reg, variable, sample, cut_tag, syst):
           h1 = ROOT.TH1F(histoname, variable._name , variable._nbins, variable._xmin, variable._xmax)
      h1.Sumw2()
      cut= variable._taglio #change
-     cut = cut+"*(HLT_Muon_nominal!=0 || HLT_Electron_nominal!=0 || HLT_Photon_nominal!=0 || HLT_PFJet_nominal!=0)"
+     cut = cut+"*(HLT_Muon_nominal!=0 || HLT_Electron_nominal!=0 || HLT_Photon_nominal!=0 || HLT_PFJet_nominal!=0)*((N_muLoose_nominal[0]+N_elLoose_nominal[0])==0 && (Top_TvsQCD_nominal[0]>0.6 || top_region_nominal<0) && FatJet_pt_nominal[0]>400 && (top_region_nominal[0]<0 || Lep_pt_nominal[0]>30))"
+     #print("Check trigSF")
+     #if not "Data" in sample.label: cut = cut+"*trigSF*lepSF"     
      if 'muon' in lep: 
           # change cut = variable._taglio + '*isMu'
           lep_flav=13
@@ -253,14 +270,19 @@ def plot(lep, reg, variable, sample, cut_tag, syst):
                foutput = plotrepo + "plot/" + lep + "/" + sample.label + "_" + lep + ".root"
           else:
                foutput = plotrepo + "plot/" + lep + "/" + sample.label + "_" + lep + "_" + syst + ".root"
-               cut += '*'+syst
+               if syst.endswith("Up"): normSF = syst.split("Up")[0]
+               else:  normSF = syst.split("Down")[0]
+               cut += '*'+syst+"/"+normSF+"SF"
      #print treename
      if not ("top_region_nominal==-1" in cut):
-          f1.Get(treename).Project(histoname,variable._name,cut+"*(abs(Top_flavour_nominal)=="+str(lep_flav)+")")
+          if "muon" in lep:
+               f1.Get(treename).Project(histoname,variable._name,cut+"*(abs(Top_flavour_nominal)=="+str(lep_flav)+" && Lep_pt_nominal>30)")
+          else:
+               f1.Get(treename).Project(histoname,variable._name,cut+"*(abs(Top_flavour_nominal)=="+str(lep_flav)+" && Lep_pt_nominal>35)")
      elif 'muon' in lep:
-          f1.Get(treename).Project(histoname,variable._name,cut+"*(TightEl_pt_nominal==0)")
+          f1.Get(treename).Project(histoname,variable._name,cut+"*(TightEl_pt_nominal==0 && TightMu_pt_nominal>30)")
      else:
-          f1.Get(treename).Project(histoname,variable._name,cut+"*(TightMu_pt_nominal==0)")
+          f1.Get(treename).Project(histoname,variable._name,cut+"*(TightMu_pt_nominal==0 && TightEl_pt_nominal>35)")
      #if not 'Data' in sample.label:
      #     h1.Scale((7.5)/35.89)
      h1.SetBinContent(1, h1.GetBinContent(0) + h1.GetBinContent(1))
@@ -345,7 +367,8 @@ def makestack(lep_, reg_, variabile_, samples_, cut_tag_, syst_, lumi):
                infile[s.label] = ROOT.TFile.Open(plotrepo + "plot/" + lep + "/" + s.label + "_" + lep + ".root")
           else:
                outfile = plotrepo + "stack_"+syst_+"_"+str(lep_).strip('[]')+".root"
-               infile[s.label] = ROOT.TFile.Open(plotrepo + "plot/" + lep + "/" + s.label + "_" + lep + "_" + syst_ + ".root")
+               if not "Data" in s.label:infile[s.label] = ROOT.TFile.Open(plotrepo + "plot/" + lep + "/" + s.label + "_" + lep + "_" + syst_ + ".root")
+               else:infile[s.label] = ROOT.TFile.Open(plotrepo + "plot/" + lep + "/" + s.label + "_" + lep + ".root")
      i = 0
 
      if variabile_._name == "Tprime_M_nominal": f.write(cut_tag_+"\n")
@@ -512,7 +535,7 @@ def makestack(lep_, reg_, variabile_, samples_, cut_tag_, syst_, lumi):
      pad2.Draw()
      pad2.cd()
      ratio = hdata.Clone("ratio")
-     print("Data MC Discrepancy: "+str((ratio.Integral()-hratio.Integral())/ratio.Integral()))
+     if ratio.Integral()!=0: print("Data MC Discrepancy: "+str((ratio.Integral()-hratio.Integral())/ratio.Integral()))
      ratio.SetLineColor(ROOT.kBlack)
      ratio.SetMaximum(1.2)
      ratio.SetMinimum(0.8)
@@ -557,7 +580,7 @@ def makestack(lep_, reg_, variabile_, samples_, cut_tag_, syst_, lumi):
      ratio.GetYaxis().SetLabelSize(0.15)
      ratio.GetXaxis().SetTitleSize(0.16)
      ratio.GetYaxis().SetTitleSize(0.16)
-     ratio.GetYaxis().SetRangeUser(0,2)
+     ratio.GetYaxis().SetRangeUser(0.75,1.25)
      ratio.GetXaxis().SetTitle(variabile_._title)
      ratio.GetXaxis().SetLabelOffset(0.04)
      ratio.GetYaxis().SetLabelOffset(0.02)
@@ -569,8 +592,12 @@ def makestack(lep_, reg_, variabile_, samples_, cut_tag_, syst_, lumi):
      c1.RedrawAxis()
      pad2.RedrawAxis()
      c1.Update()
-     c1.Print(plotrepo + "stack/"+canvasname+".png")
-     c1.Print(plotrepo + "stack/"+canvasname+".pdf")
+     if syst_=="":
+          c1.Print(plotrepo + "stack/"+canvasname+".png")
+          c1.Print(plotrepo + "stack/"+canvasname+".pdf")
+     else:
+          c1.Print(plotrepo + "stack/"+canvasname+"_"+syst_+".png")                                                                                                                              
+          c1.Print(plotrepo + "stack/"+canvasname+"_"+syst_+".pdf")
      del histo
      tmp.Delete()
      h.Delete()
@@ -619,7 +646,10 @@ def fitplot(lep,variable, year,cut, syst):
      if"Top_isMerg_nominal==0" in cut: histoname=histoname+"_Res"
      if"Top_pt_nominal>=500" in cut: histoname=histoname+"_HighPt"
      if"Top_pt_nominal<500" in cut: histoname=histoname+"_LowPt"
+     if"Top_M_nominal==0" in cut: histoname=histoname+"_noTop"
+     if"Top_M_nominal>=80" in cut: histoname=histoname+"_TopM"
 
+     
      if variable._nbins == None:
           nbins = len(variable._xarray)-1
           h1 = ROOT.TH1F(histoname, variable._name , nbins, variable._xarray)
@@ -636,12 +666,14 @@ def fitplot(lep,variable, year,cut, syst):
      if "FatJet_MC_nominal==201)" in cut: string_name="_FatJet1b2q"
      if "FatJet_MC_nominal==200)" in cut: string_name="_FatJet2q"
      if "Top_MC_nominal==1" in cut: string_name="_TopTrue"
+     if "Top_MC_nominal!=1" in cut: string_name="_TopFake"
      if "Top_MC_nominal==0" in cut: string_name="_Top0prompt"
      if "Top_MC_nominal>1" in cut: string_name="_Top1prompt"     
      if "FatJet_MC_nominal!=" in cut: string_name="_FatJetOth"
      if 'muon' in lep: lep_flav=13
      elif 'electron' in lep:  lep_flav=11
      foutput = plotrepo + "plot/" + lep + "/" + sample.label[:-9] + string_name+"_"+year+"_"+lep+".root"
+     cut = cut+"*(HLT_Muon_nominal!=0 || HLT_Electron_nominal!=0 || HLT_Photon_nominal!=0 || HLT_PFJet_nominal!=0)*((N_muLoose_nominal[0]+N_elLoose_nominal[0])==0 && (Top_TvsQCD_nominal[0]>0.6 || top_region_nominal<0) && FatJet_pt_nominal[0]>400 && (top_region_nominal[0]<0 || Lep_pt_nominal[0]>30))"
      if not 'Data' in sample.label:
           if(syst.startswith("jer") or syst.startswith("jes")):
                treename = "events_"+syst
@@ -650,8 +682,19 @@ def fitplot(lep,variable, year,cut, syst):
                foutput = plotrepo + "plot/" + lep + "/" + sample.label[:-9] + string_name+"_"+year+ "_" + lep + ".root"
           else:
                foutput = plotrepo + "plot/" + lep + "/" +  sample.label[:-9] + string_name+"_"+year+"_" + lep + "_" + syst + ".root"
-               cut += '*'+syst
-     f1.Get(treename).Project(histoname,variable._name,cut+"*(abs(Top_flavour_nominal)=="+str(lep_flav)+")")
+               if syst.endswith("Up"): normSF = syst.split("Up")[0]
+               else:  normSF = syst.split("Down")[0]
+               cut += '*'+syst+"/"+normSF+"SF"
+     #f1.Get(treename).Project(histoname,variable._name,cut+"*(abs(Top_flavour_nominal)=="+str(lep_flav)+")")
+     if not ("top_region_nominal==-1" in cut):
+          if "muon" in lep:
+               f1.Get(treename).Project(histoname,variable._name,cut+"*(abs(Top_flavour_nominal)=="+str(lep_flav)+" && Lep_pt_nominal>30)")
+          else:
+               f1.Get(treename).Project(histoname,variable._name,cut+"*(abs(Top_flavour_nominal)=="+str(lep_flav)+" && Lep_pt_nominal>35)")
+     elif 'muon' in lep:
+          f1.Get(treename).Project(histoname,variable._name,cut+"*(TightEl_pt_nominal==0 && TightMu_pt_nominal>30)")
+     else:
+          f1.Get(treename).Project(histoname,variable._name,cut+"*(TightMu_pt_nominal==0 && TightEl_pt_nominal>35)")
      h1.SetBinContent(1, h1.GetBinContent(0) + h1.GetBinContent(1))
      h1.SetBinError(1, math.sqrt(pow(h1.GetBinError(0),2) + pow(h1.GetBinError(1),2)))
      h1.SetBinContent(nbins, h1.GetBinContent(nbins) + h1.GetBinContent(nbins+1))
@@ -669,7 +712,8 @@ def fitplot(lep,variable, year,cut, syst):
 
 
 
-dataset_dict = {'2016':[],'2017':[],'2018':[],'2018_nodata':[]}
+#dataset_dict = {'2016':[],'2017':[],'2018':[],'2018_nodata':[]}
+dataset_dict = {'2016':[],'2016preVFP':[],'2016postVFP':[],'2017':[],'2018':[],'2018_nodata':[]} #Cambio 2016
 if(opt.dat!= 'all'):
      if not(opt.dat in sample_dict.keys()):
           print sample_dict.keys()
@@ -680,14 +724,12 @@ if(opt.dat!= 'all'):
      [dataset_dict[str(sample.year)].append(sample) for sample in samples]
 else:
      dataset_dict = {
-          #'2016':[DataMu_2016, DataEle_2016, DataHT_2016, ST_2016, QCD_2016, TT_Mtt_2016, WJets_2016, WP_M2000W20_RH_2016, WP_M3000W30_RH_2016, WP_M4000W40_RH_2016, WP_M5000W50_RH_2016, WP_M6000W60_RH_2016],
-          #'2016':[DataHTG_2016, DataMuG_2016, ST_2016, QCD_2016, TT_Mtt_2016, WJets_2016, WP_M2000W20_RH_2016, WP_M3000W30_RH_2016, WP_M4000W40_RH_2016, WP_M4000W400_RH_2016],
-          #'2017':[DataMu_2017, DataEle_2017, DataHT_2017, ST_2017, QCD_2017, TT_Mtt_2017, WJets_2017, WP_M2000W20_RH_2017, WP_M3000W30_RH_2017, WP_M4000W40_RH_2017, WP_M4000W400_RH_2017],
-          #'2017':[DataMu_2017, DataEle_2017, DataPh_2017, DataHT_2017, ST_2017, QCD_2017, TT_Mtt_2017, WJets_2017, WP_M2000W20_RH_2017, WP_M3000W30_RH_2017, WP_M4000W40_RH_2017, WP_M5000W50_RH_2017, WP_M6000W60_RH_2017],
-          #'2018':[DataMu_2018, DataEle_2018, DataHT_2018, ST_2018, QCD_2018, TT_Mtt_2018, WJets_2018, WP_M2000W20_RH_2018, WP_M3000W30_RH_2018, WP_M4000W40_RH_2018, WP_M5000W50_RH_2018, WP_M6000W60_RH_2018],
-          '2016':[ST_2016,WJets_2016, QCD_2016, TT_Mtt_2016, Tprime_tHq_600LH_2016,Tprime_tHq_700LH_2016,Tprime_tHq_800LH_2016,Tprime_tHq_900LH_2016,Tprime_tHq_1000LH_2016,Tprime_tHq_1100LH_2016,Tprime_tHq_1200LH_2016,Tprime_tHq_1300LH_2016,Tprime_tHq_1400LH_2016,Tprime_tHq_1600LH_2016,Tprime_tHq_1700LH_2016,Tprime_tHq_1800LH_2016],
-          '2017':[ST_2017,WJets_2017, QCD_2017, TT_Mtt_2017, Tprime_tHq_600LH_2017,Tprime_tHq_700LH_2017,Tprime_tHq_800LH_2017,Tprime_tHq_900LH_2017,Tprime_tHq_1000LH_2017,Tprime_tHq_1100LH_2017,Tprime_tHq_1200LH_2017,Tprime_tHq_1300LH_2017,Tprime_tHq_1400LH_2017,Tprime_tHq_1600LH_2017,Tprime_tHq_1700LH_2017,Tprime_tHq_1800LH_2017],
-          '2018': [ST_2018,WJets_2018, QCD_2018, Tprime_tHq_600LH_2018,Tprime_tHq_700LH_2018,Tprime_tHq_800LH_2018,Tprime_tHq_900LH_2018,Tprime_tHq_1000LH_2018,Tprime_tHq_1100LH_2018,Tprime_tHq_1200LH_2018,Tprime_tHq_1300LH_2018,Tprime_tHq_1400LH_2018,Tprime_tHq_1600LH_2018,Tprime_tHq_1700LH_2018,Tprime_tHq_1800LH_2018,DataMu_2018,Tprime_tHq_1500LH_2018, DataEle_2018, DataHT_2018, TT_Mtt_2018],
+          '2016preVFP':[ST_2016preVFP,WJets_2016preVFP, QCD_2016preVFP, TT_Mtt_2016preVFP,DataMu_2016preVFP,DataEle_2016preVFP,DataPh_2016preVFP,DataHT_2016preVFP,Tprime_tHq_1800LH_2016preVFP],
+          '2016postVFP':[ST_2016postVFP,WJets_2016postVFP, QCD_2016postVFP, TT_Mtt_2016postVFP,DataMu_2016postVFP,DataEle_2016postVFP,DataPh_2016postVFP,DataHT_2016postVFP,Tprime_tHq_1800LH_2016postVFP],
+          '2016':[],#[ST_2016,WJets_2016, QCD_2016, TT_Mtt_2016, DataMu_2016,DataEle_2016,DataPh_2016,DataHT_2016,Tprime_tHq_1800LH_2016],# Tprime_tHq_600LH_2016,Tprime_tHq_700LH_2016,Tprime_tHq_800LH_2016,Tprime_tHq_900LH_2016,Tprime_tHq_1000LH_2016,Tprime_tHq_1100LH_2016,Tprime_tHq_1200LH_2016,Tprime_tHq_1300LH_2016,Tprime_tHq_1400LH_2016,Tprime_tHq_1600LH_2016,Tprime_tHq_1700LH_2016],
+          #'2017':[ST_2017,WJets_2017, QCD_2017, TT_Mtt_2017, Tprime_tHq_600LH_2017,Tprime_tHq_700LH_2017,Tprime_tHq_800LH_2017,Tprime_tHq_900LH_2017,Tprime_tHq_1000LH_2017,Tprime_tHq_1100LH_2017,Tprime_tHq_1200LH_2017,Tprime_tHq_1300LH_2017,Tprime_tHq_1400LH_2017,Tprime_tHq_1600LH_2017,Tprime_tHq_1700LH_2017,Tprime_tHq_1800LH_2017],
+          '2017': [ST_2017,WJets_2017, QCD_2017,TT_Mtt_2017,DataHT_2017,DataMu_2017,DataEle_2017,DataPh_2017],#Tprime_tHq_1800LH_2017,Tprime_tHq_600LH_2017,Tprime_tHq_1200LH_2017],
+          '2018': [ST_2018,WJets_2018, QCD_2018,TT_Mtt_2018,DataHT_2018,DataMu_2018,DataEle_2018,Tprime_tHq_1800LH_2018],#Tprime_tHq_600LH_2018,Tprime_tHq_1200LH_2018],#Tprime_tHq_600LH_2018,Tprime_tHq_700LH_2018,Tprime_tHq_800LH_2018,Tprime_tHq_900LH_2018,Tprime_tHq_1000LH_2018,Tprime_tHq_1100LH_2018,Tprime_tHq_1200LH_2018,Tprime_tHq_1300LH_2018,Tprime_tHq_1400LH_2018,Tprime_tHq_1600LH_2018,Tprime_tHq_1700LH_2018,Tprime_tHq_1800LH_2018,DataMu_2018,Tprime_tHq_1500LH_2018, DataEle_2018, DataHT_2018, TT_Mtt_2018],
           #'2018':[ST_2018,WJets_2018, QCD_2018, Tprime_tHq_600LH_2018,Tprime_tHq_700LH_2018,Tprime_tHq_800LH_2018,Tprime_tHq_900LH_2018,Tprime_tHq_1000LH_2018,Tprime_tHq_1100LH_2018,Tprime_tHq_1200LH_2018,Tprime_tHq_1300LH_2018,Tprime_tHq_1400LH_2018,Tprime_tHq_1600LH_2018,Tprime_tHq_1700LH_2018,Tprime_tHq_1800LH_2018,Tprime_tHq_1500LH_2018, TT_Mtt_2018]
           '2018_nodata': [ST_2018,WJets_2018, QCD_2018, Tprime_tHq_600LH_2018,Tprime_tHq_700LH_2018,Tprime_tHq_800LH_2018,Tprime_tHq_900LH_2018,Tprime_tHq_1000LH_2018,Tprime_tHq_1100LH_2018,Tprime_tHq_1200LH_2018,Tprime_tHq_1300LH_2018,Tprime_tHq_1400LH_2018,Tprime_tHq_1600LH_2018,Tprime_tHq_1700LH_2018,Tprime_tHq_1800LH_2018,Tprime_tHq_1500LH_2018, #TT_Mtt_2018,
                           DataEle_2018, DataHT_2018]
@@ -732,8 +774,9 @@ else:
           cut_tag = cutToTag(opt.cut)
 """
 
-lumi = {'2016': 36.33, "2017": 41.48, "2018": 59.83,"2018_nodata":59.83}
-
+#lumi = {'2016': 36.33, "2017": 41.48, "2018": 59.83,"2018_nodata":59.83}
+#dataset_dict = {'2016preVFP':[],'2016postVFP':[],'2017':[],'2018':[],'2018_nodata':[]} #Cambio 2016
+lumi = {'2016preVFP':19.5,'2016postVFP':16.8, "2017": 41.48, "2018": 59.83,"2018_nodata":59.83}#Cambio 2016
 #
 systematics = []
 if opt.syst!="all" and opt.syst!="noSyst":
@@ -742,7 +785,7 @@ if opt.syst!="all" and opt.syst!="noSyst":
 elif opt.syst!="all" and opt.syst=="noSyst":
     systematics.append("") #di default per syst="" alla variabile si applica il peso standard incluso nella macro macro_plot.C
 else:
-     systematics = ["", "jesUp",  "jesDown",  "jerUp",  "jerDown", "PFUp", "PFDown", "puUp", "puDown","BDTUp","BDTDown","ParNetUp","ParNetDown"]#, "btagUp", "btagDown", "mistagUp", "mistagDown", "lepUp", "lepDown", "trigUp", "trigDown", "pdf_totalUp", "pdf_totalDown", "q2Up", "q2Down"]
+     systematics = ["", "jesUp",  "jesDown",  "jerUp",  "jerDown", "PFUp", "PFDown", "puUp", "puDown","lepUp", "lepDown", "trigUp", "trigDown","BDTUp","BDTDown"]#,"ParNetUp","ParNetDown"]#, "btagUp", "btagDown", "mistagUp", "mistagDown", "lepUp", "lepDown", "trigUp", "trigDown", "pdf_totalUp", "pdf_totalDown", "q2Up", "q2Down"]
 
 for year in years:
      for sample in dataset_dict[year]:
@@ -757,13 +800,16 @@ for year in years:
      for lep in leptons:
           dataset_new = dataset_dict[year]
           variables = []
-          wzero = 'w_nominal*PFSF*puSF*w_pt*ParNetSF*BDTSF'               
-          print("No BDT and PN SF!!! Check")
+          wzero = 'w_nominal*PFSF*puSF*w_pt*lepSF*trigSF*BDTSF'#*ParNetSF'               
+          if year =="2017": 
+               wzero=wzero+"*(FatJet_pt_nominal[0]>500)"
+               print(wzero)
+          #print("No BDT and PN SF!!! Check")
           cut = cut_dict[lep]
           cut_tag_coll=[]
           #dR_jet_AK8_nominal
           #variables.append(variabile("dR_jet_AK8_nominal",'dR(jet,AK8)',wzero+'*('+cut+')',  40, 0, 3))
-          #variables.append(variabile('N_jet_nominal','N jet',wzero+'*('+cut+')',  20,0,20))
+          #variables.append(variabile('N_jet_nominal','N jet',wzero+'*('+cut+')',  30,0,30))
           #variables.append(variabile("deltaR(Jet_eta_nominal[0],Jet_phi_nominal[0],Lep_eta_nominal[0],Lep_phi_nominal[0])",'dR(jet,lep)',wzero+'*('+cut+')',  20, 0, 2))
           #variables.append(variabile("deltaR",'dR(jet,lep)',wzero+'*('+cut+')',  20, 0, 2))
           """
@@ -774,29 +820,27 @@ for year in years:
           variables.append(variabile('Lep_phi_nominal','Lep Phi',wzero+'*('+cut+')',  20, -3.14, 3.14))
           variables.append(variabile('Jet_phi_nominal','Jet Phi',wzero+'*('+cut+')',  20, -3.14, 3.14))
           """
-          #variables.append(variabile('MET_nominal','MET p_{T}',wzero+'*('+cut+')',  20, 25, 625))
+          ###variables.append(variabile('MET_nominal','MET p_{T}',wzero+'*('+cut+')',  20, 25, 625))
           
           #variables.append(variabile("sqrt((Jet_eta_nominal[0]-Lep_eta_nominal[0])**2+(Jet_phi_nominal[0]-Lep_phi_nominal[0])**2)",'dR(jet,lep)',wzero+'*('+cut+')',  20, 0, 2)) 
-          variables.append(variabile('Tprime_M_nominal','Best T\' M',wzero+'*('+cut+')',  28, 600, 2000))
-          """
-          variables.append(variabile('Top_pt_nominal','Best Top p_{T}',wzero+'*('+cut+')',  50, 50, 600))
-          variables.append(variabile('Top_TvsQCD_nominal','Best Top ScoreVsQCD',wzero+'*('+cut+')',  20, 0, 1))
-          """
+          ###variables.append(variabile('Tprime_M_nominal','Best T\' M',wzero+'*('+cut+')',  28, 600, 2000))
+          
+          #variables.append(variabile('Top_pt_nominal','Best Top p_{T}',wzero+'*('+cut+')',  50, 50, 600))
+          #variables.append(variabile('Top_TvsQCD_nominal','Best Top ScoreVsQCD',wzero+'*('+cut+')',  20, 0, 1))
+          
           #variables.append(variabile('Top_TvsOth_nominal','Best Top ScoreVsOth',wzero+'*('+cut+')',  20, 0, 1))
           
-          #variables.append(variabile('FatJet_M_nominal','FatJet M',wzero+'*('+cut+')',  30, 0, 300))
+          variables.append(variabile('FatJet_M_nominal','FatJet M',wzero+'*('+cut+')',  15, 0, 300))
           
-          #variables.append(variabile('FatJet_XbbVsQCD_nominal','FatJet XbbVsQCD',wzero+'*('+cut+')',  20, 0, 1))
+          ###variables.append(variabile('FatJet_XbbVsQCD_nominal','FatJet XbbVsQCD',wzero+'*('+cut+')',  20, 0, 1))
           #variables.append(variabile('FatJet_phi_nominal','FatJep Phi',wzero+'*('+cut+')',  20, -3.14, 3.14))                                                                                         
           #variables.append(variabile('FatJet_eta_nominal','FatJet Eta',wzero+'*('+cut+')',  20, -5, 5))
-          #variables.append(variabile('FatJet_pt_nominal','FatJet p_{T}',wzero+'*('+cut+')',  20, 25, 625))
-          #variables.append(variabile('Top_M_nominal','Best Top M',wzero+'*('+cut+')',  25, 50, 300))
-          
-          
+          ###variables.append(variabile('FatJet_pt_nominal','FatJet p_{T}',wzero+'*('+cut+')',  20, 400, 1000))
+          ###variables.append(variabile('Top_M_nominal','Best Top M',wzero+'*('+cut+')',  20, 80, 480))
           #variables.append(variabile('MET_nominal','MET p_{T}',wzero+'*('+cut+')',  20, 25, 625))
          
-          #variables.append(variabile('TightMu_pt_nominal','TightMu p_{T}',wzero+'*('+cut+')',  20, 25, 225))
-          #variables.append(variabile('TightEl_pt_nominal','TightEl p_{T}',wzero+'*('+cut+')',  20, 25, 225))
+          #variables.append(variabile('TightMu_pt_nominal','TightMu p_{T}',wzero+'*('+cut+')',  20, 35, 535))
+          #variables.append(variabile('TightEl_pt_nominal','TightEl p_{T}',wzero+'*('+cut+')',  20, 35, 535))
           """
           variables.append(variabile('TightMu_dxy_nominal','TightMu dxy',wzero+'*('+cut+')',  100, -2, 2))                                                                                      
           variables.append(variabile('TightMu_dxyerr_nominal','TightMu dxy err',wzero+'*('+cut+')',  50, 0, 2))                                                                                
@@ -815,25 +859,25 @@ for year in years:
           variables.append(variabile('TightEl_pt_nominal','TightEl p_{T}',wzero+'*('+cut+')',  20, 25, 925))                                                                                   
           variables.append(variabile('TightEl_Iso_nominal','TightEl Iso',wzero+'*('+cut+')',  50, 0, 2))                                                                                       
           variables.append(variabile('TightEl_MiniIso_nominal','TightEl MiniIso',wzero+'*('+cut+')',  50, 0, 2))
-          
-          variables.append(variabile('Jet_pt_nominal','Jet p_{T}',wzero+'*('+cut+')',  20, 25, 925))
-          variables.append(variabile('Jet_M_nominal','Jet M',wzero+'*('+cut+')',  20, 25, 925))
-          variables.append(variabile('Jet_btag_nominal','Jet b-tag',wzero+'*('+cut+')',  20, 0, 1))
-          variables.append(variabile('Lep_dxy_nominal','Lep dxy',wzero+'*('+cut+')',  100, -2, 2))
-          variables.append(variabile('Lep_dxyerr_nominal','Lep dxy err',wzero+'*('+cut+')',  50, 0, 2))
-          variables.append(variabile('Lep_dz_nominal','Lep dz',wzero+'*('+cut+')',  100, -2, 2))
-          variables.append(variabile('Lep_dzerr_nominal','Lep dz err',wzero+'*('+cut+')',  50, 0, 2))
-          variables.append(variabile('Lep_Id_nominal','Lep dxy',wzero+'*('+cut+')',  6, -0.5, 5.5))
-          variables.append(variabile('Lep_pt_nominal','Lep p_{T}',wzero+'*('+cut+')',  50, 25, 925))
-          #variables.append(variabile('Lep_pt_nominal/Jet_pt_nominal','Lep p_{T}/Jet p_{T}',wzero+'*('+cut+')',  20, 0, 1))
-          variables.append(variabile('Lep_Iso_nominal','Lep Iso',wzero+'*('+cut+')',  50, 0, 2))
-          variables.append(variabile('Lep_MiniIso_nominal','Lep MiniIso',wzero+'*('+cut+')',  50, 0, 2))
           """
+          ###variables.append(variabile('Jet_pt_nominal','Jet p_{T}',wzero+'*('+cut+')',  20, 25, 925))
+          #variables.append(variabile('Jet_M_nominal','Jet M',wzero+'*('+cut+')',  20, 25, 925))
+          ###variables.append(variabile('Jet_btag_nominal','Jet b-tag',wzero+'*('+cut+')',  20, 0, 1))
+          #variables.append(variabile('Lep_dxy_nominal','Lep dxy',wzero+'*('+cut+')',  100, -2, 2))
+          #variables.append(variabile('Lep_dxyerr_nominal','Lep dxy err',wzero+'*('+cut+')',  50, 0, 2))
+          #variables.append(variabile('Lep_dz_nominal','Lep dz',wzero+'*('+cut+')',  100, -2, 2))
+          #variables.append(variabile('Lep_dzerr_nominal','Lep dz err',wzero+'*('+cut+')',  50, 0, 2))
+          #variables.append(variabile('Lep_Id_nominal','Lep Id',wzero+'*('+cut+')',  6, -0.5, 5.5))
+          ###variables.append(variabile('Lep_pt_nominal','Lep p_{T}',wzero+'*('+cut+')',  30, 30, 630))
+          #variables.append(variabile('Lep_pt_nominal/Jet_pt_nominal','Lep p_{T}/Jet p_{T}',wzero+'*('+cut+')',  20, 0, 1))
+          #variables.append(variabile('Lep_Iso_nominal','Lep Iso',wzero+'*('+cut+')',  50, 0, 2))
+          #variables.append(variabile('Lep_MiniIso_nominal','Lep MiniIso',wzero+'*('+cut+')',  50, 0, 2))
+          
           #variables.append(variabile('HLT_Muon_nominal','HLT Muon',wzero+'*('+cut+')',  2, -0.5, 1.5))
           #variables.append(variabile('HLT_Electron_nominal','HLT Electron',wzero+'*('+cut+')*(HLT_Muon_nominal==0)',  2, -0.5, 1.5))
           #variables.append(variabile('HLT_Photon_nominal','HLT Photon',wzero+'*('+cut+')*(HLT_Muon_nominal==0 && HLT_Electron_nominal==0)',  2, -0.5, 1.5))
           #variables.append(variabile('HLT_PFJet_nominal','HLT PFJet',wzero+'*('+cut+')*(HLT_Muon_nominal==0 && HLT_Electron_nominal==0 && HLT_Photon_nominal==0)',  2, -0.5, 1.5))
-          
+          #variables.append(variabile('Lep_pt_nominal','Lep p_{T}',wzero+'*('+cut+')',  20, 35, 535))
           cut_tag_coll=[cut_tag]*len(variables)
           for sample in dataset_new:
 
@@ -844,22 +888,25 @@ for year in years:
                               if (("GenPart" in var._name) or ("MC_" in var._name)) and "Data" in sample.label:
                                    continue
                               plot(lep, 'jets', var, sample, cut_tag_coll[variables.index(var)], syst)
-          if(opt.stack):
-               for var in variables:
-                    os.system('set LD_PRELOAD=libtcmalloc.so')
-                    makestack(lep, 'jets', var, dataset_new, cut_tag, "", lumi[str(year)])
-                    os.system('set LD_PRELOAD=libtcmalloc.so')
-          if(opt.fit):
-               if "TT" in sample.label:
+               if(opt.fit) and ("TT" in sample.label):
+                    #if "TT" in sample.label:
                     variables_fit = []
+                    print(systematics)
+                    #variables_fit.append(variabile('Jet_btag_nominal','Jet b-tag Top True',wzero+'*('+cut+')*(Top_MC_nominal==1)',  20, 0, 1))
+                    #variables_fit.append(variabile('Jet_btag_nominal','Jet b-tag Top False',wzero+'*('+cut+')*(Top_MC_nominal!=1)',  20, 0, 1))
+
+                    #variables.append(variabile('MET_nominal','MET p_{T}',wzero+'*('+cut+')',  20, 25, 625))
+                    #variables_fit.append(variabile('MET_nominal','MET Top True',wzero+'*('+cut+')*(Top_MC_nominal==1)',  20, 25, 625))
+                    #variables_fit.append(variabile('MET_nominal','MET Top False',wzero+'*('+cut+')*(Top_MC_nominal!=1)',  20, 25, 625))
+
                     
-                    variables_fit.append(variabile('FatJet_M_nominal','FatJet M Low Mass',wzero+'*('+cut+' && FatJet_M_nominal<=20)',  30, 0, 300))                             
-                    variables_fit.append(variabile('FatJet_M_nominal','FatJet M 1b',wzero+'*('+cut+' && FatJet_M_nominal>20 && FatJet_MC_nominal==1)',  30, 0, 300))                                 
-                    variables_fit.append(variabile('FatJet_M_nominal','FatJet M 1b+1l',wzero+'*('+cut+'&& FatJet_M_nominal>20 && FatJet_MC_nominal==11)',  30, 0, 300))                              
-                    variables_fit.append(variabile('FatJet_M_nominal','FatJet M 1b+1q',wzero+'*('+cut+'&& FatJet_M_nominal>20 && FatJet_MC_nominal==101)',  30, 0, 300))                             
-                    variables_fit.append(variabile('FatJet_M_nominal','FatJet M 1b+2q',wzero+'*('+cut+'&& FatJet_M_nominal>20 && FatJet_MC_nominal==201)',  30, 0, 300))                             
-                    variables_fit.append(variabile('FatJet_M_nominal','FatJet M 2q',wzero+'*('+cut+'&& FatJet_M_nominal>20 && FatJet_MC_nominal==200)',  30, 0, 300))
-                    variables_fit.append(variabile('FatJet_M_nominal','FatJet M Oth',wzero+'*('+cut+'&& FatJet_M_nominal>20 && FatJet_MC_nominal!=200 && FatJet_MC_nominal!=1 && FatJet_MC_nominal!=11 && FatJet_MC_nominal!=101 && FatJet_MC_nominal!=201)',  30, 0, 300))
+                    variables_fit.append(variabile('FatJet_M_nominal','FatJet M Low Mass',wzero+'*('+cut+' && FatJet_M_nominal<=20)',  15, 0, 300))                             
+                    variables_fit.append(variabile('FatJet_M_nominal','FatJet M 1b',wzero+'*('+cut+' && FatJet_M_nominal>20 && FatJet_MC_nominal==1)',  15, 0, 300))                                 
+                    variables_fit.append(variabile('FatJet_M_nominal','FatJet M 1b+1l',wzero+'*('+cut+'&& FatJet_M_nominal>20 && FatJet_MC_nominal==11)',  15, 0, 300))                              
+                    variables_fit.append(variabile('FatJet_M_nominal','FatJet M 1b+1q',wzero+'*('+cut+'&& FatJet_M_nominal>20 && FatJet_MC_nominal==101)',  15, 0, 300))                             
+                    variables_fit.append(variabile('FatJet_M_nominal','FatJet M 1b+2q',wzero+'*('+cut+'&& FatJet_M_nominal>20 && FatJet_MC_nominal==201)',  15, 0, 300))                             
+                    variables_fit.append(variabile('FatJet_M_nominal','FatJet M 2q',wzero+'*('+cut+'&& FatJet_M_nominal>20 && FatJet_MC_nominal==200)',  15, 0, 300))
+                    variables_fit.append(variabile('FatJet_M_nominal','FatJet M Oth',wzero+'*('+cut+'&& FatJet_M_nominal>20 && FatJet_MC_nominal!=200 && FatJet_MC_nominal!=1 && FatJet_MC_nominal!=11 && FatJet_MC_nominal!=101 && FatJet_MC_nominal!=201)',  15, 0, 300))
                     """
                     variables_fit.append(variabile('MET_nominal','Met Low Mass',wzero+'*('+cut+' && FatJet_M_nominal<=20)',  30, 0, 300))
                     variables_fit.append(variabile('MET_nominal','Met 1b',wzero+'*('+cut+' && FatJet_M_nominal>20 && FatJet_MC_nominal==1)',  30, 0, 300))
@@ -895,6 +942,14 @@ for year in years:
                     #variables_fit.append(variabile('Top_M_nominal','Best Top M 1prompt',wzero+'*('+cut+'&& Top_MC_nominal>1)',  25, 50, 300))
                     #variables_fit.append(variabile('MET_nominal','MET p_{T} 1prompt',wzero+'*('+cut+'&& Top_MC_nominal>1)',  20, 25, 625))
 
+                    #for syst in systematics:
                     for syst in systematics:
                          for var in variables_fit:
                               fitplot(lep, var,year, cut, syst)
+
+          if(opt.stack):
+               for var in variables:
+                    os.system('set LD_PRELOAD=libtcmalloc.so')
+                    for syst in [""]: makestack(lep, 'jets', var, dataset_new, cut_tag, syst, lumi[str(year)])
+                    os.system('set LD_PRELOAD=libtcmalloc.so')
+

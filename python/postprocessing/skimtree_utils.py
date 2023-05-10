@@ -6,6 +6,7 @@ import copy as copy
 from os import path
 import array
 import types
+import json
 ROOT.PyConfig.IgnoreCommandLineOptions = True
 
 
@@ -262,71 +263,112 @@ def bjet_filter(jets, tagger, WP): #returns collections of b jets and no b jets 
         print('Only DeepFlv and DeepCSV accepted! Pleae implement other taggers if you want them.')
 
 
-def getBDT_SF(sample, isMerg, pt, top_region, lepton):
+def getBDT_SF(sample, isMerg, pt, top_region, lepton, mass, top_truth, path=""):
   key=""
+  path = path + "TopSF_" + sample[-4:] + "v2.json"
+  with open(path,"r") as json_file:
+    BDT_SFs = json.load(json_file)
+  
+  if ("QCD" in sample) or ("TT" in sample) or ("WJets" in sample):
+    if ("QCD" in sample): 
+      key="QCD_"
+      if top_region==-1 and mass==0:
+        if abs(lepton)==11: key=key+"eV"
+        else: key=key+"mV"
 
-  BDT_SFs={"QCD_MHL_e":[0.866573354384,0.966663614401,0.766483094368], 
-           "QCD_MHT_e":[0.866573354384,0.966663614401,0.766483094368], 
-           "QCD_MHL_m":[0.868467139997,1.0107566025,0.726177677489], 
-           "QCD_MHT_m":[0.868467139997,1.0107566025,0.726177677489], 
-           "QCD_MLL_e":[0.855860040246,0.901825231107,0.809894849386], 
-           "QCD_MLT_e":[0.855860040246,0.901825231107,0.809894849386], 
-           "QCD_MLL_m":[0.978664573813,1.0331467818,0.924182365821], 
-           "QCD_MLT_m":[0.978664573813,1.0331467818,0.924182365821], 
-           "QCD_RHL_e":[0.937606393292,1.02314193347,0.852070853115], 
-           "QCD_RHT_e":[0.937606393292,1.02314193347,0.852070853115], 
-           "QCD_RHL_m":[1.17057708742,1.37962972655,0.961524448286], 
-           "QCD_RHT_m":[1.17057708742,1.37962972655,0.961524448286], 
-           "QCD_RLL_e":[2.41094100543,2.56301478799,2.25886722288], 
-           "QCD_RLT_e":[2.41094100543,2.56301478799,2.25886722288], 
-           "QCD_RLL_m":[3.80239611298,4.31663202776,3.2881601982], 
-           "QCD_RLT_m":[3.80239611298,4.31663202776,3.2881601982], 
-           "TT_MHL_e":[0.672886905345,0.735847661501,0.609926149189], 
-           "TT_MHL_m":[0.593443072888,0.664007531452,0.522878614325], 
-           "TT_MHT_e":[0.661834563298,0.709126454502,0.614542672094], 
-           "TT_MHT_m":[0.700355854215,0.737901794965,0.662809913466], 
-           "TT_MLL_e":[0.649475744767,0.755646496921,0.543304992614], 
-           "TT_MLL_m":[0.869454401681,0.974344924562,0.764563878801], 
-           "TT_MLT_e":[0.7302211899,0.756394215811,0.704048163988], 
-           "TT_MLT_m":[0.810053403144,0.831350878281,0.788755928007], 
-           "TT_RHL_e":[0.722372312231,0.742590900642,0.70215372382], 
-           "TT_RHL_m":[0.722807464929,0.743586103113,0.702028826745], 
-           "TT_RHT_e":[0.724990619792,0.748084611389,0.701896628195], 
-           "TT_RHT_m":[0.763969847594,0.784929286619,0.743010408569], 
-           "TT_RLL_e":[0.856278952008,0.865420175828,0.847137728188], 
-           "TT_RLL_m":[0.904254152945,0.914874010499,0.893634295391], 
-           "TT_RLT_e":[0.817800234807,0.825482369062,0.810118100552], 
-           "TT_RLT_m":[0.875915713386,0.883976515683,0.867854911089], 
-  }
-  if ("QCD" in sample) or ("TT" in sample):
-    if ("QCD" in sample): key="QCD_"
-    else: key= "TT_"
+      if top_region!=-1:
+        if abs(lepton)==11: 
+          key=key+"e"
+          if (top_region==1 and isMerg==0) or (top_region==0 and isMerg==0 and pt>500):
+            return [1.,1.,1.]
+        else: 
+          key=key+"m"
+          if (top_region==1 and pt>500):
+            return [1.,1.,1.]
 
-    if isMerg==1: key=key+"M"
-    else: key=key+"R"
 
-    if pt<500: key=key+"L"
-    else: key=key+"H"
+    elif ("WJets" in sample): 
+      key = "WJets_" 
+      if top_region==-1:
+        if abs(lepton)==11: key=key+"eV"
+        else: key=key+"mV"
 
-    if top_region==1: key=key+"T_"
-    else: key=key+"L_"
+        if mass!=0:
+          key=key+"T"  
+      else:
+        if abs(lepton)==11: 
+          key=key+"e"
+          if (top_region==1 and pt>500 and isMerg==0):
+            return [1.,1.,1.]
+        else: 
+          key=key+"m"
+          if (top_region==0 and pt<500 and isMerg==1):
+            return [1.,1.,1.]
+    
+    else: 
+      key= "T_"
+      if top_region!=-1:
+        if top_truth==1:
+          key ="TT_"
+          if abs(lepton)==11: key=key+"e"
+          else: key=key+"m"
 
-    if abs(lepton)==11: key=key+"e"
-    else: key=key+"m"
+          if pt<500: key=key+"L"
+          else: key=key+"H"
+        else:
+          key ="TF_"
+          if abs(lepton)==11: key=key+"e"
+          else: key=key+"m"
+        """
+        if isMerg==1: key=key+"M"
+        else: key=key+"R"
 
-    return BDT_SFs[key]
+        if pt<500: key=key+"L"
+        else: key=key+"H"
 
-  else: return [1.,1.,1.]
+        if top_region==1: key=key+"T_"
+        else: key=key+"L_"
+
+        if abs(lepton)==11: key=key+"e"
+        else: key=key+"m"
+        """
+      else:
+        if abs(lepton)==11: key=key+"eV"
+        else: key=key+"mV"
+        
+        if mass!=0:
+          key=key+"T"
+    try: 
+      SF = BDT_SFs[key]
+    except:
+      SF =[1.,1.,1.]
+    return SF
+
+  else: 
+    return [1.,1.,1.]
 
 def getPN_SF(sample, MC_Truth):
   key=""
-  PN_SFs={
-    "Other":[1.73,1.84,1.62],
-    "TT_fake":[1.36,1.43,1.29],
-    "TT_1b2q":[1.20,1.26,1.14],
-    "TT_2q":[1.03,1.17,0.89],
-    "Tprime":[0.93,1.06,0.8]
-  }
+  
+  if "2017" in sample:
+    PN_SFs={
+      "Other":[1.08686007615,1.20079107242,0.972929079871],
+      "TT_fake":[1.00765689653,1.12354128059,0.891772512475],
+      "TT_1b2q":[0.80947876611,0.888151367644,0.730806164576],
+      "TT_2q":[1.02881281726,1.17392261353,0.883703020988],
+      "Tprime":[1.06,1.2,0.92] #[0.87,0.99,0.75] per 2016
+    }
+  if "2018" in sample:
+    PN_SFs={
+      "Other":[1.20447506482,1.29307969137,1.11587043827],
+      "TT_fake":[1.03548184367,1.13247808803,0.938485599315],
+      "TT_1b2q":[0.986309290015,1.05331303369,0.919305546336],
+      "TT_2q":[1.02399370566,1.16694361152,0.881043799799],
+      "Tprime":[0.93,1.06,0.8]
+    }
+
+
+
   if (not "TT" in sample) and (not "Tprime" in sample): key="Other"
   else:
     if "Tprime" in sample: key = "Tprime"
@@ -336,6 +378,92 @@ def getPN_SF(sample, MC_Truth):
       elif MC_Truth == 201 : key = key+"1b2q"
       else: key = key+"fake"
   return PN_SFs[key]
+
+def getTrig_SF(sample, year, lepId, lepPt, lepEta,fatjet_M, fatjet_pt, top_region, path= "/eos/home-f/fcarneva/Tprime/nosynch/Trigger_v0/"):
+  year = str(year)[2:]
+  if year == 2016:
+    if "pre" in sample: year=year+"preVFP"
+    else: year = year + "postVFP"
+  if abs(lepId)==13: lep_path= path+"muon_"+year+".root"
+  else: lep_path= path+"electron_"+year+".root"
+  
+  jet_path = path+"jet_"+year+".root"
+  
+  #print(lep_path)
+  lepFile = ROOT.TFile.Open(lep_path)
+  jetFile = ROOT.TFile.Open(jet_path)
+  
+  top_region_tag = "TightLep"
+
+  if ("muon" in lep_path) and (top_region>-1):
+    top_region_tag = "Top"
+
+  effMC_lep_hist = lepFile.Get("TT_dilep/h2D_HLT_"+top_region_tag+"_MC_Eff")
+  effData_lep_hist = lepFile.Get("Data/h2D_HLT_"+top_region_tag+"_data_Eff")
+
+  lep_binx = max(1, min(effMC_lep_hist.GetNbinsX(),effMC_lep_hist.GetXaxis().FindBin(abs(lepEta))))
+  lep_biny = max(1, min(effMC_lep_hist.GetNbinsY(),effMC_lep_hist.GetYaxis().FindBin(lepPt)))
+
+  effMC_lep = effMC_lep_hist.GetBinContent(lep_binx,lep_biny)
+  effMC_lep_err = effMC_lep_hist.GetBinError(lep_binx,lep_biny)
+
+  effData_lep = effData_lep_hist.GetBinContent(lep_binx,lep_biny)
+  effData_lep_err = effData_lep_hist.GetBinError(lep_binx,lep_biny)
+  
+  if effData_lep<0.01:
+    effData_lep=1
+    effData_lep_err=effData_lep*0.2
+
+  if effData_lep==1 and effData_lep_err==0:
+    effData_lep=1
+    effData_lep_err=effData_lep*0.1
+
+  if effMC_lep<0.01:
+    effMC_lep=1
+    effMC_lep_err=effMC_lep*0.2
+
+  if effMC_lep==1 and effMC_lep_err==0:
+    effMC_lep=1
+    effMC_lep_err=effMC_lep*0.1 
+
+
+  effMC_jet_hist = jetFile.Get("MC/h2D_HLT_CR_MC_Eff")
+  effData_jet_hist = jetFile.Get("Data/h2D_HLT_CR_data_Eff")
+
+  jet_binx = max(1, min(effMC_jet_hist.GetNbinsX(),effMC_jet_hist.GetXaxis().FindBin(fatjet_pt)))
+  jet_biny = max(1, min(effMC_jet_hist.GetNbinsY(),effMC_jet_hist.GetYaxis().FindBin(fatjet_M)))
+
+  effMC_jet = effMC_jet_hist.GetBinContent(jet_binx,jet_biny)
+  effMC_jet_err = effMC_jet_hist.GetBinError(jet_binx,jet_biny)                   
+
+  effData_jet = effData_jet_hist.GetBinContent(jet_binx,jet_biny)
+  effData_jet_err = effData_jet_hist.GetBinError(jet_binx,jet_biny)
+
+
+  if effData_jet<0.01:
+    effData_jet=1
+    effData_jet_err=effData_jet*0.2
+
+  if effData_jet==1 and effData_jet_err==0:
+    effData_jet=1
+    effData_jet_err=effData_jet*0.1
+
+  if effMC_jet<0.01:
+    effMC_jet=1
+    effMC_jet_err=effMC_jet*0.2
+
+  if effMC_jet==1 and effMC_jet_err==0:
+    effMC_jet=1
+    effMC_jet_err=effMC_jet*0.1
+
+
+  w = (effData_lep+effData_jet-effData_jet*effData_lep)/(effMC_lep+effMC_jet-effMC_jet*effMC_lep)
+
+
+  w_err = math.sqrt(((1-effData_jet)/(effMC_lep+effMC_jet-effMC_jet*effMC_lep)*effData_lep_err)**2 + ((1-effData_lep)/(effMC_lep+effMC_jet-effMC_jet*effMC_lep)*effData_jet_err)**2 + (w*(1-effMC_jet)/(effMC_lep+effMC_jet-effMC_jet*effMC_lep)*effMC_lep_err)**2 + (w*(1-effMC_lep)/(effMC_lep+effMC_jet-effMC_jet*effMC_lep)*effMC_jet_err)**2)
+
+  return [w,w+w_err,w-w_err]
+
 
 
 def fatjet_tagger(fatjets, tagger, tagger_min, tagger_max=1.01, mass=[0,100000]):

@@ -12,6 +12,7 @@ parser.add_option('-t', '--training', dest='training',type=str,default = 'BDT_Tp
 #parser.add_option('-u', '--user', dest='us', type='string', default = 'ade', help="")
 (opt, args) = parser.parse_args()
 #Insert here your uid... you can see it typing echo $uid
+print("Check uid users")
 uid = 0
 username = str(os.environ.get('USER'))
 inituser = str(os.environ.get('USER')[0])
@@ -21,6 +22,10 @@ elif username == 'apiccine':
     uid = 124949
 elif username == 'fcarneva':
     uid = 127697
+elif username == 'fabozzi':
+    uid = -1
+elif username == 'cdifraia':
+    uid = -1
 
 def sub_writer(sample, n, files, folder, training, train_files):
     f = open("condor.sub", "w")

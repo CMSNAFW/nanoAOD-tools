@@ -24,12 +24,8 @@ def printh(filename, period, h, plotpath):
     c.Print(plotpath + c.GetName() + '.png')
     c.Print(plotpath + c.GetName() + '.pdf')
 
-inpfiles = {"muon_16preVFP":["DataMu_2016preVFP", "DataEle_2016preVFP", "DataPh_2016preVFP", "TT_dilep_2016preVFP"],
-            "electron_16preVFP":["DataMu_2016preVFP", "DataEle_2016preVFP", "DataPh_2016preVFP", "TT_dilep_2016preVFP"],
-            "jet_16preVFP":["DataMu_2016preVFP","DataEle_2016preVFP","DataPh_2016preVFP","DataHT_2016preVFP","TT_Mtt_2016preVFP","QCD_2016preVFP","WJets_2016preVFP","ST_2016preVFP"],
-            "muon_16postVFP":["DataMu_2016postVFP", "DataEle_2016postVFP", "DataPh_2016postVFP", "TT_dilep_2016postVFP"],                                                             
-            "electron_16postVFP":["DataMu_2016postVFP", "DataEle_2016postVFP", "DataPh_2016postVFP", "TT_dilep_2016postVFP"],                                                                        
-            "jet_16postVFP":["DataMu_2016postVFP","DataEle_2016postVFP","DataPh_2016postVFP","DataHT_2016postVFP","TT_Mtt_2016postVFP","QCD_2016postVFP","WJets_2016postVFP","ST_2016postVFP"],
+inpfiles = {#"muon_16":["DataMu_2016", "DataEle_2016", "DataPh_2016", "TT_dilep_2016"],
+            #"electron_16":["DataMu_2016", "DataEle_2016", "DataPh_2016", "TT_dilep_2016"],
             "muon_17":["DataMu_2017","DataEle_2017","DataPh_2017","DataHT_2017","TT_dilep_2017"],
             "electron_17":["DataMu_2017","DataEle_2017","DataPh_2017","DataHT_2017","TT_dilep_2017"],
             "jet_17":["DataMu_2017","DataEle_2017","DataPh_2017","DataHT_2017","TT_Mtt_2017","QCD_2017","WJets_2017","ST_2017"],
@@ -47,15 +43,14 @@ ROOT.gStyle.SetPaintTextFormat('4.3f')
 
 edges_mux = array.array('f', [0.0,0.8,1.444,1.566,2.0,2.5])
 nbins_mux = len(edges_mux)-1
-#edges_muy = array.array('f', [30.,40.,50.,80.,100.,120.,200.])
-edges_muy = array.array('f', [35.,50.,80.,150.,500.])
+edges_muy = array.array('f', [30.,50.,100.,200.,500.])
 nbins_muy = len(edges_muy)-1
 
-#edges_muy1D = array.array('f', [10.,20.,30.,40.,50.,75.,100.,150.,200.,350.,500.])
-edges_muy1D = array.array('f', [20.,24.,27.,30.,35.,40.,50.,80.,120.,200.,400.])
+edges_muy1D = array.array('f', [10.,20.,30.,40.,50.,75.,100.,150.,200.,350.,500.])
 nbins_muy1D = len(edges_muy1D)-1
 
-edges_muxjet = array.array('f', [200.,360,400,500.,700,900.,1200.])
+#edges_muxjet = array.array('f', [150.,500.,700,900.,1200.])
+edges_muxjet = array.array('f', [10.,20.,30.,40.,50.,75.,100.,150.,200.,350.,500.])
 nbins_muxjet = len(edges_muxjet)-1
 edges_muyjet = array.array('f', [0.,20.,40.,60.,90.,120.,150.,220.])
 nbins_muyjet = len(edges_muyjet)-1
@@ -63,11 +58,10 @@ nbins_muyjet = len(edges_muyjet)-1
 if 'muon' in period:
     edges_mux = array.array('f', [0.0,0.9,1.2,2.1,2.4])
     nbins_mux = len(edges_mux)-1
-    edges_muy = array.array('f', [30.,40.,60.,80.,120.,200.])#,500])
+    edges_muy = array.array('f', [30.,50.,100.,200.,500])
     nbins_muy = len(edges_muy)-1
 if 'jet' in period:
-    #edges_mux = array.array('f', [150.,500.,700,900.,1200.])
-    edges_mux = array.array('f', [200.,360,400,500.,700,900.,1200.])
+    edges_mux = array.array('f', [150.,500.,700,900.,1200.])
     nbins_mux = len(edges_mux)-1
     edges_muy = array.array('f', [60.,90.,120.,150.,220.])
     nbins_muy = len(edges_muy)-1
@@ -185,8 +179,8 @@ for inpfile in inpfiles[period]:
 
 
 
-            tree.Project("HLT_TightLepJet_num", "FatJet_msd_nominal:FatJet_pt_nominal", "w_nominal*PFSF*puSF*isdileptonic*w_pt*(isPromptEle[0]==0 && top_region_nominal[0]==-1)*(HLT_Electron_nominal[0] || HLT_Photon_nominal[0])*(HLT_Muon_nominal[0] || HLT_PFJet_nominal[0])")
-            tree.Project("HLT_TightLepJet_den", "FatJet_msd_nominal:FatJet_pt_nominal", "w_nominal*PFSF*puSF*isdileptonic*w_pt*(isPromptEle[0]==0 && top_region_nominal[0]==-1)*(HLT_Electron_nominal[0] || HLT_Photon_nominal[0])")
+            tree.Project("HLT_TightLepJet_num", "FatJet_msd_nominal:muon_pt", "(FatJet_pt_nominal<500)*w_nominal*PFSF*puSF*isdileptonic*w_pt*(isPromptEle[0]==0 && top_region_nominal[0]==-1)*(HLT_Electron_nominal[0] || HLT_Photon_nominal[0])*(HLT_Muon_nominal[0] || HLT_PFJet_nominal[0])")
+            tree.Project("HLT_TightLepJet_den", "FatJet_msd_nominal:muon_pt", "(FatJet_pt_nominal<500)*w_nominal*PFSF*puSF*isdileptonic*w_pt*(isPromptEle[0]==0 && top_region_nominal[0]==-1)*(HLT_Electron_nominal[0] || HLT_Photon_nominal[0])")
 
             tree.Project("h1D_HLT_TightLepJet_num", "muon_pt", "w_nominal*PFSF*puSF*isdileptonic*w_pt*(isPromptEle[0]==0 && top_region_nominal[0]==-1)*(HLT_Electron_nominal[0] || HLT_Photon_nominal[0])*(HLT_Muon_nominal[0] || HLT_PFJet_nominal[0])")
             tree.Project("h1D_HLT_TightLepJet_den", "muon_pt", "w_nominal*PFSF*puSF*isdileptonic*w_pt*(isPromptEle[0]==0 && top_region_nominal[0]==-1)*(HLT_Electron_nominal[0] || HLT_Photon_nominal[0])")
@@ -194,8 +188,8 @@ for inpfile in inpfiles[period]:
             tree.Project("h1D_HLT_TopJet_num", "muon_pt", "w_nominal*PFSF*puSF*isdileptonic*w_pt*(isPromptEle[0]==0 && top_region_nominal[0]>-1)*(HLT_Electron_nominal[0] || HLT_Photon_nominal[0])*(HLT_Muon_nominal[0] || HLT_PFJet_nominal[0])")
             tree.Project("h1D_HLT_TopJet_den", "muon_pt", "w_nominal*PFSF*puSF*isdileptonic*w_pt*(isPromptEle[0]==0 && top_region_nominal[0]>-1)*(HLT_Electron_nominal[0] || HLT_Photon_nominal[0])")
 
-            tree.Project("HLT_TopJet_num", "FatJet_msd_nominal:FatJet_pt_nominal", "w_nominal*PFSF*puSF*isdileptonic*w_pt*(isPromptEle[0]==0 && top_region_nominal[0]>-1)*(HLT_Electron_nominal[0] || HLT_Photon_nominal[0])*(HLT_Muon_nominal[0] || HLT_PFJet_nominal[0])")
-            tree.Project("HLT_TopJet_den", "FatJet_msd_nominal:FatJet_pt_nominal", "w_nominal*PFSF*puSF*isdileptonic*w_pt*(isPromptEle[0]==0 && top_region_nominal[0]>-1)*(HLT_Electron_nominal[0] || HLT_Photon_nominal[0])")
+            tree.Project("HLT_TopJet_num", "FatJet_msd_nominal:muon_pt", "(FatJet_pt_nominal<500)*w_nominal*PFSF*puSF*isdileptonic*w_pt*(isPromptEle[0]==0 && top_region_nominal[0]>-1)*(HLT_Electron_nominal[0] || HLT_Photon_nominal[0])*(HLT_Muon_nominal[0] || HLT_PFJet_nominal[0])")
+            tree.Project("HLT_TopJet_den", "FatJet_msd_nominal:muon_pt", "(FatJet_pt_nominal<500)*w_nominal*PFSF*puSF*isdileptonic*w_pt*(isPromptEle[0]==0 && top_region_nominal[0]>-1)*(HLT_Electron_nominal[0] || HLT_Photon_nominal[0])")
 
 
 
@@ -216,8 +210,8 @@ for inpfile in inpfiles[period]:
             tree.Project("HLT_Top_den", "muon_pt:abs(muon_eta)", "PFSF*electron_SF*muon_SF*puSF*isdileptonic*w_pt*(isPromptEle[0]==0 && top_region_nominal[0]>-1)*(HLT_Electron_nominal[0] || HLT_Photon_nominal[0])")
 
 
-            tree.Project("HLT_TightLepJet_num", "FatJet_msd_nominal:FatJet_pt_nominal", "PFSF*electron_SF*muon_SF*puSF*isdileptonic*w_pt*(isPromptEle[0]==0 && top_region_nominal[0]==-1)*(HLT_Electron_nominal[0] || HLT_Photon_nominal[0])*(HLT_Muon_nominal[0] || HLT_PFJet_nominal[0])")
-            tree.Project("HLT_TightLepJet_den", "FatJet_msd_nominal:FatJet_pt_nominal", "PFSF*electron_SF*muon_SF*puSF*isdileptonic*w_pt*(isPromptEle[0]==0 && top_region_nominal[0]==-1)*(HLT_Electron_nominal[0] || HLT_Photon_nominal[0])")
+            tree.Project("HLT_TightLepJet_num", "FatJet_msd_nominal:muon_pt", "(FatJet_pt_nominal<500)*PFSF*electron_SF*muon_SF*puSF*isdileptonic*w_pt*(isPromptEle[0]==0 && top_region_nominal[0]==-1)*(HLT_Electron_nominal[0] || HLT_Photon_nominal[0])*(HLT_Muon_nominal[0] || HLT_PFJet_nominal[0])")
+            tree.Project("HLT_TightLepJet_den", "FatJet_msd_nominal:muon_pt", "(FatJet_pt_nominal<500)*PFSF*electron_SF*muon_SF*puSF*isdileptonic*w_pt*(isPromptEle[0]==0 && top_region_nominal[0]==-1)*(HLT_Electron_nominal[0] || HLT_Photon_nominal[0])")
 
             tree.Project("h1D_HLT_TightLepJet_num", "muon_pt", "PFSF*electron_SF*muon_SF*puSF*isdileptonic*w_pt*(isPromptEle[0]==0 && top_region_nominal[0]==-1)*(HLT_Electron_nominal[0] || HLT_Photon_nominal[0])*(HLT_Muon_nominal[0] || HLT_PFJet_nominal[0])")
             tree.Project("h1D_HLT_TightLepJet_den", "muon_pt", "PFSF*electron_SF*muon_SF*puSF*isdileptonic*w_pt*(isPromptEle[0]==0 && top_region_nominal[0]==-1)*(HLT_Electron_nominal[0] || HLT_Photon_nominal[0])")
@@ -225,8 +219,8 @@ for inpfile in inpfiles[period]:
             tree.Project("h1D_HLT_TopJet_num", "muon_pt", "PFSF*electron_SF*muon_SF*puSF*isdileptonic*w_pt*(isPromptEle[0]==0 && top_region_nominal[0]>-1)*(HLT_Electron_nominal[0] || HLT_Photon_nominal[0])*(HLT_Muon_nominal[0] || HLT_PFJet_nominal[0])")
             tree.Project("h1D_HLT_TopJet_den", "muon_pt", "PFSF*electron_SF*muon_SF*puSF*isdileptonic*w_pt*(isPromptEle[0]==0 && top_region_nominal[0]>-1)*(HLT_Electron_nominal[0] || HLT_Photon_nominal[0])")
 
-            tree.Project("HLT_TopJet_num", "FatJet_msd_nominal:FatJet_pt_nominal", "PFSF*electron_SF*muon_SF*puSF*isdileptonic*w_pt*(isPromptEle[0]==0 && top_region_nominal[0]>-1)*(HLT_Electron_nominal[0] || HLT_Photon_nominal[0])*(HLT_Muon_nominal[0] || HLT_PFJet_nominal[0])")
-            tree.Project("HLT_TopJet_den", "FatJet_msd_nominal:FatJet_pt_nominal", "PFSF*electron_SF*muon_SF*puSF*isdileptonic*w_pt*(isPromptEle[0]==0 && top_region_nominal[0]>-1)*(HLT_Electron_nominal[0] || HLT_Photon_nominal[0])")
+            tree.Project("HLT_TopJet_num", "FatJet_msd_nominal:muon_pt", "(FatJet_pt_nominal<500)*PFSF*electron_SF*muon_SF*puSF*isdileptonic*w_pt*(isPromptEle[0]==0 && top_region_nominal[0]>-1)*(HLT_Electron_nominal[0] || HLT_Photon_nominal[0])*(HLT_Muon_nominal[0] || HLT_PFJet_nominal[0])")
+            tree.Project("HLT_TopJet_den", "FatJet_msd_nominal:muon_pt", "(FatJet_pt_nominal<500)*PFSF*electron_SF*muon_SF*puSF*isdileptonic*w_pt*(isPromptEle[0]==0 && top_region_nominal[0]>-1)*(HLT_Electron_nominal[0] || HLT_Photon_nominal[0])")
 
     
     elif 'electron' in period:
@@ -246,8 +240,8 @@ for inpfile in inpfiles[period]:
             tree.Project("HLT_Top_den", "electron_pt:abs(electron_eta)", "w_nominal*PFSF*puSF*isdileptonic*w_pt*(isPromptEle[0]==1 && top_region_nominal[0]>-1)*(HLT_Muon_nominal[0])")
     
 
-            tree.Project("HLT_TightLepJet_num", "FatJet_msd_nominal:FatJet_pt_nominal", "w_nominal*PFSF*puSF*isdileptonic*w_pt*(isPromptEle[0]==1 && top_region_nominal[0]>=-1)*(HLT_Electron_nominal[0] || HLT_Photon_nominal[0] || HLT_PFJet_nominal[0])*(HLT_Muon_nominal[0])")
-            tree.Project("HLT_TightLepJet_den", "FatJet_msd_nominal:FatJet_pt_nominal", "w_nominal*PFSF*puSF*isdileptonic*w_pt*(isPromptEle[0]==1 && top_region_nominal[0]>=-1)*(HLT_Muon_nominal[0])")
+            tree.Project("HLT_TightLepJet_num", "FatJet_msd_nominal:electron_pt", "(FatJet_pt_nominal<500)*w_nominal*PFSF*puSF*isdileptonic*w_pt*(isPromptEle[0]==1 && top_region_nominal[0]>=-1)*(HLT_Electron_nominal[0] || HLT_Photon_nominal[0] || HLT_PFJet_nominal[0])*(HLT_Muon_nominal[0])")
+            tree.Project("HLT_TightLepJet_den", "FatJet_msd_nominal:electron_pt", "(FatJet_pt_nominal<500)*w_nominal*PFSF*puSF*isdileptonic*w_pt*(isPromptEle[0]==1 && top_region_nominal[0]>=-1)*(HLT_Muon_nominal[0])")
 
             tree.Project("h1D_HLT_TightLepJet_num", "electron_pt", "w_nominal*PFSF*puSF*isdileptonic*w_pt*(isPromptEle[0]==1 && top_region_nominal[0]>=-1)*(HLT_Electron_nominal[0] || HLT_Photon_nominal[0] || HLT_PFJet_nominal[0])*(HLT_Muon_nominal[0])")
             tree.Project("h1D_HLT_TightLepJet_den", "electron_pt", "w_nominal*PFSF*puSF*isdileptonic*w_pt*(isPromptEle[0]==1 && top_region_nominal[0]>=-1)*(HLT_Muon_nominal[0])")
@@ -255,8 +249,8 @@ for inpfile in inpfiles[period]:
             tree.Project("h1D_HLT_TopJet_num", "electron_pt", "w_nominal*PFSF*puSF*isdileptonic*w_pt*(isPromptEle[0]==1 && top_region_nominal[0]>-1)*(HLT_Electron_nominal[0] || HLT_Photon_nominal[0] || HLT_PFJet_nominal[0])*(HLT_Muon_nominal[0])")
             tree.Project("h1D_HLT_TopJet_den", "electron_pt", "w_nominal*PFSF*puSF*isdileptonic*w_pt*(isPromptEle[0]==1 && top_region_nominal[0]>-1)*(HLT_Muon_nominal[0])")
 
-            tree.Project("HLT_TopJet_num", "FatJet_msd_nominal:FatJet_pt_nominal", "w_nominal*PFSF*puSF*isdileptonic*w_pt*(isPromptEle[0]==1 && top_region_nominal[0]>-1)*(HLT_Electron_nominal[0] || HLT_Photon_nominal[0] || HLT_PFJet_nominal[0])*(HLT_Muon_nominal[0])")
-            tree.Project("HLT_TopJet_den", "FatJet_msd_nominal:FatJet_pt_nominal", "w_nominal*PFSF*puSF*isdileptonic*w_pt*(isPromptEle[0]==1 && top_region_nominal[0]>-1)*(HLT_Muon_nominal[0])")
+            tree.Project("HLT_TopJet_num", "FatJet_msd_nominal:electron_pt", "(FatJet_pt_nominal<500)*w_nominal*PFSF*puSF*isdileptonic*w_pt*(isPromptEle[0]==1 && top_region_nominal[0]>-1)*(HLT_Electron_nominal[0] || HLT_Photon_nominal[0] || HLT_PFJet_nominal[0])*(HLT_Muon_nominal[0])")
+            tree.Project("HLT_TopJet_den", "FatJet_msd_nominal:electron_pt", "(FatJet_pt_nominal<500)*w_nominal*PFSF*puSF*isdileptonic*w_pt*(isPromptEle[0]==1 && top_region_nominal[0]>-1)*(HLT_Muon_nominal[0])")
 
 
         elif "TT_dilep" in infile.GetName():
@@ -276,16 +270,16 @@ for inpfile in inpfiles[period]:
 
 
 
-            tree.Project("HLT_TightLepJet_num", "FatJet_msd_nominal:FatJet_pt_nominal", "PFSF*electron_SF*muon_SF*puSF*isdileptonic*w_pt*(isPromptEle[0]==1 && top_region_nominal[0]>=-1)*(HLT_Electron_nominal[0] || HLT_Photon_nominal[0] || HLT_PFJet_nominal[0])*(HLT_Muon_nominal[0])")                                  
-            tree.Project("HLT_TightLepJet_den", "FatJet_msd_nominal:FatJet_pt_nominal", "PFSF*electron_SF*muon_SF*puSF*isdileptonic*w_pt*(isPromptEle[0]==1 && top_region_nominal[0]>=-1)*(HLT_Muon_nominal[0])")
+            tree.Project("HLT_TightLepJet_num", "FatJet_msd_nominal:electron_pt", "(FatJet_pt_nominal<500)*PFSF*electron_SF*muon_SF*puSF*isdileptonic*w_pt*(isPromptEle[0]==1 && top_region_nominal[0]>=-1)*(HLT_Electron_nominal[0] || HLT_Photon_nominal[0] || HLT_PFJet_nominal[0])*(HLT_Muon_nominal[0])")                                  
+            tree.Project("HLT_TightLepJet_den", "FatJet_msd_nominal:electron_pt", "(FatJet_pt_nominal<500)*PFSF*electron_SF*muon_SF*puSF*isdileptonic*w_pt*(isPromptEle[0]==1 && top_region_nominal[0]>=-1)*(HLT_Muon_nominal[0])")
 
             tree.Project("h1D_HLT_TightLepJet_num", "electron_pt", "PFSF*electron_SF*muon_SF*puSF*isdileptonic*w_pt*(isPromptEle[0]==1 && top_region_nominal[0]>=-1)*(HLT_Electron_nominal[0] || HLT_Photon_nominal[0] || HLT_PFJet_nominal[0])*(HLT_Muon_nominal[0])")                      
             tree.Project("h1D_HLT_TightLepJet_den", "electron_pt", "PFSF*electron_SF*muon_SF*puSF*isdileptonic*w_pt*(isPromptEle[0]==1 && top_region_nominal[0]>=-1)*(HLT_Muon_nominal[0])")                                                                                                                                       
             tree.Project("h1D_HLT_TopJet_num", "electron_pt", "PFSF*electron_SF*muon_SF*puSF*isdileptonic*w_pt*(isPromptEle[0]==1 && top_region_nominal[0]>-1)*(HLT_Electron_nominal[0] || HLT_Photon_nominal[0] || HLT_PFJet_nominal[0])*(HLT_Muon_nominal[0])")                          
             tree.Project("h1D_HLT_TopJet_den", "electron_pt", "PFSF*electron_SF*muon_SF*puSF*isdileptonic*w_pt*(isPromptEle[0]==1 && top_region_nominal[0]>-1)*(HLT_Muon_nominal[0])")
 
-            tree.Project("HLT_TopJet_num", "FatJet_msd_nominal:FatJet_pt_nominal", "PFSF*electron_SF*muon_SF*puSF*isdileptonic*w_pt*(isPromptEle[0]==1 && top_region_nominal[0]>-1)*(HLT_Electron_nominal[0] || HLT_Photon_nominal[0] || HLT_PFJet_nominal[0])*(HLT_Muon_nominal[0])")         
-            tree.Project("HLT_TopJet_den", "FatJet_msd_nominal:FatJet_pt_nominal", "PFSF*electron_SF*muon_SF*puSF*isdileptonic*w_pt*(isPromptEle[0]==1 && top_region_nominal[0]>-1)*(HLT_Muon_nominal[0])")
+            tree.Project("HLT_TopJet_num", "FatJet_msd_nominal:electron_pt", "(FatJet_pt_nominal<500)*PFSF*electron_SF*muon_SF*puSF*isdileptonic*w_pt*(isPromptEle[0]==1 && top_region_nominal[0]>-1)*(HLT_Electron_nominal[0] || HLT_Photon_nominal[0] || HLT_PFJet_nominal[0])*(HLT_Muon_nominal[0])")         
+            tree.Project("HLT_TopJet_den", "FatJet_msd_nominal:electron_pt", "(FatJet_pt_nominal<500)*PFSF*electron_SF*muon_SF*puSF*isdileptonic*w_pt*(isPromptEle[0]==1 && top_region_nominal[0]>-1)*(HLT_Muon_nominal[0])")
 
 
        
@@ -399,16 +393,6 @@ for inpfile in inpfiles[period]:
         HLT_Top_Eff.SetLineColor(ROOT.kBlue)
         h_HLT_TightLep_MC_Eff.Divide(h_HLT_TightLep_num, h_HLT_TightLep_den, 1, 1, "B")
         h_HLT_Top_MC_Eff.Divide(h_HLT_Top_num, h_HLT_Top_den, 1, 1, "B")
-        
-        for i in range(1,h_HLT_TightLep_MC_Eff.GetXaxis().GetNbins()+1):
-            for j in range(1,h_HLT_TightLep_MC_Eff.GetYaxis().GetNbins()+1): 
-                h_HLT_TightLep_MC_Eff.SetBinError(i,j,(HLT_TightLep_Eff.GetEfficiencyErrorLow(h_HLT_TightLep_MC_Eff.GetBin(i,j))+HLT_TightLep_Eff.GetEfficiencyErrorUp(h_HLT_TightLep_MC_Eff.GetBin(i,j)))/2)
-                print(i,j,(HLT_TightLep_Eff.GetEfficiencyErrorLow(h_HLT_TightLep_MC_Eff.GetBin(i,j))+HLT_TightLep_Eff.GetEfficiencyErrorUp(h_HLT_TightLep_MC_Eff.GetBin(i,j)))/2)
-
-        for i in range(1,h_HLT_Top_MC_Eff.GetXaxis().GetNbins()+1):
-            for j in range(1,h_HLT_Top_MC_Eff.GetYaxis().GetNbins()+1):
-                h_HLT_Top_MC_Eff.SetBinError(i,j,(HLT_Top_Eff.GetEfficiencyErrorLow(h_HLT_Top_MC_Eff.GetBin(i,j))+HLT_Top_Eff.GetEfficiencyErrorUp(h_HLT_Top_MC_Eff.GetBin(i,j)))/2)
-                print(i,j,(HLT_Top_Eff.GetEfficiencyErrorLow(h_HLT_Top_MC_Eff.GetBin(i,j))+HLT_Top_Eff.GetEfficiencyErrorUp(h_HLT_Top_MC_Eff.GetBin(i,j)))/2)
 
         h1D_HLT_TightLep_Eff = ROOT.TEfficiency(h1D_HLT_TightLep_num, h1D_HLT_TightLep_den)
         h1D_HLT_TightLep_Eff.SetLineColor(ROOT.kBlue)
@@ -505,14 +489,6 @@ h_HLT_TightLep_data_Eff = ROOT.TH2F("h2D_HLT_TightLep_data_Eff", "h", nbins_mux,
 h_HLT_TightLep_data_Eff.Clone(h_HLT_TightLep_data_num.GetName())
 h_HLT_TightLep_data_Eff.Divide(h_HLT_TightLep_data_num, h_HLT_TightLep_data_den, 1, 1, "B")
 
-for i in range(1,h_HLT_TightLep_data_Eff.GetXaxis().GetNbins()+1):
-    for j in range(1,h_HLT_TightLep_data_Eff.GetYaxis().GetNbins()+1):                                                                     
-        h_HLT_TightLep_data_Eff.SetBinError(i,j,(HLT_TightLep_data_Eff.GetEfficiencyErrorLow(h_HLT_TightLep_data_Eff.GetBin(i,j))+HLT_TightLep_data_Eff.GetEfficiencyErrorUp(h_HLT_TightLep_data_Eff.GetBin(i,j)))/2)
-        #print(i,j,(HLT_TightLep_data_Eff.GetEfficiencyErrorLow(h_HLT_TightLep_data_Eff.GetBin(i,j))+HLT_TightLep_data_Eff.GetEfficiencyErrorUp(h_HLT_TightLep_data_Eff.GetBin(i,j)))/2)
-
-
-
-
 h1D_HLT_TightLep_data_Eff = ROOT.TEfficiency(h1D_HLT_TightLep_data_num, h1D_HLT_TightLep_data_den)
 h1D_HLT_TightLep_data_Eff = ROOT.TH1F("h1D_HLT_TightLep_data_Eff", "h", nbins_muy1D, edges_muy1D)
 h1D_HLT_TightLep_data_Eff.Clone(h1D_HLT_TightLep_data_num.GetName())
@@ -523,7 +499,6 @@ h1D_HLT_TightLep_data_Eff.Divide(h1D_HLT_TightLep_data_num, h1D_HLT_TightLep_dat
 if 'muon' in period:
     HLT_TightLep_data_Eff.SetTitle("Data Muon trigger efficiency; |#eta| ;muon p_{T} [GeV]")
     h_HLT_TightLep_data_Eff.SetTitle("Data Muon trigger efficiency; |#eta| ;muon p_{T} [GeV]")
-    
 elif 'electron' in period:
     h_HLT_TightLep_data_Eff.SetTitle("Data Electron trigger efficiency; #eta; electron p_{T} [GeV]")
     HLT_TightLep_data_Eff.SetTitle("Data Electron trigger efficiency; #eta; electron p_{T} [GeV]")
@@ -565,13 +540,9 @@ h1D_SF_TightLep.Divide(h1D_HLT_TightLep_data_Eff, h1D_HLT_TightLep_MC_Eff, 1, 1)
 
 if 'muon' in period:
     SF_TightLep.SetTitle("Muon trigger scale factors; |#eta|; muon p_{T} [GeV]")
-    h1D_SF_TightLep.SetTitle("Tight Muon trigger scale factors; muon p_{T} [GeV]")
-    h1D_SF_TightLep.GetYaxis().SetRangeUser(0,1.2)
     #SF.GetXaxis().SetRangeUser(55, 1000)
 elif  'electron':
     SF_TightLep.SetTitle("Electron trigger scale factors; #eta; electron p_{T} [GeV]")
-    h1D_SF_TightLep.SetTitle("Electron trigger scale factors; electron p_{T} [GeV]")
-    h1D_SF_TightLep.GetYaxis().SetRangeUser(0,1.2)
 else:
     SF_Tight.SetTitle("FatJet trigger scale factors; FatJet p_{T} [GeV]; FatJet M [GeV]")
     
@@ -657,12 +628,6 @@ h_HLT_Top_data_Eff = ROOT.TH2F("h2D_HLT_Top_data_Eff", "h", nbins_mux, edges_mux
 h_HLT_Top_data_Eff.Clone(h_HLT_Top_data_num.GetName())
 h_HLT_Top_data_Eff.Divide(h_HLT_Top_data_num, h_HLT_Top_data_den, 1, 1, "B")
 
-for i in range(1,h_HLT_Top_data_Eff.GetXaxis().GetNbins()+1):
-    for j in range(1,h_HLT_Top_data_Eff.GetYaxis().GetNbins()+1):
-        h_HLT_Top_data_Eff.SetBinError(i,j,(HLT_Top_data_Eff.GetEfficiencyErrorLow(h_HLT_Top_data_Eff.GetBin(i,j))+HLT_Top_data_Eff.GetEfficiencyErrorUp(h_HLT_Top_data_Eff.GetBin(i,j)))/2)
-        #print(i,j,(HLT_Top_data_Eff.GetEfficiencyErrorLow(h_HLT_Top_data_Eff.GetBin(i,j))+HLT_Top_data_Eff.GetEfficiencyErrorUp(h_HLT_Top_data_Eff.GetBin(i,j)))/2)
-
-
 h1D_HLT_Top_data_Eff = ROOT.TEfficiency(h1D_HLT_Top_data_num, h1D_HLT_Top_data_den)
 h1D_HLT_Top_data_Eff = ROOT.TH1F("h1D_HLT_Top_data_Eff", "h", nbins_muy1D, edges_muy1D)
 h1D_HLT_Top_data_Eff.Clone(h1D_HLT_Top_data_num.GetName())
@@ -703,8 +668,6 @@ h1D_SF_Top.Sumw2()
 h1D_SF_Top.Divide(h1D_HLT_Top_data_Eff, h1D_HLT_Top_MC_Eff, 1, 1)
 if 'muon' in period:
     SF_Top.SetTitle("Muon trigger scale factors; |#eta|; muon p_{T} [GeV];")
-    h1D_SF_Top.SetTitle("Top Muon trigger scale factors; muon p_{T} [GeV]")
-    h1D_SF_Top.GetYaxis().SetRangeUser(0,1.2)
     #SF.GetXaxis().SetRangeUser(55, 1000)
 elif 'electron' in period:
     SF_Top.SetTitle("Electron trigger scale factors; #eta; electron p_{T} [GeV]")
@@ -780,13 +743,6 @@ HLT_CR_MC_Eff = ROOT.TEfficiency(h_HLT_CR_MC_num, h_HLT_CR_MC_den)
 h_HLT_CR_MC_Eff = ROOT.TH2F("h2D_HLT_CR_MC_Eff", "h", nbins_mux, edges_mux, nbins_muy, edges_muy)
 h_HLT_CR_MC_Eff.Clone(h_HLT_CR_MC_num.GetName())
 h_HLT_CR_MC_Eff.Divide(h_HLT_CR_MC_num, h_HLT_CR_MC_den, 1, 1, "B")
-
-h1D_HLT_CR_MC_Eff = ROOT.TH2F("h1D_HLT_CR_MC_Eff", "h", nbins_mux, edges_mux, nbins_muy, edges_muy)
-#h1D_HLT_CR_MC_Eff = ROOT.TH1F("h1D_HLT_CR_MC_Eff", "h", nbins_mux, edges_mux)
-h1D_HLT_CR_MC_Eff.Clone(h_HLT_CR_MC_num.GetName())
-h1D_HLT_CR_MC_Eff = h1D_HLT_CR_MC_Eff.ProjectionX()
-h1D_HLT_CR_MC_Eff.Divide(h_HLT_CR_MC_num.ProjectionX(), h_HLT_CR_MC_den.ProjectionX(), 1, 1, "B")
-
 if 'muon' in period:
     HLT_CR_MC_Eff.SetTitle("MC Muon trigger efficiency; |#eta| ;muon p_{T} [GeV]")
     h_HLT_CR_MC_Eff.SetTitle("MC Muon trigger efficiency; |#eta| ;muon p_{T} [GeV]")
@@ -817,12 +773,6 @@ HLT_CR_data_Eff = ROOT.TEfficiency(h_HLT_CR_data_num, h_HLT_CR_data_den)
 h_HLT_CR_data_Eff = ROOT.TH2F("h2D_HLT_CR_data_Eff", "h", nbins_mux, edges_mux, nbins_muy, edges_muy)
 h_HLT_CR_data_Eff.Clone(h_HLT_CR_data_num.GetName())
 h_HLT_CR_data_Eff.Divide(h_HLT_CR_data_num, h_HLT_CR_data_den, 1, 1, "B")
-
-h1D_HLT_CR_data_Eff = ROOT.TH2F("h1D_HLT_CR_data_Eff", "h", nbins_mux, edges_mux,nbins_muy, edges_muy)
-h1D_HLT_CR_data_Eff.Clone(h_HLT_CR_data_num.GetName())
-h1D_HLT_CR_data_Eff = h1D_HLT_CR_data_Eff.ProjectionX()
-h1D_HLT_CR_data_Eff.Divide(h_HLT_CR_data_num.ProjectionX(), h_HLT_CR_data_den.ProjectionX(), 1, 1, "B") 
-
 if 'muon' in period:
     HLT_CR_data_Eff.SetTitle("Data Muon trigger efficiency; |#eta| ;muon p_{T} [GeV]")
     h_HLT_CR_data_Eff.SetTitle("Data Muon trigger efficiency; |#eta| ;muon p_{T} [GeV]")
@@ -846,11 +796,9 @@ printh("Data", period, h_HLT_CR_data_den, plotpath)
 printh("Data", period, h_HLT_CR_data_Eff, plotpath)
 
 SF_CR = ROOT.TH2F("h2D_SF_CR", "h_CR", nbins_mux, edges_mux, nbins_muy, edges_muy)# nbins, edges)
-h1D_SF_CR =  ROOT.TH1F("h1D_SF_CR", "h1D_CR", nbins_mux, edges_mux)
 SF_CR.Sumw2()
 #SF.Clone(h_HLT_CR_data_Eff.GetName())
 SF_CR.Divide(h_HLT_CR_data_Eff, h_HLT_CR_MC_Eff, 1, 1)
-h1D_SF_CR.Divide(h1D_HLT_CR_data_Eff, h1D_HLT_CR_MC_Eff, 1, 1,"B")
 if 'muon' in period:
     SF_CR.SetTitle("Muon trigger scale factors; muon p_{T} [GeV]; #eta")
     #SF.GetXaxis().SetRangeUser(55, 1000)
@@ -863,7 +811,6 @@ else:
 printh("Data", period, SF_CR, plotpath)
 fileout.cd()
 SF_CR.Write()
-h1D_SF_CR.Write()
 
 
 print "DONE"

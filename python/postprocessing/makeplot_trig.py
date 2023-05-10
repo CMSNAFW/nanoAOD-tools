@@ -91,8 +91,8 @@ def lumi_writer(dataset, lumi):
 
 
 
-dataset_dict = {'2016':[],'2017':[],'2018':[],'2018_nodata':[]}
-lumi = {'2016': 36.33, "2017": 41.48, "2018": 59.83,"2018_nodata":59.83}
+dataset_dict = {'2016preVFP':[],'2016postVFP':[],'2017':[],'2018':[],'2018_nodata':[]} #Cambio 2016
+lumi = {'2016preVFP':19.5,'2016postVFP':16.8, "2017": 41.48, "2018": 59.83,"2018_nodata":59.83}#Cambio 2016
 
 if(opt.dat!= 'all'):
      if not(opt.dat in sample_dict.keys()):
@@ -101,14 +101,12 @@ if(opt.dat!= 'all'):
      #print dataset_names.keys()
      samples = []
      [samples.append(sample_dict[dataset_name]) for dataset_name in dataset_names]
+     print("Error in sample spificy which one, problem with 2016")
      [dataset_dict[str(sample.year)].append(sample) for sample in samples]
 else:
      dataset_dict = {
-          #'2016':[DataMu_2016, DataEle_2016, DataHT_2016, ST_2016, QCD_2016, TT_Mtt_2016, WJets_2016, WP_M2000W20_RH_2016, WP_M3000W30_RH_2016, WP_M4000W40_RH_2016, WP_M5000W50_RH_2016, WP_M6000W60_RH_2016],
-          #'2016':[DataHTG_2016, DataMuG_2016, ST_2016, QCD_2016, TT_Mtt_2016, WJets_2016, WP_M2000W20_RH_2016, WP_M3000W30_RH_2016, WP_M4000W40_RH_2016, WP_M4000W400_RH_2016],
-          #'2017':[DataMu_2017, DataEle_2017, DataHT_2017, ST_2017, QCD_2017, TT_Mtt_2017, WJets_2017, WP_M2000W20_RH_2017, WP_M3000W30_RH_2017, WP_M4000W40_RH_2017, WP_M4000W400_RH_2017],
-          #'2017':[DataMu_2017, DataEle_2017, DataPh_2017, DataHT_2017, ST_2017, QCD_2017, TT_Mtt_2017, WJets_2017, WP_M2000W20_RH_2017, WP_M3000W30_RH_2017, WP_M4000W40_RH_2017, WP_M5000W50_RH_2017, WP_M6000W60_RH_2017],
-          #'2018':[DataMu_2018, DataEle_2018, DataHT_2018, ST_2018, QCD_2018, TT_Mtt_2018, WJets_2018, WP_M2000W20_RH_2018, WP_M3000W30_RH_2018, WP_M4000W40_RH_2018, WP_M5000W50_RH_2018, WP_M6000W60_RH_2018],
+          '2016preVFP':[ST_2016preVFP,WJets_2016preVFP, QCD_2016preVFP, TT_Mtt_2016preVFP,DataMu_2016preVFP,DataEle_2016preVFP,DataPh_2016preVFP,DataHT_2016preVFP],
+          '2016postVFP':[ST_2016postVFP,WJets_2016postVFP, QCD_2016postVFP, TT_Mtt_2016postVFP,DataMu_2016postVFP,DataEle_2016postVFP,DataPh_2016postVFP,DataHT_2016postVFP],
           #'2016':[ST_2016,WJets_2016, QCD_2016, TT_Mtt_2016, Tprime_tHq_600LH_2016,Tprime_tHq_700LH_2016,Tprime_tHq_800LH_2016,Tprime_tHq_900LH_2016,Tprime_tHq_1000LH_2016,Tprime_tHq_1100LH_2016,Tprime_tHq_1200LH_2016,Tprime_tHq_1300LH_2016,Tprime_tHq_1400LH_2016,Tprime_tHq_1600LH_2016,Tprime_tHq_1700LH_2016,Tprime_tHq_1800LH_2016],
           '2017':[ST_2017,WJets_2017, QCD_2017, TT_Mtt_2017,DataMu_2017,DataEle_2017,DataPh_2017,DataHT_2017],
           '2018': [ST_2018,WJets_2018, QCD_2018, DataMu_2018, DataEle_2018, DataHT_2018, TT_Mtt_2018],
