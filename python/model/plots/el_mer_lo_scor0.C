@@ -1,8 +1,8 @@
 void el_mer_lo_scor0()
 {
 //=========Macro generated from canvas: scor0/scor0
-//=========  (Fri Nov 26 14:45:20 2021) by ROOT version 6.12/07
-   TCanvas *scor0 = new TCanvas("scor0", "scor0",67,57,700,500);
+//=========  (Wed Oct 18 16:09:31 2023) by ROOT version 6.12/07
+   TCanvas *scor0 = new TCanvas("scor0", "scor0",-32730,-32709,700,500);
    scor0->Range(0,0,1,1);
    scor0->SetFillColor(0);
    scor0->SetBorderMode(0);

@@ -1,0 +1,286 @@
+void el_mer_hi_ROC_TvsQCD()
+{
+//=========Macro generated from canvas: c1_n4/c1_n4
+//=========  (Tue Oct 31 17:44:31 2023) by ROOT version 6.12/07
+   TCanvas *c1_n4 = new TCanvas("c1_n4", "c1_n4",6,27,700,500);
+   c1_n4->Range(-0.1335784,-0.1275,1.133578,1.1475);
+   c1_n4->SetFillColor(0);
+   c1_n4->SetBorderMode(0);
+   c1_n4->SetBorderSize(2);
+   c1_n4->SetFrameBorderMode(0);
+   c1_n4->SetFrameBorderMode(0);
+   
+   TMultiGraph *multigraph = new TMultiGraph();
+   multigraph->SetName("");
+   multigraph->SetTitle("ROC Curve TvsQCD Merged Top(e,jet), High p_{T}");
+   
+   Double_t _fx3[102] = {
+   1,
+   1,
+   0.7011011,
+   0.6006045,
+   0.5359456,
+   0.486291,
+   0.4457038,
+   0.4104059,
+   0.3819085,
+   0.3578368,
+   0.3361399,
+   0.3174655,
+   0.3010578,
+   0.2855138,
+   0.2697539,
+   0.2593912,
+   0.247949,
+   0.2366149,
+   0.2270078,
+   0.2163212,
+   0.2075777,
+   0.2001295,
+   0.1924655,
+   0.183506,
+   0.1772452,
+   0.1694732,
+   0.1628886,
+   0.1571675,
+   0.1512306,
+   0.146589,
+   0.1419473,
+   0.1370898,
+   0.1322323,
+   0.1281304,
+   0.1243523,
+   0.1207902,
+   0.1167962,
+   0.1129102,
+   0.1092401,
+   0.1053541,
+   0.101576,
+   0.09768999,
+   0.09488342,
+   0.09132124,
+   0.08689551,
+   0.08462867,
+   0.08149827,
+   0.07901555,
+   0.07642487,
+   0.07405008,
+   0.07210708,
+   0.06919257,
+   0.06714162,
+   0.06444301,
+   0.06282383,
+   0.060557,
+   0.05872193,
+   0.05699482,
+   0.05505181,
+   0.05310881,
+   0.05062608,
+   0.04889897,
+   0.04652418,
+   0.04404145,
+   0.04328584,
+   0.04209844,
+   0.04026338,
+   0.03821243,
+   0.03626943,
+   0.03454231,
+   0.03324698,
+   0.03151986,
+   0.03011658,
+   0.02882124,
+   0.02752591,
+   0.02623057,
+   0.02515112,
+   0.02385578,
+   0.02223662,
+   0.02094128,
+   0.01986183,
+   0.01899827,
+   0.01856649,
+   0.01662349,
+   0.01575993,
+   0.01500432,
+   0.01381693,
+   0.01273748,
+   0.0123057,
+   0.01057858,
+   0.009175302,
+   0.007340242,
+   0.00615285,
+   0.004857513,
+   0.00388601,
+   0.002914508,
+   0.002374784,
+   0.001511226,
+   0.0008635579,
+   0.0002158895,
+   0.0002158895,
+   0};
+   Double_t _fy3[102] = {
+   1,
+   1,
+   0.9997098,
+   0.9992746,
+   0.9976788,
+   0.9966633,
+   0.9949224,
+   0.994197,
+   0.9934716,
+   0.992166,
+   0.9904251,
+   0.9892645,
+   0.9876686,
+   0.9860728,
+   0.984477,
+   0.9820107,
+   0.9807051,
+   0.9788191,
+   0.9764979,
+   0.9738865,
+   0.97084,
+   0.968954,
+   0.9664878,
+   0.9646018,
+   0.9627158,
+   0.9609749,
+   0.9586537,
+   0.9574931,
+   0.955462,
+   0.9528507,
+   0.9508197,
+   0.9482083,
+   0.9454519,
+   0.9421152,
+   0.9393588,
+   0.936022,
+   0.9328304,
+   0.9305092,
+   0.9283331,
+   0.9252865,
+   0.9213695,
+   0.9186131,
+   0.9158567,
+   0.9139707,
+   0.9113594,
+   0.908748,
+   0.9057015,
+   0.9036704,
+   0.8998985,
+   0.8955462,
+   0.8913391,
+   0.8882925,
+   0.8849558,
+   0.881619,
+   0.8788626,
+   0.8752357,
+   0.8711737,
+   0.8671116,
+   0.862034,
+   0.8571014,
+   0.852459,
+   0.8492674,
+   0.8443348,
+   0.8395474,
+   0.834905,
+   0.8302626,
+   0.8262005,
+   0.8208327,
+   0.8148847,
+   0.8106775,
+   0.8061802,
+   0.801973,
+   0.7961701,
+   0.7912375,
+   0.786305,
+   0.7787611,
+   0.7720876,
+   0.7638184,
+   0.7556942,
+   0.7493109,
+   0.7407515,
+   0.7313216,
+   0.7218918,
+   0.712607,
+   0.7025968,
+   0.6921515,
+   0.6802554,
+   0.6661831,
+   0.6537067,
+   0.6378935,
+   0.6222255,
+   0.603946,
+   0.5859568,
+   0.5617293,
+   0.5369215,
+   0.5023937,
+   0.4653997,
+   0.4159292,
+   0.3439721,
+   0.2535906,
+   0.1215726,
+   0};
+   TGraph *graph = new TGraph(102,_fx3,_fy3);
+   graph->SetName("");
+   graph->SetTitle("");
+   graph->SetFillStyle(1000);
+   graph->SetLineWidth(2);
+   
+   TH1F *Graph_Graph3 = new TH1F("Graph_Graph3","",102,0,1.1);
+   Graph_Graph3->SetMinimum(0);
+   Graph_Graph3->SetMaximum(1.1);
+   Graph_Graph3->SetDirectory(0);
+   Graph_Graph3->SetStats(0);
+
+   Int_t ci;      // for color index setting
+   TColor *color; // for color definition with alpha
+   ci = TColor::GetColor("#000099");
+   Graph_Graph3->SetLineColor(ci);
+   Graph_Graph3->GetXaxis()->SetLabelFont(42);
+   Graph_Graph3->GetXaxis()->SetLabelSize(0.035);
+   Graph_Graph3->GetXaxis()->SetTitleSize(0.035);
+   Graph_Graph3->GetXaxis()->SetTitleFont(42);
+   Graph_Graph3->GetYaxis()->SetLabelFont(42);
+   Graph_Graph3->GetYaxis()->SetLabelSize(0.035);
+   Graph_Graph3->GetYaxis()->SetTitleSize(0.035);
+   Graph_Graph3->GetYaxis()->SetTitleOffset(0);
+   Graph_Graph3->GetYaxis()->SetTitleFont(42);
+   Graph_Graph3->GetZaxis()->SetLabelFont(42);
+   Graph_Graph3->GetZaxis()->SetLabelSize(0.035);
+   Graph_Graph3->GetZaxis()->SetTitleSize(0.035);
+   Graph_Graph3->GetZaxis()->SetTitleFont(42);
+   graph->SetHistogram(Graph_Graph3);
+   
+   multigraph->Add(graph,"l");
+   multigraph->Draw("a");
+   multigraph->GetXaxis()->SetTitle("Background (TopQCD) Efficiency");
+   multigraph->GetXaxis()->SetRange(5,98);
+   multigraph->GetXaxis()->SetLabelFont(42);
+   multigraph->GetXaxis()->SetLabelSize(0.035);
+   multigraph->GetXaxis()->SetTitleSize(0.035);
+   multigraph->GetXaxis()->SetTitleFont(42);
+   multigraph->GetYaxis()->SetTitle("Signal Efficiency");
+   multigraph->GetYaxis()->SetLabelFont(42);
+   multigraph->GetYaxis()->SetLabelSize(0.035);
+   multigraph->GetYaxis()->SetTitleSize(0.035);
+   multigraph->GetYaxis()->SetTitleOffset(0);
+   multigraph->GetYaxis()->SetTitleFont(42);
+   
+   TPaveText *pt = new TPaveText(0.15,0.9168487,0.85,0.995,"blNDC");
+   pt->SetName("title");
+   pt->SetBorderSize(0);
+   pt->SetFillColor(0);
+   pt->SetFillStyle(0);
+   pt->SetTextFont(42);
+   TText *pt_LaTex = pt->AddText("ROC Curve TvsQCD Merged Top(e,jet), High p_{T}");
+   pt->Draw();
+   TLine *line = new TLine(0.3578368,0,0.3578368,1);
+
+   ci = TColor::GetColor("#ff0000");
+   line->SetLineColor(ci);
+   line->SetLineWidth(2);
+   line->Draw();
+   c1_n4->Modified();
+   c1_n4->cd();
+   c1_n4->SetSelected(c1_n4);
+}

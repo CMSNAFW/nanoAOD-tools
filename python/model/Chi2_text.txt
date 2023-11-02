@@ -1,0 +1,55 @@
+scores_el_resolved_high_pt.root  TvsOth 0 0.69086 0.839642
+scores_el_resolved_high_pt.root  TvsOth 1 0.751064 0.775189
+scores_el_resolved_high_pt.root  TvsOth 2 1.00537 0.451225
+scores_el_resolved_high_pt.root  TvsQCD 0 1.64508 0.0345892
+scores_el_resolved_high_pt.root  TvsQCD 1 0.714224 0.815784
+scores_el_resolved_high_pt.root  TvsQCD 2 1.51697 0.0645363
+
+scores_mu_resolved_high_pt.root  TvsOth 0 0.99127 0.468898
+scores_mu_resolved_high_pt.root  TvsOth 1 1.46841 0.0807566
+scores_mu_resolved_high_pt.root  TvsOth 2 1.71611 0.0240264
+scores_mu_resolved_high_pt.root  TvsQCD 0 0.502062 0.967418
+scores_mu_resolved_high_pt.root  TvsQCD 1 1.03013 0.420841
+scores_mu_resolved_high_pt.root  TvsQCD 2 2.32042 0.000708211
+
+scores_el_merged_high_pt.root  TvsOth 0 1.46935 0.080414
+scores_el_merged_high_pt.root  TvsOth 1 1.10892 0.330913
+scores_el_merged_high_pt.root  TvsOth 2 1.24085 0.20852
+scores_el_merged_high_pt.root  TvsQCD 0 1.09724 0.343512
+scores_el_merged_high_pt.root  TvsQCD 1 0.835201 0.6721
+scores_el_merged_high_pt.root  TvsQCD 2 1.99852 0.00503869
+
+scores_mu_merged_high_pt.root  TvsOth 0 0.787111 0.732482
+scores_mu_merged_high_pt.root  TvsOth 1 0.966992 0.499845
+scores_mu_merged_high_pt.root  TvsOth 2 1.44537 0.0895989
+scores_mu_merged_high_pt.root  TvsQCD 0 1.62383 0.0384779
+scores_mu_merged_high_pt.root  TvsQCD 1 0.931313 0.546225
+scores_mu_merged_high_pt.root  TvsQCD 2 2.09961 0.00277201
+
+scores_el_resolved_low_pt.root  TvsOth 0 1.08388 0.358256
+scores_el_resolved_low_pt.root  TvsOth 1 1.40111 0.108876
+scores_el_resolved_low_pt.root  TvsOth 2 1.00909 0.446614
+scores_el_resolved_low_pt.root  TvsQCD 0 1.63065 0.0371895
+scores_el_resolved_low_pt.root  TvsQCD 1 0.723173 0.806241
+scores_el_resolved_low_pt.root  TvsQCD 2 1.14318 0.295537
+
+scores_mu_resolved_low_pt.root  TvsOth 0 0.920669 0.560197
+scores_mu_resolved_low_pt.root  TvsOth 1 0.483743 0.973692
+scores_mu_resolved_low_pt.root  TvsOth 2 0.825111 0.685019
+scores_mu_resolved_low_pt.root  TvsQCD 0 1.31241 0.157768
+scores_mu_resolved_low_pt.root  TvsQCD 1 0.527091 0.957251
+scores_mu_resolved_low_pt.root  TvsQCD 2 0.8876 0.603742
+
+scores_el_merged_low_pt.root  TvsOth 0 0.512466 0.963422
+scores_el_merged_low_pt.root  TvsOth 1 0.507402 0.965407
+scores_el_merged_low_pt.root  TvsOth 2 0.513881 0.962854
+scores_el_merged_low_pt.root  TvsQCD 0 0.838246 0.668181
+scores_el_merged_low_pt.root  TvsQCD 1 1.71365 0.0243356
+scores_el_merged_low_pt.root  TvsQCD 2 1.5849 0.0466251
+
+scores_mu_merged_low_pt.root  TvsOth 0 1.1589 0.280141
+scores_mu_merged_low_pt.root  TvsOth 1 0.789481 0.729587
+scores_mu_merged_low_pt.root  TvsOth 2 1.10499 0.335123
+scores_mu_merged_low_pt.root  TvsQCD 0 0.938384 0.536971
+scores_mu_merged_low_pt.root  TvsQCD 1 1.41543 0.102295
+scores_mu_merged_low_pt.root  TvsQCD 2 1.31135 0.158443

@@ -1,8 +1,8 @@
 void mu_mer_hi_tagvsQCD()
 {
 //=========Macro generated from canvas: tagvsQCD/tagvsQCD
-//=========  (Fri Nov 26 14:41:31 2021) by ROOT version 6.12/07
-   TCanvas *tagvsQCD = new TCanvas("tagvsQCD", "tagvsQCD",67,57,700,500);
+//=========  (Wed Oct 18 16:06:00 2023) by ROOT version 6.12/07
+   TCanvas *tagvsQCD = new TCanvas("tagvsQCD", "tagvsQCD",-32730,27,700,500);
    tagvsQCD->Range(0,0,1,1);
    tagvsQCD->SetFillColor(0);
    tagvsQCD->SetBorderMode(0);
@@ -388,52 +388,7 @@ void mu_mer_hi_tagvsQCD()
    tagvsQCD_2_test__114->GetZaxis()->SetTitleSize(0.035);
    tagvsQCD_2_test__114->GetZaxis()->SetTitleFont(42);
    tagvsQCD_2_test__114->Draw("samee");
-
-   TLegend *leg = new TLegend(0.20,0.6,0.5,0.88);
-   leg->SetNColumns(2);
-   leg->SetBorderSize(1);
-   leg->SetLineColor(1);
-   leg->SetLineStyle(1);
-   leg->SetLineWidth(1);
-   leg->SetFillColor(0);
-   leg->SetFillStyle(1001);
-
-
-   TLegendEntry *entry=leg->AddEntry("","True (Train)");
-   entry->SetLineColor(kRed);
-   entry->SetMarkerStyle(0);
-
-   entry=leg->AddEntry("","True (Test)");
-   entry->SetLineColor(kRed);
-   entry->SetMarkerStyle(20);
-   entry->SetMarkerColor(kRed);
-
-   entry=leg->AddEntry("","Other (Train)");
-   entry->SetLineColor(kGreen);
-   entry->SetMarkerStyle(0);
-
-   entry=leg->AddEntry("","Other (Test)");
-   entry->SetLineColor(kGreen);
-   entry->SetMarkerStyle(20);
-   entry->SetMarkerColor(kGreen);
-
-   entry=leg->AddEntry("","QCD (Train)");
-   entry->SetLineColor(kBlue);
-   entry->SetMarkerStyle(0);
-
-   entry=leg->AddEntry("","QCD (Test)");
-   entry->SetLineColor(kBlue);
-   entry->SetMarkerStyle(20);
-   entry->SetMarkerColor(kBlue);
-   tagvsQCD_0_train__109->SetTitle("Merged Top(#mu,jet), High p_{T}");
-   tagvsQCD_0_train__109->GetYaxis()->SetRangeUser(0,1);
-   tagvsQCD_0_train__109->GetXaxis()->SetTitle("Top TvsQCD tagger");
-   gStyle->SetOptStat(00000000);
-   leg->Draw();
    tagvsQCD->Modified();
    tagvsQCD->cd();
    tagvsQCD->SetSelected(tagvsQCD);
-   tagvsQCD->SaveAs("mu_mer_hi_tagvsQCD.pdf");
-
-
 }

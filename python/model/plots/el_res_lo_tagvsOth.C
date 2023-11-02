@@ -1,8 +1,8 @@
 void el_res_lo_tagvsOth()
 {
 //=========Macro generated from canvas: tagvsOth/tagvsOth
-//=========  (Fri Nov 26 14:41:55 2021) by ROOT version 6.12/07
-   TCanvas *tagvsOth = new TCanvas("tagvsOth", "tagvsOth",67,57,700,500);
+//=========  (Wed Oct 18 16:06:20 2023) by ROOT version 6.12/07
+   TCanvas *tagvsOth = new TCanvas("tagvsOth", "tagvsOth",-32730,-32709,700,500);
    tagvsOth->Range(0,0,1,1);
    tagvsOth->SetFillColor(0);
    tagvsOth->SetBorderMode(0);
@@ -388,51 +388,7 @@ void el_res_lo_tagvsOth()
    tagvsOth_2_test__150->GetZaxis()->SetTitleSize(0.035);
    tagvsOth_2_test__150->GetZaxis()->SetTitleFont(42);
    tagvsOth_2_test__150->Draw("samee");
-   TLegend *leg = new TLegend(0.20,0.6,0.5,0.88);
-   leg->SetNColumns(2);
-   leg->SetBorderSize(1);
-   leg->SetLineColor(1);
-   leg->SetLineStyle(1);
-   leg->SetLineWidth(1);
-   leg->SetFillColor(0);
-   leg->SetFillStyle(1001);
-   TLegendEntry *entry=leg->AddEntry("","True (Train)");
-   entry->SetLineColor(kRed);
-   entry->SetMarkerStyle(0);
-
-   entry=leg->AddEntry("","True (Test)");
-   entry->SetLineColor(kRed);
-   entry->SetMarkerStyle(20);
-   entry->SetMarkerColor(kRed);
-
-   entry=leg->AddEntry("","Other (Train)");
-   entry->SetLineColor(kGreen);
-   entry->SetMarkerStyle(0);
-
-   entry=leg->AddEntry("","Other (Test)");
-   entry->SetLineColor(kGreen);
-   entry->SetMarkerStyle(20);
-   entry->SetMarkerColor(kGreen);
-
-   entry=leg->AddEntry("","QCD (Train)");
-   entry->SetLineColor(kBlue);
-   entry->SetMarkerStyle(0);
-
-   entry=leg->AddEntry("","QCD (Test)");
-   entry->SetLineColor(kBlue);
-   entry->SetMarkerStyle(20);
-   entry->SetMarkerColor(kBlue);
-   tagvsOth_0_train__145->SetTitle("Resolved Top(e,jet), Low p_{T}");
-   tagvsOth_0_train__145->GetYaxis()->SetRangeUser(0,1);
-   tagvsOth_0_train__145->GetXaxis()->SetTitle("Top TvsOther tagger");
-   gStyle->SetOptStat(00000000);
-   leg->Draw();
    tagvsOth->Modified();
    tagvsOth->cd();
    tagvsOth->SetSelected(tagvsOth);
-   tagvsOth->SaveAs("el_res_lo_tagvsOth.pdf");
-
-
-
-
 }

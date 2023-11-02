@@ -1,0 +1,286 @@
+void mu_mer_lo_ROC_TvsQCD()
+{
+//=========Macro generated from canvas: c1_n9/c1_n9
+//=========  (Tue Oct 31 17:49:26 2023) by ROOT version 6.12/07
+   TCanvas *c1_n9 = new TCanvas("c1_n9", "c1_n9",6,27,700,500);
+   c1_n9->Range(-0.1335784,-0.1275,1.133578,1.1475);
+   c1_n9->SetFillColor(0);
+   c1_n9->SetBorderMode(0);
+   c1_n9->SetBorderSize(2);
+   c1_n9->SetFrameBorderMode(0);
+   c1_n9->SetFrameBorderMode(0);
+   
+   TMultiGraph *multigraph = new TMultiGraph();
+   multigraph->SetName("");
+   multigraph->SetTitle("ROC Curve TvsQCD Merged Top(#mu,jet), Low p_{T}");
+   
+   Double_t _fx8[102] = {
+   1,
+   1,
+   0.3725157,
+   0.2869159,
+   0.2432958,
+   0.2142094,
+   0.1922182,
+   0.1744993,
+   0.1597749,
+   0.1470151,
+   0.1353042,
+   0.1259203,
+   0.1177761,
+   0.1109861,
+   0.1047301,
+   0.09923708,
+   0.09374404,
+   0.08882319,
+   0.08470342,
+   0.08086973,
+   0.07732214,
+   0.07373641,
+   0.07106619,
+   0.06830059,
+   0.06526797,
+   0.06252146,
+   0.05950791,
+   0.05727637,
+   0.05529277,
+   0.05321381,
+   0.05121114,
+   0.04943734,
+   0.04760633,
+   0.04583254,
+   0.0440206,
+   0.04266641,
+   0.04112149,
+   0.03957658,
+   0.03812703,
+   0.03671562,
+   0.0354568,
+   0.03436964,
+   0.03333969,
+   0.03244326,
+   0.03150868,
+   0.0303643,
+   0.02965859,
+   0.02855236,
+   0.02773221,
+   0.02693115,
+   0.02620637,
+   0.02538623,
+   0.02454701,
+   0.02380317,
+   0.02317376,
+   0.02263971,
+   0.02212474,
+   0.02162884,
+   0.02082777,
+   0.02021743,
+   0.01958802,
+   0.01897768,
+   0.01838642,
+   0.01775701,
+   0.01714667,
+   0.01651726,
+   0.01605951,
+   0.0154301,
+   0.01485791,
+   0.01428571,
+   0.01396147,
+   0.01340835,
+   0.01275987,
+   0.01220675,
+   0.01157734,
+   0.01106237,
+   0.01049018,
+   0.009822621,
+   0.009288576,
+   0.00894526,
+   0.008621018,
+   0.008277704,
+   0.007839023,
+   0.007533855,
+   0.007171467,
+   0.00669464,
+   0.006408545,
+   0.005874499,
+   0.005302308,
+   0.004997139,
+   0.004444021,
+   0.004081632,
+   0.003719245,
+   0.003337784,
+   0.002803738,
+   0.002517643,
+   0.001926378,
+   0.001506771,
+   0.001068091,
+   0.0004768262,
+   3.81461e-05,
+   0};
+   Double_t _fy8[102] = {
+   1,
+   1,
+   0.9987141,
+   0.996914,
+   0.9950495,
+   0.992735,
+   0.9904205,
+   0.9877202,
+   0.98547,
+   0.9818053,
+   0.9794908,
+   0.9776263,
+   0.9749261,
+   0.9725472,
+   0.9699756,
+   0.9673396,
+   0.9642535,
+   0.9616819,
+   0.9597531,
+   0.9563456,
+   0.9536453,
+   0.9513952,
+   0.9483091,
+   0.9463161,
+   0.9434229,
+   0.9403369,
+   0.9376366,
+   0.9351935,
+   0.9322361,
+   0.9301788,
+   0.9279928,
+   0.9252926,
+   0.9231709,
+   0.9205349,
+   0.9182847,
+   0.9158416,
+   0.9139771,
+   0.9106982,
+   0.9078693,
+   0.905362,
+   0.9027903,
+   0.9006044,
+   0.8981612,
+   0.8946894,
+   0.8912177,
+   0.8890318,
+   0.8864601,
+   0.8839527,
+   0.880288,
+   0.8779092,
+   0.875209,
+   0.8719943,
+   0.869294,
+   0.8661438,
+   0.8635078,
+   0.8604218,
+   0.8570786,
+   0.8542497,
+   0.8499421,
+   0.8464704,
+   0.8433201,
+   0.840234,
+   0.837148,
+   0.8333548,
+   0.8298187,
+   0.825704,
+   0.8224251,
+   0.817346,
+   0.8135528,
+   0.8098238,
+   0.8049377,
+   0.7999871,
+   0.7964511,
+   0.791822,
+   0.7859071,
+   0.7815996,
+   0.7770348,
+   0.773113,
+   0.7670696,
+   0.7609618,
+   0.7544683,
+   0.7472676,
+   0.7410955,
+   0.7342163,
+   0.7274013,
+   0.7189791,
+   0.7102353,
+   0.7006558,
+   0.6900476,
+   0.6779606,
+   0.6661952,
+   0.6517938,
+   0.6352707,
+   0.6161116,
+   0.5963739,
+   0.5734217,
+   0.5451974,
+   0.5046933,
+   0.4486306,
+   0.3610004,
+   0.1953195,
+   0};
+   TGraph *graph = new TGraph(102,_fx8,_fy8);
+   graph->SetName("");
+   graph->SetTitle("");
+   graph->SetFillStyle(1000);
+   graph->SetLineWidth(2);
+   
+   TH1F *Graph_Graph8 = new TH1F("Graph_Graph8","",102,0,1.1);
+   Graph_Graph8->SetMinimum(0);
+   Graph_Graph8->SetMaximum(1.1);
+   Graph_Graph8->SetDirectory(0);
+   Graph_Graph8->SetStats(0);
+
+   Int_t ci;      // for color index setting
+   TColor *color; // for color definition with alpha
+   ci = TColor::GetColor("#000099");
+   Graph_Graph8->SetLineColor(ci);
+   Graph_Graph8->GetXaxis()->SetLabelFont(42);
+   Graph_Graph8->GetXaxis()->SetLabelSize(0.035);
+   Graph_Graph8->GetXaxis()->SetTitleSize(0.035);
+   Graph_Graph8->GetXaxis()->SetTitleFont(42);
+   Graph_Graph8->GetYaxis()->SetLabelFont(42);
+   Graph_Graph8->GetYaxis()->SetLabelSize(0.035);
+   Graph_Graph8->GetYaxis()->SetTitleSize(0.035);
+   Graph_Graph8->GetYaxis()->SetTitleOffset(0);
+   Graph_Graph8->GetYaxis()->SetTitleFont(42);
+   Graph_Graph8->GetZaxis()->SetLabelFont(42);
+   Graph_Graph8->GetZaxis()->SetLabelSize(0.035);
+   Graph_Graph8->GetZaxis()->SetTitleSize(0.035);
+   Graph_Graph8->GetZaxis()->SetTitleFont(42);
+   graph->SetHistogram(Graph_Graph8);
+   
+   multigraph->Add(graph,"l");
+   multigraph->Draw("a");
+   multigraph->GetXaxis()->SetTitle("Background (TopQCD) Efficiency");
+   multigraph->GetXaxis()->SetRange(5,98);
+   multigraph->GetXaxis()->SetLabelFont(42);
+   multigraph->GetXaxis()->SetLabelSize(0.035);
+   multigraph->GetXaxis()->SetTitleSize(0.035);
+   multigraph->GetXaxis()->SetTitleFont(42);
+   multigraph->GetYaxis()->SetTitle("Signal Efficiency");
+   multigraph->GetYaxis()->SetLabelFont(42);
+   multigraph->GetYaxis()->SetLabelSize(0.035);
+   multigraph->GetYaxis()->SetTitleSize(0.035);
+   multigraph->GetYaxis()->SetTitleOffset(0);
+   multigraph->GetYaxis()->SetTitleFont(42);
+   
+   TPaveText *pt = new TPaveText(0.15,0.9168487,0.85,0.995,"blNDC");
+   pt->SetName("title");
+   pt->SetBorderSize(0);
+   pt->SetFillColor(0);
+   pt->SetFillStyle(0);
+   pt->SetTextFont(42);
+   TText *pt_LaTex = pt->AddText("ROC Curve TvsQCD Merged Top(#mu,jet), Low p_{T}");
+   pt->Draw();
+   TLine *line = new TLine(0.2142094,0,0.2142094,1);
+
+   ci = TColor::GetColor("#ff0000");
+   line->SetLineColor(ci);
+   line->SetLineWidth(2);
+   line->Draw();
+   c1_n9->Modified();
+   c1_n9->cd();
+   c1_n9->SetSelected(c1_n9);
+}

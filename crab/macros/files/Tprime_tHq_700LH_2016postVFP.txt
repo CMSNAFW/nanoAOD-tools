@@ -1,0 +1,1 @@
+root://cms-xrd-global.cern.ch//store/user/fabozzi/Tprime/TprimeBToTH_M-700_LH_TuneCP5_13TeV-madgraph_pythia8/Tprime_tHq_700LH_2016postVFP/230302_231917/0000/tree_hadd_1.root

@@ -1,0 +1,9 @@
+root://cms-xrd-global.cern.ch//store/user/fabozzi/Tprime/QCD_HT2000toInf_TuneCP5_PSWeights_13TeV-madgraphMLM-pythia8/QCDHT_2000toInf_2016postVFP/230302_230539/0000/tree_hadd_7.root
+root://cms-xrd-global.cern.ch//store/user/fabozzi/Tprime/QCD_HT2000toInf_TuneCP5_PSWeights_13TeV-madgraphMLM-pythia8/QCDHT_2000toInf_2016postVFP/230302_230539/0000/tree_hadd_3.root
+root://cms-xrd-global.cern.ch//store/user/fabozzi/Tprime/QCD_HT2000toInf_TuneCP5_PSWeights_13TeV-madgraphMLM-pythia8/QCDHT_2000toInf_2016postVFP/230302_230539/0000/tree_hadd_6.root
+root://cms-xrd-global.cern.ch//store/user/fabozzi/Tprime/QCD_HT2000toInf_TuneCP5_PSWeights_13TeV-madgraphMLM-pythia8/QCDHT_2000toInf_2016postVFP/230302_230539/0000/tree_hadd_8.root
+root://cms-xrd-global.cern.ch//store/user/fabozzi/Tprime/QCD_HT2000toInf_TuneCP5_PSWeights_13TeV-madgraphMLM-pythia8/QCDHT_2000toInf_2016postVFP/230302_230539/0000/tree_hadd_9.root
+root://cms-xrd-global.cern.ch//store/user/fabozzi/Tprime/QCD_HT2000toInf_TuneCP5_PSWeights_13TeV-madgraphMLM-pythia8/QCDHT_2000toInf_2016postVFP/230302_230539/0000/tree_hadd_1.root
+root://cms-xrd-global.cern.ch//store/user/fabozzi/Tprime/QCD_HT2000toInf_TuneCP5_PSWeights_13TeV-madgraphMLM-pythia8/QCDHT_2000toInf_2016postVFP/230302_230539/0000/tree_hadd_4.root
+root://cms-xrd-global.cern.ch//store/user/fabozzi/Tprime/QCD_HT2000toInf_TuneCP5_PSWeights_13TeV-madgraphMLM-pythia8/QCDHT_2000toInf_2016postVFP/230302_230539/0000/tree_hadd_2.root
+root://cms-xrd-global.cern.ch//store/user/fabozzi/Tprime/QCD_HT2000toInf_TuneCP5_PSWeights_13TeV-madgraphMLM-pythia8/QCDHT_2000toInf_2016postVFP/230302_230539/0000/tree_hadd_5.root

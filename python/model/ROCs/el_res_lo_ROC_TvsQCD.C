@@ -1,0 +1,286 @@
+void el_res_lo_ROC_TvsQCD()
+{
+//=========Macro generated from canvas: c1_n6/c1_n6
+//=========  (Tue Oct 31 17:49:23 2023) by ROOT version 6.12/07
+   TCanvas *c1_n6 = new TCanvas("c1_n6", "c1_n6",6,27,700,500);
+   c1_n6->Range(-0.1335784,-0.1275,1.133578,1.1475);
+   c1_n6->SetFillColor(0);
+   c1_n6->SetBorderMode(0);
+   c1_n6->SetBorderSize(2);
+   c1_n6->SetFrameBorderMode(0);
+   c1_n6->SetFrameBorderMode(0);
+   
+   TMultiGraph *multigraph = new TMultiGraph();
+   multigraph->SetName("");
+   multigraph->SetTitle("ROC Curve TvsQCD Resolved Top(e,jet), Low p_{T}");
+   
+   Double_t _fx5[102] = {
+   1,
+   1,
+   0.3728591,
+   0.2941011,
+   0.253363,
+   0.2264594,
+   0.2077494,
+   0.1934298,
+   0.1815734,
+   0.1716696,
+   0.1630293,
+   0.1556143,
+   0.1490926,
+   0.142456,
+   0.1363045,
+   0.131276,
+   0.1266049,
+   0.1216785,
+   0.1175179,
+   0.1134339,
+   0.1094137,
+   0.1059678,
+   0.1028537,
+   0.09957373,
+   0.09668938,
+   0.09380504,
+   0.09140567,
+   0.08875106,
+   0.08660693,
+   0.08406718,
+   0.08173162,
+   0.07986829,
+   0.07789009,
+   0.07600123,
+   0.07390816,
+   0.07219797,
+   0.0702453,
+   0.06881589,
+   0.06737372,
+   0.06572734,
+   0.06437451,
+   0.06279194,
+   0.06134977,
+   0.05972892,
+   0.05819741,
+   0.05685734,
+   0.05540241,
+   0.05398576,
+   0.05279884,
+   0.05167573,
+   0.05039947,
+   0.04927636,
+   0.0482043,
+   0.04703014,
+   0.0459198,
+   0.04470735,
+   0.04353319,
+   0.04248666,
+   0.04140184,
+   0.04032978,
+   0.03934707,
+   0.0384154,
+   0.03748373,
+   0.03646272,
+   0.03540343,
+   0.03435689,
+   0.03331036,
+   0.03248079,
+   0.03154912,
+   0.03064298,
+   0.0297496,
+   0.02892003,
+   0.02798836,
+   0.02695459,
+   0.02590806,
+   0.02529545,
+   0.02444036,
+   0.02358527,
+   0.02276846,
+   0.02172193,
+   0.0208796,
+   0.01989688,
+   0.01905455,
+   0.0179442,
+   0.01724226,
+   0.01638717,
+   0.01542997,
+   0.01476632,
+   0.01370702,
+   0.01276259,
+   0.01176711,
+   0.01075886,
+   0.009725094,
+   0.008704087,
+   0.007746893,
+   0.006789698,
+   0.005500677,
+   0.004441381,
+   0.003433137,
+   0.002093065,
+   0.0006636547,
+   0};
+   Double_t _fy5[102] = {
+   1,
+   1,
+   0.9990584,
+   0.9982276,
+   0.9969721,
+   0.9959198,
+   0.9947566,
+   0.9937412,
+   0.9929104,
+   0.9918027,
+   0.990898,
+   0.9898272,
+   0.9887748,
+   0.9879071,
+   0.986744,
+   0.9857285,
+   0.9843623,
+   0.9832177,
+   0.9819991,
+   0.9811499,
+   0.9797836,
+   0.9788236,
+   0.9776789,
+   0.9764973,
+   0.9752418,
+   0.973931,
+   0.9726202,
+   0.9711063,
+   0.9695739,
+   0.9684662,
+   0.9672107,
+   0.9658999,
+   0.9645336,
+   0.9632782,
+   0.961912,
+   0.9606196,
+   0.9593457,
+   0.9579241,
+   0.9563917,
+   0.955007,
+   0.9535485,
+   0.9520715,
+   0.9507607,
+   0.9495975,
+   0.9479728,
+   0.9464035,
+   0.9447788,
+   0.9431726,
+   0.9417694,
+   0.9406248,
+   0.9389077,
+   0.9370431,
+   0.9352337,
+   0.9334983,
+   0.9314674,
+   0.9296765,
+   0.9275718,
+   0.9254302,
+   0.9236393,
+   0.9216269,
+   0.9196699,
+   0.9173067,
+   0.9151097,
+   0.9123034,
+   0.9100694,
+   0.9078355,
+   0.9054538,
+   0.9027768,
+   0.9002659,
+   0.8976811,
+   0.8946902,
+   0.8912008,
+   0.8881914,
+   0.8849421,
+   0.8813788,
+   0.8780001,
+   0.8741784,
+   0.8702644,
+   0.8664427,
+   0.8619193,
+   0.8575622,
+   0.8527435,
+   0.8476848,
+   0.8425338,
+   0.8364227,
+   0.8298501,
+   0.8227789,
+   0.8158925,
+   0.8079721,
+   0.7986116,
+   0.7886235,
+   0.7772506,
+   0.7648069,
+   0.7487261,
+   0.730836,
+   0.7091795,
+   0.6813936,
+   0.6436748,
+   0.5918507,
+   0.5080681,
+   0.3293516,
+   0};
+   TGraph *graph = new TGraph(102,_fx5,_fy5);
+   graph->SetName("");
+   graph->SetTitle("");
+   graph->SetFillStyle(1000);
+   graph->SetLineWidth(2);
+   
+   TH1F *Graph_Graph5 = new TH1F("Graph_Graph5","",102,0,1.1);
+   Graph_Graph5->SetMinimum(0);
+   Graph_Graph5->SetMaximum(1.1);
+   Graph_Graph5->SetDirectory(0);
+   Graph_Graph5->SetStats(0);
+
+   Int_t ci;      // for color index setting
+   TColor *color; // for color definition with alpha
+   ci = TColor::GetColor("#000099");
+   Graph_Graph5->SetLineColor(ci);
+   Graph_Graph5->GetXaxis()->SetLabelFont(42);
+   Graph_Graph5->GetXaxis()->SetLabelSize(0.035);
+   Graph_Graph5->GetXaxis()->SetTitleSize(0.035);
+   Graph_Graph5->GetXaxis()->SetTitleFont(42);
+   Graph_Graph5->GetYaxis()->SetLabelFont(42);
+   Graph_Graph5->GetYaxis()->SetLabelSize(0.035);
+   Graph_Graph5->GetYaxis()->SetTitleSize(0.035);
+   Graph_Graph5->GetYaxis()->SetTitleOffset(0);
+   Graph_Graph5->GetYaxis()->SetTitleFont(42);
+   Graph_Graph5->GetZaxis()->SetLabelFont(42);
+   Graph_Graph5->GetZaxis()->SetLabelSize(0.035);
+   Graph_Graph5->GetZaxis()->SetTitleSize(0.035);
+   Graph_Graph5->GetZaxis()->SetTitleFont(42);
+   graph->SetHistogram(Graph_Graph5);
+   
+   multigraph->Add(graph,"l");
+   multigraph->Draw("a");
+   multigraph->GetXaxis()->SetTitle("Background (TopQCD) Efficiency");
+   multigraph->GetXaxis()->SetRange(5,98);
+   multigraph->GetXaxis()->SetLabelFont(42);
+   multigraph->GetXaxis()->SetLabelSize(0.035);
+   multigraph->GetXaxis()->SetTitleSize(0.035);
+   multigraph->GetXaxis()->SetTitleFont(42);
+   multigraph->GetYaxis()->SetTitle("Signal Efficiency");
+   multigraph->GetYaxis()->SetLabelFont(42);
+   multigraph->GetYaxis()->SetLabelSize(0.035);
+   multigraph->GetYaxis()->SetTitleSize(0.035);
+   multigraph->GetYaxis()->SetTitleOffset(0);
+   multigraph->GetYaxis()->SetTitleFont(42);
+   
+   TPaveText *pt = new TPaveText(0.15,0.9168487,0.85,0.995,"blNDC");
+   pt->SetName("title");
+   pt->SetBorderSize(0);
+   pt->SetFillColor(0);
+   pt->SetFillStyle(0);
+   pt->SetTextFont(42);
+   TText *pt_LaTex = pt->AddText("ROC Curve TvsQCD Resolved Top(e,jet), Low p_{T}");
+   pt->Draw();
+   TLine *line = new TLine(0.1716696,0,0.1716696,1);
+
+   ci = TColor::GetColor("#ff0000");
+   line->SetLineColor(ci);
+   line->SetLineWidth(2);
+   line->Draw();
+   c1_n6->Modified();
+   c1_n6->cd();
+   c1_n6->SetSelected(c1_n6);
+}

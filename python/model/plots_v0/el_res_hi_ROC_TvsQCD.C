@@ -1,0 +1,286 @@
+void el_res_hi_ROC_TvsQCD()
+{
+//=========Macro generated from canvas: c1_n2/c1_n2
+//=========  (Tue Oct 31 17:44:29 2023) by ROOT version 6.12/07
+   TCanvas *c1_n2 = new TCanvas("c1_n2", "c1_n2",6,27,700,500);
+   c1_n2->Range(-0.1335784,-0.1275,1.133578,1.1475);
+   c1_n2->SetFillColor(0);
+   c1_n2->SetBorderMode(0);
+   c1_n2->SetBorderSize(2);
+   c1_n2->SetFrameBorderMode(0);
+   c1_n2->SetFrameBorderMode(0);
+   
+   TMultiGraph *multigraph = new TMultiGraph();
+   multigraph->SetName("");
+   multigraph->SetTitle("ROC Curve TvsQCD Resolved Top(e,jet), High p_{T}");
+   
+   Double_t _fx1[102] = {
+   1,
+   1,
+   0.5000275,
+   0.4130662,
+   0.363091,
+   0.3297375,
+   0.3029336,
+   0.2823491,
+   0.2641312,
+   0.2481149,
+   0.2351808,
+   0.2235126,
+   0.2128901,
+   0.2036436,
+   0.1954978,
+   0.1877374,
+   0.181518,
+   0.1743079,
+   0.1669877,
+   0.1614838,
+   0.1555397,
+   0.1501459,
+   0.1454125,
+   0.1397986,
+   0.1356156,
+   0.131873,
+   0.1278001,
+   0.1237823,
+   0.1203148,
+   0.1173978,
+   0.1140954,
+   0.110683,
+   0.1080962,
+   0.1052342,
+   0.1025923,
+   0.09956519,
+   0.09736364,
+   0.09510705,
+   0.09307061,
+   0.09070395,
+   0.08872255,
+   0.08641092,
+   0.08464967,
+   0.08178766,
+   0.07909076,
+   0.07694425,
+   0.07490781,
+   0.07364192,
+   0.07193571,
+   0.06995432,
+   0.06857835,
+   0.06692719,
+   0.06522098,
+   0.06334966,
+   0.0616985,
+   0.0607078,
+   0.05933183,
+   0.05735043,
+   0.0560295,
+   0.05448841,
+   0.05360779,
+   0.05212175,
+   0.05069074,
+   0.04914965,
+   0.04837911,
+   0.04733337,
+   0.04617755,
+   0.04502174,
+   0.04353569,
+   0.0422698,
+   0.04100391,
+   0.0395729,
+   0.03825197,
+   0.03665584,
+   0.03555506,
+   0.03434421,
+   0.03307832,
+   0.03175739,
+   0.03093181,
+   0.02977599,
+   0.02856514,
+   0.02757444,
+   0.0265287,
+   0.02542793,
+   0.02460234,
+   0.02300622,
+   0.02207056,
+   0.02124498,
+   0.01975893,
+   0.01838296,
+   0.01733722,
+   0.01623645,
+   0.01508063,
+   0.01397986,
+   0.01293412,
+   0.0110628,
+   0.009906985,
+   0.008475975,
+   0.006769773,
+   0.003907755,
+   0.001486048,
+   0};
+   Double_t _fy1[102] = {
+   1,
+   1,
+   0.9995902,
+   0.9991394,
+   0.9986477,
+   0.998197,
+   0.9976642,
+   0.9972135,
+   0.9965988,
+   0.9959431,
+   0.9952465,
+   0.9948367,
+   0.9940581,
+   0.9935664,
+   0.9928697,
+   0.9921321,
+   0.9915174,
+   0.9911076,
+   0.9905339,
+   0.9896324,
+   0.9888129,
+   0.9878294,
+   0.9872147,
+   0.9860263,
+   0.9851248,
+   0.9840184,
+   0.9831578,
+   0.982748,
+   0.9818055,
+   0.9811499,
+   0.9802893,
+   0.9792649,
+   0.9783223,
+   0.9774618,
+   0.9764783,
+   0.9758226,
+   0.9744294,
+   0.9737737,
+   0.9727083,
+   0.9719707,
+   0.9710281,
+   0.9698398,
+   0.9688563,
+   0.9680777,
+   0.9670122,
+   0.9660287,
+   0.9651682,
+   0.9642667,
+   0.9632422,
+   0.9619309,
+   0.9608654,
+   0.9596771,
+   0.9584067,
+   0.9570135,
+   0.9552924,
+   0.9543089,
+   0.9529156,
+   0.9516863,
+   0.9499652,
+   0.9486129,
+   0.9466459,
+   0.9452936,
+   0.9432856,
+   0.9414006,
+   0.9397615,
+   0.9379175,
+   0.9357046,
+   0.9336967,
+   0.9317707,
+   0.9297218,
+   0.9270582,
+   0.9244765,
+   0.9221407,
+   0.9200508,
+   0.9175921,
+   0.9144368,
+   0.911978,
+   0.9084948,
+   0.9052985,
+   0.9018563,
+   0.8974307,
+   0.8939065,
+   0.8896857,
+   0.88526,
+   0.8797689,
+   0.8745646,
+   0.868131,
+   0.8625579,
+   0.8557554,
+   0.8490759,
+   0.8403885,
+   0.8304716,
+   0.8194075,
+   0.8064992,
+   0.7917469,
+   0.7730197,
+   0.749498,
+   0.7187231,
+   0.6724993,
+   0.6002541,
+   0.4487153,
+   0};
+   TGraph *graph = new TGraph(102,_fx1,_fy1);
+   graph->SetName("");
+   graph->SetTitle("");
+   graph->SetFillStyle(1000);
+   graph->SetLineWidth(2);
+   
+   TH1F *Graph_Graph1 = new TH1F("Graph_Graph1","",102,0,1.1);
+   Graph_Graph1->SetMinimum(0);
+   Graph_Graph1->SetMaximum(1.1);
+   Graph_Graph1->SetDirectory(0);
+   Graph_Graph1->SetStats(0);
+
+   Int_t ci;      // for color index setting
+   TColor *color; // for color definition with alpha
+   ci = TColor::GetColor("#000099");
+   Graph_Graph1->SetLineColor(ci);
+   Graph_Graph1->GetXaxis()->SetLabelFont(42);
+   Graph_Graph1->GetXaxis()->SetLabelSize(0.035);
+   Graph_Graph1->GetXaxis()->SetTitleSize(0.035);
+   Graph_Graph1->GetXaxis()->SetTitleFont(42);
+   Graph_Graph1->GetYaxis()->SetLabelFont(42);
+   Graph_Graph1->GetYaxis()->SetLabelSize(0.035);
+   Graph_Graph1->GetYaxis()->SetTitleSize(0.035);
+   Graph_Graph1->GetYaxis()->SetTitleOffset(0);
+   Graph_Graph1->GetYaxis()->SetTitleFont(42);
+   Graph_Graph1->GetZaxis()->SetLabelFont(42);
+   Graph_Graph1->GetZaxis()->SetLabelSize(0.035);
+   Graph_Graph1->GetZaxis()->SetTitleSize(0.035);
+   Graph_Graph1->GetZaxis()->SetTitleFont(42);
+   graph->SetHistogram(Graph_Graph1);
+   
+   multigraph->Add(graph,"l");
+   multigraph->Draw("a");
+   multigraph->GetXaxis()->SetTitle("Background (TopQCD) Efficiency");
+   multigraph->GetXaxis()->SetRange(5,98);
+   multigraph->GetXaxis()->SetLabelFont(42);
+   multigraph->GetXaxis()->SetLabelSize(0.035);
+   multigraph->GetXaxis()->SetTitleSize(0.035);
+   multigraph->GetXaxis()->SetTitleFont(42);
+   multigraph->GetYaxis()->SetTitle("Signal Efficiency");
+   multigraph->GetYaxis()->SetLabelFont(42);
+   multigraph->GetYaxis()->SetLabelSize(0.035);
+   multigraph->GetYaxis()->SetTitleSize(0.035);
+   multigraph->GetYaxis()->SetTitleOffset(0);
+   multigraph->GetYaxis()->SetTitleFont(42);
+   
+   TPaveText *pt = new TPaveText(0.15,0.9168487,0.85,0.995,"blNDC");
+   pt->SetName("title");
+   pt->SetBorderSize(0);
+   pt->SetFillColor(0);
+   pt->SetFillStyle(0);
+   pt->SetTextFont(42);
+   TText *pt_LaTex = pt->AddText("ROC Curve TvsQCD Resolved Top(e,jet), High p_{T}");
+   pt->Draw();
+   TLine *line = new TLine(0.1743079,0,0.1743079,1);
+
+   ci = TColor::GetColor("#ff0000");
+   line->SetLineColor(ci);
+   line->SetLineWidth(2);
+   line->Draw();
+   c1_n2->Modified();
+   c1_n2->cd();
+   c1_n2->SetSelected(c1_n2);
+}

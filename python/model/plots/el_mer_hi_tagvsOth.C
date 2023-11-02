@@ -1,19 +1,15 @@
 void el_mer_hi_tagvsOth()
 {
 //=========Macro generated from canvas: tagvsOth/tagvsOth
-//=========  (Fri Nov 26 14:41:19 2021) by ROOT version 6.12/07
-  //gStyle->SetOptStat(00000000);
-
-   TCanvas *tagvsOth = new TCanvas("tagvsOth", "tagvsOth",67,57,700,500);
+//=========  (Wed Oct 18 16:05:50 2023) by ROOT version 6.12/07
+   TCanvas *tagvsOth = new TCanvas("tagvsOth", "tagvsOth",6,27,700,500);
    tagvsOth->Range(0,0,1,1);
    tagvsOth->SetFillColor(0);
    tagvsOth->SetBorderMode(0);
    tagvsOth->SetBorderSize(2);
    tagvsOth->SetFrameBorderMode(0);
    
-   
-   TH1F *tagvsOth_0_train__85 = new TH1F("tagvsOth_0_train__85","Merged Top(e,jet), High p_{T}",20,0,1);
-   //tagvsOth_0_train__85->GetYaxis()->SetRangeUser(0,1);
+   TH1F *tagvsOth_0_train__85 = new TH1F("tagvsOth_0_train__85","tagvsOth_0_train",20,0,1);
    tagvsOth_0_train__85->SetBinContent(1,0.2152896);
    tagvsOth_0_train__85->SetBinContent(2,0.05451737);
    tagvsOth_0_train__85->SetBinContent(3,0.04169884);
@@ -55,7 +51,7 @@ void el_mer_hi_tagvsOth()
    tagvsOth_0_train__85->SetBinError(19,0.003387137);
    tagvsOth_0_train__85->SetBinError(20,0.002881044);
    tagvsOth_0_train__85->SetEntries(6475);
-   
+
    Int_t ci;      // for color index setting
    TColor *color; // for color definition with alpha
    ci = TColor::GetColor("#0000ff");
@@ -392,48 +388,7 @@ void el_mer_hi_tagvsOth()
    tagvsOth_2_test__90->GetZaxis()->SetTitleSize(0.035);
    tagvsOth_2_test__90->GetZaxis()->SetTitleFont(42);
    tagvsOth_2_test__90->Draw("samee");
-
-   TLegend *leg = new TLegend(0.20,0.6,0.5,0.88);
-   leg->SetNColumns(2);
-   leg->SetBorderSize(1);
-   leg->SetLineColor(1);
-   leg->SetLineStyle(1);
-   leg->SetLineWidth(1);
-   leg->SetFillColor(0);
-   leg->SetFillStyle(1001);
-   TLegendEntry *entry=leg->AddEntry("","True (Train)");
-   entry->SetLineColor(kRed);
-   entry->SetMarkerStyle(0);
-  
-   entry=leg->AddEntry("","True (Test)");
-   entry->SetLineColor(kRed);
-   entry->SetMarkerStyle(20);
-   entry->SetMarkerColor(kRed);
-
-   entry=leg->AddEntry("","Other (Train)");
-   entry->SetLineColor(kGreen);
-   entry->SetMarkerStyle(0);
-
-   entry=leg->AddEntry("","Other (Test)");
-   entry->SetLineColor(kGreen);
-   entry->SetMarkerStyle(20);
-   entry->SetMarkerColor(kGreen);
-
-   entry=leg->AddEntry("","QCD (Train)");
-   entry->SetLineColor(kBlue);
-   entry->SetMarkerStyle(0);
-
-   entry=leg->AddEntry("","QCD (Test)");
-   entry->SetLineColor(kBlue);
-   entry->SetMarkerStyle(20);
-   entry->SetMarkerColor(kBlue);
-   tagvsOth_0_train__85->SetTitle("Merged Top(e,jet), High p_{T}");
-   tagvsOth_0_train__85->GetYaxis()->SetRangeUser(0,1);
-   tagvsOth_0_train__85->GetXaxis()->SetTitle("Top TvsOther tagger");
-   gStyle->SetOptStat(00000000);
-   leg->Draw();
    tagvsOth->Modified();
    tagvsOth->cd();
    tagvsOth->SetSelected(tagvsOth);
-   tagvsOth->SaveAs("el_mer_hi_tagvsOth.pdf");
 }

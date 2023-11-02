@@ -385,9 +385,18 @@ tagvsOth_1_test->Draw("samee");
 tagvsOth_2_train->Draw("hist same");
 tagvsOth_2_test->Draw("samee");
  tagvsOth->SaveAs((tag+"_tagvsOth.C").c_str());
-std::cout<<tagvsOth_0_train->Integral()<<std::endl;
+ //std::cout<<tagvsOth_0_train->Integral()<<std::endl;
 
-std::cout<<tagvsOth_1_train->GetIntegral()[10]<<" "<<tagvsOth_2_train->GetIntegral()[10]<<std::endl;
+ //std::cout<<tagvsOth_1_train->GetIntegral()[10]<<" "<<tagvsOth_2_train->GetIntegral()[10]<<std::endl;
+
+ std::cout<<filename<<" "<<" TvsOth 0 "<<tagvsOth_0_test->KolmogorovTest(tagvsOth_0_train,"M")<<std::endl;
+ std::cout<<filename<<" "<<" TvsOth 1 "<<tagvsOth_1_test->KolmogorovTest(tagvsOth_1_train,"M")<<std::endl; 
+ std::cout<<filename<<" "<<" TvsOth 2 "<<tagvsOth_2_test->KolmogorovTest(tagvsOth_2_train,"M")<<std::endl;
+
+ std::cout<<filename<<" "<<" TvsQCD 0 "<<tagvsQCD_0_test->KolmogorovTest(tagvsQCD_0_train,"M")<<std::endl;
+ std::cout<<filename<<" "<<" TvsQCD 1 "<<tagvsQCD_1_test->KolmogorovTest(tagvsQCD_1_train,"M")<<std::endl;
+ std::cout<<filename<<" "<<" TvsQCD 2 "<<tagvsQCD_2_test->KolmogorovTest(tagvsQCD_2_train,"M")<<std::endl;
+
 
  scor0->Delete();
  scor1->Delete();
