@@ -9,7 +9,7 @@ import copy
 
 folder = 'Trigger_v0'
 inputpath = '/eos/user/'+str(os.environ.get('USER')[0])+'/'+str(os.environ.get('USER'))+'/Tprime/nosynch/' + folder + '/'
-plotpath = '/eos/user/'+str(os.environ.get('USER')[0])+'/'+str(os.environ.get('USER'))+'/Tprime/nosynch/' + folder + '/plot/'
+plotpath = '/eos/user/'+str(os.environ.get('USER')[0])+'/'+str(os.environ.get('USER'))+'/Tprime/nosynch/' + folder + '/plot_new/'
 
 if not os.path.exists(plotpath):
     os.makedirs(plotpath)
@@ -20,9 +20,52 @@ def printh(filename, period, h, plotpath):
     c = ROOT.TCanvas(filename + '_' + period + '_' + h.GetName(), filename + '_' + period + '_' + h.GetName())
     if 'Eff' in h.GetName():
         h.SetMaximum(1.)
-    h.Draw("COLZTEXTE")
+    else:
+        h.SetMaximum(1.2)
+
+    h_new = h.Clone("h_new")
+    
+    for x in range(1,h_new.GetXaxis().GetNbins()+1):
+        for y in range(1,h_new.GetYaxis().GetNbins()+1):
+            if h_new.GetBinContent(x,y) == 1 and h_new.GetBinError(x,y) == 0:
+                h_new.SetBinContent(x,y,1.00)
+                h_new.SetBinError(x,y,0.10)
+            elif h_new.GetBinContent(x,y) == 0 and h_new.GetBinError(x,y) == 0:
+                h_new.SetBinContent(x,y,1.00)
+                h_new.SetBinError(x,y,0.20)
+            h_new.SetBinContent(x,y,round(h_new.GetBinContent(x,y),3))
+            h_new.SetBinError(x,y,round(h_new.GetBinError(x,y),3))
+    
+
+    h_new.Draw("COLZTEXTE")
     c.Print(plotpath + c.GetName() + '.png')
     c.Print(plotpath + c.GetName() + '.pdf')
+
+
+def printh1D(filename, period, h, plotpath):
+    c = ROOT.TCanvas(filename + '_' + period + '_' + h.GetName(), filename + '_' + period + '_' + h.GetName())
+    if 'Eff' in h.GetName():
+        h.SetMaximum(1.1)
+    else:
+        h.SetMaximum(1.2)
+    h.SetMinimum(0.0)
+
+    h.Draw()
+    if "muon" in period :
+        line = ROOT.TLine(30, h.GetMinimum(), 30, h.GetMaximum())
+        line.SetLineColor(ROOT.kBlack)
+        line.SetLineWidth(3)
+        line.Draw()
+
+    elif "electron" in period:
+        line = ROOT.TLine(35, h.GetMinimum(), 35, h.GetMaximum())
+        line.SetLineColor(ROOT.kBlack)
+        line.SetLineWidth(3)
+        line.Draw()
+        
+    c.Print(plotpath + c.GetName() + '.png')
+    c.Print(plotpath + c.GetName() + '.pdf')
+
 
 inpfiles = {"muon_16preVFP":["DataMu_2016preVFP", "DataEle_2016preVFP", "DataPh_2016preVFP", "TT_dilep_2016preVFP"],
             "electron_16preVFP":["DataMu_2016preVFP", "DataEle_2016preVFP", "DataPh_2016preVFP", "TT_dilep_2016preVFP"],
@@ -423,11 +466,16 @@ for inpfile in inpfiles[period]:
             HLT_TightLep_Eff.SetTitle("MC Muon trigger efficiency; |#eta| ;muon p_{T} [GeV]")
             h_HLT_Top_MC_Eff.SetTitle("MC Muon trigger efficiency; |#eta| ;muon p_{T} [GeV]")
             HLT_Top_Eff.SetTitle("MC Muon trigger efficiency; |#eta| ;muon p_{T} [GeV]")
+            h1D_HLT_TightLep_MC_Eff.SetTitle("MC Muon trigger efficiency ;muon p_{T} [GeV]")
+            h1D_HLT_Top_MC_Eff.SetTitle("MC Muon trigger efficiency ;muon p_{T} [GeV]")
+
         else:
-            h_HLT_TightLep_MC_Eff.SetTitle("MC Electron trigger efficiency; #eta; electron p_{T} [GeV]")
-            HLT_TightLep_Eff.SetTitle("MC Electron trigger efficiency; #eta; electron p_{T} [GeV]")
-            h_HLT_Top_MC_Eff.SetTitle("MC Electron trigger efficiency; #eta; electron p_{T} [GeV]")                                        
-            HLT_Top_Eff.SetTitle("MC Electron trigger efficiency; #eta; electron p_{T} [GeV]")
+            h_HLT_TightLep_MC_Eff.SetTitle("MC Electron trigger efficiency; |#eta|; electron p_{T} [GeV]")
+            HLT_TightLep_Eff.SetTitle("MC Electron trigger efficiency; |#eta|; electron p_{T} [GeV]")
+            h_HLT_Top_MC_Eff.SetTitle("MC Electron trigger efficiency; |#eta|; electron p_{T} [GeV]")                                        
+            HLT_Top_Eff.SetTitle("MC Electron trigger efficiency; |#eta|; electron p_{T} [GeV]")
+            h1D_HLT_TightLep_MC_Eff.SetTitle("MC Electron trigger efficiency ;electron p_{T} [GeV]")
+            h1D_HLT_Top_MC_Eff.SetTitle("MC Electron trigger efficiency ;electron p_{T} [GeV]")
             
         h_HLT_TightLep_MC_Eff.Write()
         HLT_TightLep_Eff.Write()
@@ -436,10 +484,13 @@ for inpfile in inpfiles[period]:
         printh("TT_dilep", period, h_HLT_TightLep_MC_Eff, plotpath)
 
         h1D_HLT_TightLep_MC_Eff.Write()
+        printh1D("TT_dilep", period, h1D_HLT_TightLep_MC_Eff, plotpath)
         h1D_HLT_TightLep_Eff.Write()
 
         h1D_HLT_Top_MC_Eff.Write()
         h1D_HLT_Top_Eff.Write()
+
+        printh1D("TT_dilep", period, h1D_HLT_Top_MC_Eff, plotpath)
 
         h_HLT_Top_MC_Eff.Write()                                                                                                                                          
         HLT_Top_Eff.Write()                                                                                                              
@@ -471,10 +522,10 @@ for inpfile in inpfiles[period]:
             h_HLT_TopJet_MC_Eff.SetTitle("MC Muon trigger efficiency; |#eta| ;muon p_{T} [GeV]")
             HLT_TopJet_Eff.SetTitle("MC Muon trigger efficiency; |#eta| ;muon p_{T} [GeV]")
         else:
-            h_HLT_TightLepJet_MC_Eff.SetTitle("MC Electron trigger efficiency; #eta; electron p_{T} [GeV]")
-            HLT_TightLepJet_Eff.SetTitle("MC Electron trigger efficiency; #eta; electron p_{T} [GeV]")
-            h_HLT_TopJet_MC_Eff.SetTitle("MC Electron trigger efficiency; #eta; electron p_{T} [GeV]")
-            HLT_TopJet_Eff.SetTitle("MC Electron trigger efficiency; #eta; electron p_{T} [GeV]")
+            h_HLT_TightLepJet_MC_Eff.SetTitle("MC Electron trigger efficiency; |#eta|; electron p_{T} [GeV]")
+            HLT_TightLepJet_Eff.SetTitle("MC Electron trigger efficiency; |#eta|; electron p_{T} [GeV]")
+            h_HLT_TopJet_MC_Eff.SetTitle("MC Electron trigger efficiency; |#eta|; electron p_{T} [GeV]")
+            HLT_TopJet_Eff.SetTitle("MC Electron trigger efficiency; |#eta|; electron p_{T} [GeV]")
 
         h_HLT_TightLepJet_MC_Eff.Write()
         HLT_TightLepJet_Eff.Write()
@@ -517,7 +568,7 @@ h1D_HLT_TightLep_data_Eff = ROOT.TEfficiency(h1D_HLT_TightLep_data_num, h1D_HLT_
 h1D_HLT_TightLep_data_Eff = ROOT.TH1F("h1D_HLT_TightLep_data_Eff", "h", nbins_muy1D, edges_muy1D)
 h1D_HLT_TightLep_data_Eff.Clone(h1D_HLT_TightLep_data_num.GetName())
 h1D_HLT_TightLep_data_Eff.Divide(h1D_HLT_TightLep_data_num, h1D_HLT_TightLep_data_den, 1, 1, "B")
-
+#printh1D("Data", period, h1D_HLT_Top_data_Eff, plotpath)
 
 
 if 'muon' in period:
@@ -525,8 +576,8 @@ if 'muon' in period:
     h_HLT_TightLep_data_Eff.SetTitle("Data Muon trigger efficiency; |#eta| ;muon p_{T} [GeV]")
     
 elif 'electron' in period:
-    h_HLT_TightLep_data_Eff.SetTitle("Data Electron trigger efficiency; #eta; electron p_{T} [GeV]")
-    HLT_TightLep_data_Eff.SetTitle("Data Electron trigger efficiency; #eta; electron p_{T} [GeV]")
+    h_HLT_TightLep_data_Eff.SetTitle("Data Electron trigger efficiency; |#eta|; electron p_{T} [GeV]")
+    HLT_TightLep_data_Eff.SetTitle("Data Electron trigger efficiency; |#eta|; electron p_{T} [GeV]")
 
     
 h_HLT_TightLep_data_Eff.SetLineColor(ROOT.kBlack)
@@ -563,18 +614,30 @@ h1D_SF_TightLep.Sumw2()
 #SF.Clone(h_HLT_TightLep_data_Eff.GetName())
 h1D_SF_TightLep.Divide(h1D_HLT_TightLep_data_Eff, h1D_HLT_TightLep_MC_Eff, 1, 1)
 
+#printh1D("Data", period, h1D_HLT_TightLep_data_Eff, plotpath)
+#printh1D("Data", period, h1D_SF_TightLep, plotpath)
+
 if 'muon' in period:
     SF_TightLep.SetTitle("Muon trigger scale factors; |#eta|; muon p_{T} [GeV]")
     h1D_SF_TightLep.SetTitle("Tight Muon trigger scale factors; muon p_{T} [GeV]")
     h1D_SF_TightLep.GetYaxis().SetRangeUser(0,1.2)
+
+    h1D_HLT_TightLep_data_Eff.SetTitle("Data Muon trigger Efficiency; muon p_{T} [GeV]")
+    #h1D_SF_TightLep.GetYaxis().SetRangeUser(0,1.2)
+
+
     #SF.GetXaxis().SetRangeUser(55, 1000)
 elif  'electron':
-    SF_TightLep.SetTitle("Electron trigger scale factors; #eta; electron p_{T} [GeV]")
+    SF_TightLep.SetTitle("Electron trigger scale factors; |#eta|; electron p_{T} [GeV]")
     h1D_SF_TightLep.SetTitle("Electron trigger scale factors; electron p_{T} [GeV]")
     h1D_SF_TightLep.GetYaxis().SetRangeUser(0,1.2)
+    h1D_HLT_TightLep_data_Eff.SetTitle("Data Electron trigger Efficiency; electron p_{T} [GeV]")
 else:
     SF_Tight.SetTitle("FatJet trigger scale factors; FatJet p_{T} [GeV]; FatJet M [GeV]")
     
+
+printh1D("Data", period, h1D_HLT_TightLep_data_Eff, plotpath)
+printh1D("Data", period, h1D_SF_TightLep, plotpath)
 printh("Data", period, SF_TightLep, plotpath)
 fileout.cd()
 SF_TightLep.Write()
@@ -598,8 +661,8 @@ if 'muon' in period:
     HLT_TightLepJet_data_Eff.SetTitle("Data Muon trigger efficiency; |#eta| ;muon p_{T} [GeV]")
     h_HLT_TightLepJet_data_Eff.SetTitle("Data Muon trigger efficiency; |#eta| ;muon p_{T} [GeV]")
 elif 'electron' in period:
-    h_HLT_TightLepJet_data_Eff.SetTitle("Data Electron trigger efficiency; #eta; electron p_{T} [GeV]")
-    HLT_TightLepJet_data_Eff.SetTitle("Data Electron trigger efficiency; #eta; electron p_{T} [GeV]")
+    h_HLT_TightLepJet_data_Eff.SetTitle("Data Electron trigger efficiency; |#eta|; electron p_{T} [GeV]")
+    HLT_TightLepJet_data_Eff.SetTitle("Data Electron trigger efficiency; |#eta|; electron p_{T} [GeV]")
 
 
 h_HLT_TightLepJet_data_Eff.SetLineColor(ROOT.kBlack)
@@ -640,7 +703,7 @@ if 'muon' in period:
     SF_TightLepJet.SetTitle("Muon trigger scale factors; |#eta|; muon p_{T} [GeV]")
     #SF.GetXaxis().SetRangeUser(55, 1000)
 elif  'electron':
-    SF_TightLepJet.SetTitle("Electron trigger scale factors; #eta; electron p_{T} [GeV]")
+    SF_TightLepJet.SetTitle("Electron trigger scale factors; |#eta|; electron p_{T} [GeV]")
 else:
     SF_Tight.SetTitle("FatJet trigger scale factors; FatJet p_{T} [GeV]; FatJet M [GeV]")
 
@@ -672,8 +735,8 @@ if 'muon' in period:
     HLT_Top_data_Eff.SetTitle("Data Muon trigger efficiency; |#eta| ;muon p_{T} [GeV]")
     h_HLT_Top_data_Eff.SetTitle("Data Muon trigger efficiency; |#eta| ;muon p_{T} [GeV]")
 elif 'electron' in period :
-    h_HLT_Top_data_Eff.SetTitle("Data Electron trigger efficiency; #eta; electron p_{T} [GeV]")
-    HLT_Top_data_Eff.SetTitle("Data Electron trigger efficiency; #eta; electron p_{T} [GeV]")
+    h_HLT_Top_data_Eff.SetTitle("Data Electron trigger efficiency; |#eta|; electron p_{T} [GeV]")
+    HLT_Top_data_Eff.SetTitle("Data Electron trigger efficiency; |#eta|; electron p_{T} [GeV]")
 
 h_HLT_Top_data_Eff.SetLineColor(ROOT.kBlack)
 HLT_Top_data_Eff.SetLineColor(ROOT.kBlack)
@@ -701,15 +764,30 @@ h1D_SF_Top = ROOT.TH1F("h1D_SF_Top", "h1D_Top", nbins_muy1D, edges_muy1D)# nbins
 h1D_SF_Top.Sumw2()
 #SF.Clone(h_HLT_Top_data_Eff.GetName())
 h1D_SF_Top.Divide(h1D_HLT_Top_data_Eff, h1D_HLT_Top_MC_Eff, 1, 1)
+
+#printh1D("Data", period, h1D_HLT_Top_data_Eff, plotpath)
+#printh1D("Data", period, h1D_SF_Top, plotpath)
+
 if 'muon' in period:
     SF_Top.SetTitle("Muon trigger scale factors; |#eta|; muon p_{T} [GeV];")
+    
     h1D_SF_Top.SetTitle("Top Muon trigger scale factors; muon p_{T} [GeV]")
     h1D_SF_Top.GetYaxis().SetRangeUser(0,1.2)
+    h1D_HLT_Top_data_Eff.SetTitle("Muon trigger efficiency; muon p_{T} [GeV]")
+    h1D_HLT_Top_data_Eff.GetYaxis().SetRangeUser(0,1.2)
     #SF.GetXaxis().SetRangeUser(55, 1000)
 elif 'electron' in period:
-    SF_Top.SetTitle("Electron trigger scale factors; #eta; electron p_{T} [GeV]")
+    SF_Top.SetTitle("Electron trigger scale factors; |#eta|; electron p_{T} [GeV]")
+    h1D_SF_Top.SetTitle("Electron trigger efficiency; electron p_{T} [GeV]")
+    h1D_SF_Top.GetYaxis().SetRangeUser(0,1.2)
+    h1D_HLT_Top_data_Eff.SetTitle("Electron trigger efficiency; electron p_{T} [GeV]")
+    h1D_HLT_Top_data_Eff.GetYaxis().SetRangeUser(0,1.2)
 else:
     SF_Top.SetTitle("FatJet trigger scale factors; FatJet p_{T} [GeV]; FatJet M [GeV]")
+
+
+printh1D("Data", period, h1D_HLT_Top_data_Eff, plotpath)
+printh1D("Data", period, h1D_SF_Top, plotpath)
 
 printh("Data", period, SF_Top, plotpath)
 fileout.cd()
@@ -732,8 +810,8 @@ if 'muon' in period:
     HLT_TopJet_data_Eff.SetTitle("Data Muon trigger efficiency; |#eta| ;muon p_{T} [GeV]")
     h_HLT_TopJet_data_Eff.SetTitle("Data Muon trigger efficiency; |#eta| ;muon p_{T} [GeV]")
 elif 'electron' in period :
-    h_HLT_TopJet_data_Eff.SetTitle("Data Electron trigger efficiency; #eta; electron p_{T} [GeV]")
-    HLT_TopJet_data_Eff.SetTitle("Data Electron trigger efficiency; #eta; electron p_{T} [GeV]")
+    h_HLT_TopJet_data_Eff.SetTitle("Data Electron trigger efficiency; |#eta|; electron p_{T} [GeV]")
+    HLT_TopJet_data_Eff.SetTitle("Data Electron trigger efficiency; |#eta|; electron p_{T} [GeV]")
 
 h_HLT_TopJet_data_Eff.SetLineColor(ROOT.kBlack)
 HLT_TopJet_data_Eff.SetLineColor(ROOT.kBlack)
@@ -765,7 +843,7 @@ if 'muon' in period:
     SF_TopJet.SetTitle("Muon trigger scale factors; |#eta|; muon p_{T} [GeV];")
     #SF.GetXaxis().SetRangeUser(55, 1000)
 elif 'electron' in period:
-    SF_TopJet.SetTitle("Electron trigger scale factors; #eta; electron p_{T} [GeV]")
+    SF_TopJet.SetTitle("Electron trigger scale factors; |#eta|; electron p_{T} [GeV]")
 else:
     SF_TopJet.SetTitle("FatJet trigger scale factors; FatJet p_{T} [GeV]; FatJet M [GeV]")
 
@@ -791,8 +869,8 @@ if 'muon' in period:
     HLT_CR_MC_Eff.SetTitle("MC Muon trigger efficiency; |#eta| ;muon p_{T} [GeV]")
     h_HLT_CR_MC_Eff.SetTitle("MC Muon trigger efficiency; |#eta| ;muon p_{T} [GeV]")
 elif 'electron' in period:
-    h_HLT_CR_MC_Eff.SetTitle("MC Electron trigger efficiency; #eta; electron p_{T} [GeV]")
-    HLT_CR_MC_Eff.SetTitle("MC Electron trigger efficiency; #eta; electron p_{T} [GeV]")
+    h_HLT_CR_MC_Eff.SetTitle("MC Electron trigger efficiency; |#eta|; electron p_{T} [GeV]")
+    HLT_CR_MC_Eff.SetTitle("MC Electron trigger efficiency; |#eta|; electron p_{T} [GeV]")
 
 else:
     h_HLT_CR_MC_Eff.SetTitle("MC FatJet trigger efficiency; FatJet p_{T} [GeV]; FatJet M [GeV]")
@@ -827,8 +905,8 @@ if 'muon' in period:
     HLT_CR_data_Eff.SetTitle("Data Muon trigger efficiency; |#eta| ;muon p_{T} [GeV]")
     h_HLT_CR_data_Eff.SetTitle("Data Muon trigger efficiency; |#eta| ;muon p_{T} [GeV]")
 elif 'electron' in period:
-    h_HLT_CR_data_Eff.SetTitle("Data Electron trigger efficiency; #eta; electron p_{T} [GeV]")
-    HLT_CR_data_Eff.SetTitle("Data Electron trigger efficiency; #eta; electron p_{T} [GeV]")
+    h_HLT_CR_data_Eff.SetTitle("Data Electron trigger efficiency; |#eta|; electron p_{T} [GeV]")
+    HLT_CR_data_Eff.SetTitle("Data Electron trigger efficiency; |#eta|; electron p_{T} [GeV]")
 else:
     h_HLT_CR_data_Eff.SetTitle("Data FatJet trigger efficiency; FatJet p_{T} [GeV]; FatJet M [GeV]")
     HLT_CR_data_Eff.SetTitle("Data FatJet trigger efficiency; FatJet p_{T} [GeV]; FatJet M [GeV]")
@@ -855,7 +933,7 @@ if 'muon' in period:
     SF_CR.SetTitle("Muon trigger scale factors; muon p_{T} [GeV]; #eta")
     #SF.GetXaxis().SetRangeUser(55, 1000)
 elif 'electron' in period:
-    SF_CR.SetTitle("Electron trigger scale factors; #eta; electron p_{T} [GeV]")
+    SF_CR.SetTitle("Electron trigger scale factors; |#eta|; electron p_{T} [GeV]")
 else:
     SF_CR.SetTitle("FatJet trigger scale factors; FatJet p_{T} [GeV]; FatJet M [GeV]")
  

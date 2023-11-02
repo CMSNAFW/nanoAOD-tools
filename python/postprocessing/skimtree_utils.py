@@ -265,7 +265,10 @@ def bjet_filter(jets, tagger, WP): #returns collections of b jets and no b jets 
 
 def getBDT_SF(sample, isMerg, pt, top_region, lepton, mass, top_truth, path=""):
   key=""
-  path = path + "TopSF_" + sample[-4:] + "v2.json"
+  year = sample[-4:]
+  if "2016" in sample:
+    year = "2016"
+  path = path + "TopSF_" + year + "v4.json"
   with open(path,"r") as json_file:
     BDT_SFs = json.load(json_file)
   
@@ -279,12 +282,19 @@ def getBDT_SF(sample, isMerg, pt, top_region, lepton, mass, top_truth, path=""):
       if top_region!=-1:
         if abs(lepton)==11: 
           key=key+"e"
-          if (top_region==1 and isMerg==0) or (top_region==0 and isMerg==0 and pt>500):
-            return [1.,1.,1.]
-        else: 
-          key=key+"m"
+          #if (top_region==1 and isMerg==0) or (top_region==0 and isMerg==0 and pt>500): version 2!!
           if (top_region==1 and pt>500):
             return [1.,1.,1.]
+          if year == "2016" and top_region==1 and isMerg==0 and pt<500:
+            return [1.,1.,1.]
+          if year == "2016" and top_region==0 and isMerg==1 and pt<500:
+            return [1.,1.,1.]
+
+        else: 
+          key=key+"m"
+          #only for version 2
+          #if (top_region==1 and pt>500):
+          #  return [1.,1.,1.]
 
 
     elif ("WJets" in sample): 
@@ -298,14 +308,16 @@ def getBDT_SF(sample, isMerg, pt, top_region, lepton, mass, top_truth, path=""):
       else:
         if abs(lepton)==11: 
           key=key+"e"
-          if (top_region==1 and pt>500 and isMerg==0):
+          #if (top_region==1 and pt>500 and isMerg==0):
+          if (top_region==1 and pt>500):
             return [1.,1.,1.]
         else: 
           key=key+"m"
-          if (top_region==0 and pt<500 and isMerg==1):
-            return [1.,1.,1.]
+          #if (top_region==0 and pt<500 and isMerg==1):
+          #  return [1.,1.,1.]
     
     else: 
+      """
       key= "T_"
       if top_region!=-1:
         if top_truth==1:
@@ -319,7 +331,9 @@ def getBDT_SF(sample, isMerg, pt, top_region, lepton, mass, top_truth, path=""):
           key ="TF_"
           if abs(lepton)==11: key=key+"e"
           else: key=key+"m"
-        """
+      """
+      key= "TT_"
+      if top_region!=-1:
         if isMerg==1: key=key+"M"
         else: key=key+"R"
 
@@ -331,7 +345,7 @@ def getBDT_SF(sample, isMerg, pt, top_region, lepton, mass, top_truth, path=""):
 
         if abs(lepton)==11: key=key+"e"
         else: key=key+"m"
-        """
+        
       else:
         if abs(lepton)==11: key=key+"eV"
         else: key=key+"mV"
@@ -347,23 +361,103 @@ def getBDT_SF(sample, isMerg, pt, top_region, lepton, mass, top_truth, path=""):
   else: 
     return [1.,1.,1.]
 
+
+def getNewBDT_SF(sample, top_region, lepton, top_truth=0):
+  key=""
+  year = sample[-4:]
+  if "2016" in sample:
+    year = "2016"
+  path = "SF_" + year + "v6.json"
+  with open(path,"r") as json_file:
+    BDT_SFs = json.load(json_file)
+
+  if top_region == -1 : 
+    return [1.,1.,1.]
+
+  
+  else:
+    #if ("QCD" in sample) or ("TT" in sample) or ("WJets" in sample):
+    if  ("TT" in sample) or ("WJets" in sample) or ("Tprime" in sample) or ("QCD" in sample) or ("ST" in sample):
+    
+    
+      if ("TT" in sample) or ("Tprime" in sample) or ("ST" in sample): 
+        key = "TT_"
+        if top_truth==1:
+          key=key+"T"
+        else: key = "WJ_"
+
+
+      if ("WJets" in sample): key = "WJ_"
+  
+
+      if ("QCD" in sample): key = "QCD_"
+
+      if abs(lepton)==11: key=key+"e"
+      else: key=key+"m"
+      
+      try:
+        SF = BDT_SFs["SF_"+key]
+      except:
+        SF =[1.,1.,1.]
+
+      return SF
+
+    else: return [1.,1.,1.]
+
+
+def getNewPN_SF(sample, AK8_region, MC_Truth):
+  key=""
+  year = sample[-4:]
+  if "2016" in sample:
+    year = "2016"
+  path = "SF_" + year + "v6.json"
+  with open(path,"r") as json_file:
+    PN_SFs = json.load(json_file)
+
+  if (not "TT" in sample) and (not "Tprime" in sample) and (not "ST" in sample) : key="Oth"
+  else:
+    if "Tprime" in sample: 
+      if "2016" in sample: return [0.87,0.99,0.75]
+      if "2017" in sample: return [1.06,1.2,0.92]
+      if "2018" in sample: return [0.93,1.06,0.8]
+    else:
+      key="TT"
+      if MC_Truth == 200: key = key+"2q"
+      elif MC_Truth == 201 : key = key+"FJ"
+      else: key = "Oth"#key+"Ot"
+  
+  if AK8_region ==0: key = key+"V"
+
+  return PN_SFs["SF_"+key]
+    
+    
+
+
 def getPN_SF(sample, MC_Truth):
   key=""
-  
+  if "2016" in sample:
+    PN_SFs={
+      "Other":[1.1693507797,1.28246557552,1.05623598389],#[1.26073066429,1.36364461762,1.15781671097],#1.08686007615,1.20079107242,0.972929079871],
+      "TT_fake":[1.0194773038,1.13244866382,0.906505943788],#[0.851499397933,0.931659533465,0.771339262402],#1.00765689653,1.12354128059,0.891772512475],
+      "TT_1b2q":[0.679133794051,0.734195911281,0.624071676822],#[0.668105259599,0.713487706106,0.622722813092],#0.80947876611,0.888151367644,0.730806164576],
+      "TT_2q":[1.12523035491,1.28970996096,0.960750748863],#[1.15895676151,1.32550156677,0.992411956247],#1.02881281726,1.17392261353,0.883703020988],
+      "Tprime":[0.87,0.99,0.75] #per 2016
+    }
+
   if "2017" in sample:
     PN_SFs={
-      "Other":[1.08686007615,1.20079107242,0.972929079871],
-      "TT_fake":[1.00765689653,1.12354128059,0.891772512475],
-      "TT_1b2q":[0.80947876611,0.888151367644,0.730806164576],
-      "TT_2q":[1.02881281726,1.17392261353,0.883703020988],
+      "Other":[1.12284759472,1.22821547676,1.01747971268],#1.08686007615,1.20079107242,0.972929079871],
+      "TT_fake":[1.0667124437,1.19131287444,0.942112012959],#1.00765689653,1.12354128059,0.891772512475],
+      "TT_1b2q":[0.947944289919,1.02196809725,0.873920482589],#0.80947876611,0.888151367644,0.730806164576],
+      "TT_2q":[1.02474214598,1.16916804064,0.88031625132],#1.02881281726,1.17392261353,0.883703020988],
       "Tprime":[1.06,1.2,0.92] #[0.87,0.99,0.75] per 2016
     }
   if "2018" in sample:
     PN_SFs={
-      "Other":[1.20447506482,1.29307969137,1.11587043827],
-      "TT_fake":[1.03548184367,1.13247808803,0.938485599315],
-      "TT_1b2q":[0.986309290015,1.05331303369,0.919305546336],
-      "TT_2q":[1.02399370566,1.16694361152,0.881043799799],
+      "Other":[1.21469990265,1.31164521091,1.11775459439],#[1.1902012686,1.27937151444,1.10103102277],#1.20447506482,1.29307969137,1.11587043827],
+      "TT_fake":[0.940351155899,1.04809893148,0.832603380321],#[0.918022778875,0.993416232845,0.842629324905],#1.03548184367,1.13247808803,0.938485599315],
+      "TT_1b2q":[0.859671506397,0.919951543778,0.799391469017],#[0.842158110305,0.885579864422,0.798736356189],#0.986309290015,1.05331303369,0.919305546336],
+      "TT_2q":[1.04361939564,1.19153052103,0.895708270246],#[1.03793426055,1.18279376094,0.893074760168],#1.02399370566,1.16694361152,0.881043799799],
       "Tprime":[0.93,1.06,0.8]
     }
 
@@ -381,7 +475,7 @@ def getPN_SF(sample, MC_Truth):
 
 def getTrig_SF(sample, year, lepId, lepPt, lepEta,fatjet_M, fatjet_pt, top_region, path= "/eos/home-f/fcarneva/Tprime/nosynch/Trigger_v0/"):
   year = str(year)[2:]
-  if year == 2016:
+  if year == "16":
     if "pre" in sample: year=year+"preVFP"
     else: year = year + "postVFP"
   if abs(lepId)==13: lep_path= path+"muon_"+year+".root"

@@ -103,7 +103,7 @@ for sample in samples:
     print(str(len(files_list)))
     if(isMC):
         for i, files in enumerate(files_list):
-            if(("TT" in sample.label) or ("ST" in sample.label)) and (i>50):continue
+            if((("TT" in sample.label) and ("Had" not in sample.label)) or ("ST" in sample.label)) and (i>50):continue
             runner_writer(sample, i, files, final_folder,training)
             sub_writer(sample, i, files, final_folder,training,train_files)
             os.popen('condor_submit condor.sub')

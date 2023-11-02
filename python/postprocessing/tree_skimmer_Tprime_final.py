@@ -31,6 +31,9 @@ print("all import are ok \n")
 if sys.argv[5] == None: training = training_dict["BDT_Tprime"]
 else: training = training_dict[sys.argv[5]]
 
+with open("./MassWindows_10000_events_Cut10.txt", 'r') as fl:
+    dictio_cut = json.load(fl)
+
 sample = sample_dict[sys.argv[1]]
 part_idx = sys.argv[2]
 file_list = list(map(str, sys.argv[3].strip('[]').split(',')))
@@ -55,6 +58,7 @@ print("Number of events in tree from chain " + str((chain.GetTree()).GetEntries(
 tree = InputTree(chain)
 isMC = True
 scenarios = ["nominal", "jesUp", "jesDown", "jerUp", "jerDown"] 
+print("Warning only nominal!!")
 if ('Data' in sample.label):
     isMC = False
     scenarios = ["nominal"]
@@ -131,6 +135,7 @@ def reco(scenario, isMC, addPDF, training):
     if scenario == 'nominal':
         isNominal = True
     print(scenario)
+
     BDTSF_nominal = array.array('f',[1.])
     BDTUp_nominal = array.array('f',[1.])
     BDTDown_nominal = array.array('f',[1.])
@@ -173,6 +178,7 @@ def reco(scenario, isMC, addPDF, training):
     dR_bjet_AK8_nominal = array.array('f',[0.])
     M_bjet_AK8_nominal = array.array('f',[0.])
     N_jet_nominal = array.array('i',[0])
+    N_jetHigh_nominal = array.array('i',[0])
     dR_jet_AK8_nominal = array.array('f',[0.])
 
     MET_nominal= array.array('f',[0.])
@@ -205,6 +211,7 @@ def reco(scenario, isMC, addPDF, training):
     FatJet_eta_nominal = array.array('f',[0.])
     FatJet_phi_nominal = array.array('f',[0.])
     FatJet_M_nominal = array.array('f',[0.])
+    FatJet_partM_nominal = array.array('f',[0.])
     FatJet_MC_nominal = array.array('f',[0.])
     FatJet_dRMC_nominal = array.array('f',[0.])
     FatJet_btagDeepB_nominal = array.array('f',[0.])
@@ -275,6 +282,21 @@ def reco(scenario, isMC, addPDF, training):
     TightEl_Id_nominal = array.array('f',[0.])
 
 
+    FatJet_is25Cut10_nominal = array.array('f', [0.])
+    FatJet_is37Cut10_nominal = array.array('f', [0.])
+    FatJet_is50Cut10_nominal = array.array('f', [0.])
+    FatJet_is62Cut10_nominal = array.array('f', [0.])
+    FatJet_is75Cut10_nominal = array.array('f', [0.])
+    FatJet_is100Cut10_nominal = array.array('f', [0.])
+    FatJet_is125Cut10_nominal = array.array('f', [0.])
+    FatJet_is150Cut10_nominal = array.array('f', [0.])
+    FatJet_is175Cut10_nominal = array.array('f', [0.])
+    FatJet_is200Cut10_nominal = array.array('f', [0.])
+    FatJet_is250Cut10_nominal = array.array('f', [0.])
+    FatJet_is350Cut10_nominal = array.array('f', [0.])
+    FatJet_is450Cut10_nominal = array.array('f', [0.])
+    FatJet_is500Cut10_nominal = array.array('f', [0.])
+
 
     systTree.branchTreesSysts(trees, scenario,"FatJet_Xbb_nominal",outTreeFile, FatJet_Xbb_nominal)
     systTree.branchTreesSysts(trees, scenario,"FatJet_btagDeepB_nominal",outTreeFile, FatJet_btagDeepB_nominal)
@@ -309,6 +331,7 @@ def reco(scenario, isMC, addPDF, training):
     systTree.branchTreesSysts(trees, scenario,"FatJet_eta_nominal", outTreeFile, FatJet_eta_nominal)
     systTree.branchTreesSysts(trees, scenario,"FatJet_phi_nominal", outTreeFile, FatJet_phi_nominal)
     systTree.branchTreesSysts(trees, scenario,"FatJet_M_nominal", outTreeFile, FatJet_M_nominal)
+    systTree.branchTreesSysts(trees, scenario,"FatJet_partM_nominal", outTreeFile, FatJet_partM_nominal)
     systTree.branchTreesSysts(trees, scenario,"FatJet_MC_nominal", outTreeFile, FatJet_MC_nominal)
     systTree.branchTreesSysts(trees, scenario,"FatJet_dRMC_nominal", outTreeFile, FatJet_dRMC_nominal)
     systTree.branchTreesSysts(trees, scenario,"FwdJet_pt_nominal", outTreeFile, FwdJet_pt_nominal)
@@ -348,6 +371,7 @@ def reco(scenario, isMC, addPDF, training):
     systTree.branchTreesSysts(trees, scenario,"othbJet_btag_nominal", outTreeFile, othbJet_btag_nominal)
 
     systTree.branchTreesSysts(trees, scenario,"N_jet_nominal", outTreeFile,N_jet_nominal)
+    systTree.branchTreesSysts(trees, scenario,"N_jetHigh_nominal", outTreeFile,N_jetHigh_nominal)
     systTree.branchTreesSysts(trees, scenario,"dR_jet_AK8_nominal", outTreeFile, dR_jet_AK8_nominal)
     systTree.branchTreesSysts(trees, scenario,"N_top_nominal", outTreeFile,N_top_nominal)
     systTree.branchTreesSysts(trees, scenario,"N_AK8_nominal", outTreeFile,N_AK8_nominal)
@@ -393,6 +417,23 @@ def reco(scenario, isMC, addPDF, training):
     systTree.branchTreesSysts(trees, scenario,"TightEl_phi_nominal", outTreeFile, TightEl_phi_nominal)
     systTree.branchTreesSysts(trees, scenario,"TightEl_M_nominal", outTreeFile, TightEl_M_nominal)
     systTree.branchTreesSysts(trees, scenario,"TightEl_Id_nominal", outTreeFile, TightEl_Id_nominal)
+
+    systTree.branchTreesSysts(trees, scenario,"FatJet_is25Cut10_nominal", outTreeFile, FatJet_is25Cut10_nominal)
+    systTree.branchTreesSysts(trees, scenario,"FatJet_is37Cut10_nominal", outTreeFile, FatJet_is37Cut10_nominal)
+    systTree.branchTreesSysts(trees, scenario,"FatJet_is50Cut10_nominal", outTreeFile, FatJet_is50Cut10_nominal)
+    systTree.branchTreesSysts(trees, scenario,"FatJet_is62Cut10_nominal", outTreeFile, FatJet_is62Cut10_nominal)
+    systTree.branchTreesSysts(trees, scenario,"FatJet_is75Cut10_nominal", outTreeFile, FatJet_is75Cut10_nominal)
+    systTree.branchTreesSysts(trees, scenario,"FatJet_is100Cut10_nominal", outTreeFile, FatJet_is100Cut10_nominal)
+    systTree.branchTreesSysts(trees, scenario,"FatJet_is125Cut10_nominal", outTreeFile, FatJet_is125Cut10_nominal)
+    systTree.branchTreesSysts(trees, scenario,"FatJet_is150Cut10_nominal", outTreeFile, FatJet_is150Cut10_nominal)
+    systTree.branchTreesSysts(trees, scenario,"FatJet_is175Cut10_nominal", outTreeFile, FatJet_is175Cut10_nominal)
+    systTree.branchTreesSysts(trees, scenario,"FatJet_is200Cut10_nominal", outTreeFile, FatJet_is200Cut10_nominal)
+    systTree.branchTreesSysts(trees, scenario,"FatJet_is250Cut10_nominal", outTreeFile, FatJet_is250Cut10_nominal)
+    systTree.branchTreesSysts(trees, scenario,"FatJet_is350Cut10_nominal", outTreeFile, FatJet_is350Cut10_nominal)
+    systTree.branchTreesSysts(trees, scenario,"FatJet_is450Cut10_nominal", outTreeFile, FatJet_is450Cut10_nominal)
+    systTree.branchTreesSysts(trees, scenario,"FatJet_is500Cut10_nominal", outTreeFile, FatJet_is500Cut10_nominal)
+
+
 
     if(isMC and addPDF):
         systTree.branchTreesSysts(trees, scenario, "w_PDF", outTreeFile, w_PDF_nominal)
@@ -469,7 +510,8 @@ def reco(scenario, isMC, addPDF, training):
         N_bjet_nominal[0]=0        
         dR_bjet_AK8_nominal[0]=0
         M_bjet_AK8_nominal[0]=0
-        N_jet_nominal[0]=0        
+        N_jet_nominal[0]=0
+        N_jetHigh_nominal[0]=0
         dR_jet_AK8_nominal[0]=0
 
         MET_nominal[0]=0
@@ -500,6 +542,7 @@ def reco(scenario, isMC, addPDF, training):
         FatJet_eta_nominal[0]=0
         FatJet_phi_nominal[0]=0
         FatJet_M_nominal[0]=0
+        FatJet_partM_nominal[0]=0
         FatJet_MC_nominal[0]=0
         FatJet_dRMC_nominal[0]=0
         FatJet_btagDeepB_nominal[0]=0
@@ -592,9 +635,27 @@ def reco(scenario, isMC, addPDF, training):
         trigUp_nominal[0]=1.
         trigDown_nominal[0]=1.
 
+
+        FatJet_is25Cut10_nominal[0]=0
+        FatJet_is37Cut10_nominal[0]=0
+        FatJet_is50Cut10_nominal[0]=0
+        FatJet_is62Cut10_nominal[0]=0
+        FatJet_is75Cut10_nominal[0]=0
+        FatJet_is100Cut10_nominal[0]=0
+        FatJet_is125Cut10_nominal[0]=0
+        FatJet_is150Cut10_nominal[0]=0
+        FatJet_is175Cut10_nominal[0]=0
+        FatJet_is200Cut10_nominal[0]=0
+        FatJet_is250Cut10_nominal[0]=0
+        FatJet_is350Cut10_nominal[0]=0
+        FatJet_is450Cut10_nominal[0]=0
+        FatJet_is500Cut10_nominal[0]=0
+
+
+
         event = Event(tree,i) 
         
-        if ("TT" in sample.label): 
+        if ("TT" in sample.label) and (not "Gamma" in sample.label): 
             genpart = Collection(event,"GenPart")
             top = list(filter(lambda x: x.pdgId==6 ,genpart))[0]
             antitop = list(filter(lambda x: x.pdgId==-6 ,genpart))[0]
@@ -602,7 +663,7 @@ def reco(scenario, isMC, addPDF, training):
             SF_t = 0.973-0.000134*top.pt+0.103*math.exp(-0.0118*top.pt)
             SF_antit = 0.973-0.000134*antitop.pt+0.103*math.exp(-0.0118*antitop.pt)
             w_pt_nominal[0]=math.sqrt(SF_t*SF_antit)
-            if (Mtt>=700) and (not "Mtt" in sample.label):
+            if (Mtt>=700) and (not "Mtt" in sample.label) and (not "Jets" in sample.label) and (not "TTH" in sample.label):
                 #print(Mtt)
                 continue
         
@@ -625,6 +686,16 @@ def reco(scenario, isMC, addPDF, training):
         allelectrons = list(filter(lambda x: x.pt>=-999,electron))
 
         fatjets = Collection(event,"FatJet")
+        fatjets_highpt = list(filter(lambda x: x.pt>=500,fatjets))
+        electrons_highpt =list(filter(lambda x: x.pt>=30,electron))
+        muons_highpt = list(filter(lambda x: x.pt>=30,muon))
+
+        if len(fatjets_highpt)==0:
+            continue
+        
+        if (len(electrons_highpt)==0) and (len(muons_highpt)==0):
+            continue
+
         loosefatjets = Collection(event,"LooseFatJet")
         h_cutFlow.Fill("HLT_PresEvents",1)
         HLT = Object(event,"HLT")
@@ -668,7 +739,8 @@ def reco(scenario, isMC, addPDF, training):
         if doublecounting:
             continue
 
-
+        highjets = list(filter(lambda x: abs(x.eta)<2.4 and x.pt>30 and (x.jetId==2 or x.jetId==3 or x.jetId==6 or x.jetId==7),jets))
+        N_jetHigh_nominal[0] = len(highjets)
         fwdjets = list(filter(lambda x: abs(x.eta)>2.4 and x.pt>30 and (x.jetId==2 or x.jetId==3 or x.jetId==6 or x.jetId==7),jets))
         fwdjets4 = list(filter(lambda x: abs(x.eta)>2.4 and x.pt>30 and (x.jetId==2 or x.jetId==3 or x.jetId==6 or x.jetId==7) and abs(x.eta)<4,jets))
         if len(fwdjets)>0:
@@ -1036,6 +1108,7 @@ def reco(scenario, isMC, addPDF, training):
         FatJet_eta_nominal[0]=goodfatjets[0].eta
         FatJet_phi_nominal[0]=goodfatjets[0].phi
         FatJet_M_nominal[0]=goodfatjets[0].msd_nom
+        FatJet_partM_nominal[0]=goodfatjets[0].particleNet_mass
         FatJet_Xbb_nominal[0]=goodfatjets[0].particleNetMD_Xbb
         fatjet_vect= ROOT.TLorentzVector()
         fatjet_vect.SetPtEtaPhiM(FatJet_pt_nominal[0],FatJet_eta_nominal[0],FatJet_phi_nominal[0],FatJet_M_nominal[0])
@@ -1054,6 +1127,47 @@ def reco(scenario, isMC, addPDF, training):
         FatJet_tau1_nominal[0]=goodfatjets[0].tau1
         FatJet_tau2_nominal[0]=goodfatjets[0].tau2
         FatJet_MC_nominal[0]=0
+
+        Window_A25 = [dictio_cut["T3000_A25"]["75%"][0], dictio_cut["T3000_A25"]["75%"][1]]
+        Window_A37 = [24.72, 40.18] #ottenuta per interpolazione delle windows
+        Window_A50 = [dictio_cut["T3000_A50"]["75%"][0], dictio_cut["T3000_A50"]["75%"][1]]
+        Window_A62 = [46.45, 69.13] #ottenuta per interpolazione delle windows
+        Window_A75 = [dictio_cut["T2800_A75"]["75%"][0], dictio_cut["T2800_A75"]["75%"][1]]
+        Window_A100 = [dictio_cut["T2700_A100"]["75%"][0], dictio_cut["T2700_A100"]["75%"][1]]
+        Window_A125 = [dictio_cut["T3000_A125"]["75%"][0], dictio_cut["T3000_A125"]["75%"][1]]
+        Window_A150 = [dictio_cut["T1800_A150"]["75%"][0], dictio_cut["T1800_A150"]["75%"][1]]
+        Window_A175 = [dictio_cut["T3000_A175"]["75%"][0], dictio_cut["T3000_A175"]["75%"][1]]
+        Window_A200 = [dictio_cut["T3000_A200"]["75%"][0], dictio_cut["T3000_A200"]["75%"][1]]
+        Window_A250 = [dictio_cut["T3000_A250"]["75%"][0], dictio_cut["T3000_A250"]["75%"][1]]
+        Window_A350 = [dictio_cut["T3000_A350"]["75%"][0], dictio_cut["T3000_A350"]["75%"][1]]
+
+
+        if(goodfatjets[0].msd_nom>= Window_A25[0] and goodfatjets[0].msd_nom<=Window_A25[1]):
+            FatJet_is25Cut10_nominal[0]=1
+        if(goodfatjets[0].msd_nom>= Window_A37[0] and goodfatjets[0].msd_nom<=Window_A37[1]):
+            FatJet_is37Cut10_nominal[0]=1
+        if(goodfatjets[0].msd_nom>= Window_A50[0] and goodfatjets[0].msd_nom<=Window_A50[1]):
+            FatJet_is50Cut10_nominal[0]=1
+        if(goodfatjets[0].msd_nom>= Window_A62[0] and goodfatjets[0].msd_nom<=Window_A62[1]):
+            FatJet_is62Cut10_nominal[0]=1
+        if(goodfatjets[0].msd_nom>= Window_A75[0] and goodfatjets[0].msd_nom<=Window_A75[1]):
+            FatJet_is75Cut10_nominal[0]=1
+        if(goodfatjets[0].msd_nom>= Window_A100[0] and goodfatjets[0].msd_nom<=Window_A100[1]):
+            FatJet_is100Cut10_nominal[0]=1
+        if(goodfatjets[0].msd_nom>= Window_A125[0] and goodfatjets[0].msd_nom<=Window_A125[1]):
+            FatJet_is125Cut10_nominal[0]=1
+        if(goodfatjets[0].msd_nom>= Window_A150[0] and goodfatjets[0].msd_nom<=Window_A150[1]):
+            FatJet_is150Cut10_nominal[0]=1
+        if(goodfatjets[0].msd_nom>= Window_A175[0] and goodfatjets[0].msd_nom<=Window_A175[1]):
+            FatJet_is175Cut10_nominal[0]=1
+        if(goodfatjets[0].msd_nom>= Window_A200[0] and goodfatjets[0].msd_nom<=Window_A200[1]):
+            FatJet_is200Cut10_nominal[0]=1
+        if(goodfatjets[0].msd_nom>= Window_A250[0] and goodfatjets[0].msd_nom<=Window_A250[1]):
+            FatJet_is250Cut10_nominal[0]=1
+        if(goodfatjets[0].msd_nom>= Window_A350[0] and goodfatjets[0].msd_nom<=Window_A350[1]):
+            FatJet_is350Cut10_nominal[0]=1
+
+
 
         if not "Data" in sample.label:
             genpart = Collection(event,"GenPart")
@@ -1077,13 +1191,17 @@ def reco(scenario, isMC, addPDF, training):
                 FatJet_dRMC_nominal[0]= closest(goodfatjets[0],LHE,presel=lambda y,x: x.status==1 and (abs(x.pdgId)<=5  or abs(x.pdgId)==11 or abs(x.pdgId)==13 or abs(x.pdgId)==15 ) and deltaR(goodfatjets[0].eta,goodfatjets[0].phi,x.eta,x.phi)>=0.8) [1]
             else:
                 FatJet_dRMC_nominal[0]=-1
-            if AK8_region_nominal[0]>0 : ParNetSF_nominal[0], ParNetUp_nominal[0], ParNetDown_nominal[0] = getPN_SF(sample.label, FatJet_MC_nominal[0])
+            #if AK8_region_nominal[0]>0 : ParNetSF_nominal[0], ParNetUp_nominal[0], ParNetDown_nominal[0] = getPN_SF(sample.label, FatJet_MC_nominal[0])
+            ParNetSF_nominal[0], ParNetUp_nominal[0], ParNetDown_nominal[0] = getNewPN_SF(sample.label,AK8_region_nominal[0], FatJet_MC_nominal[0])
 
   
             
         
 
-        if top_region_nominal[0]>=0 :BDTSF_nominal[0], BDTUp_nominal[0], BDTDown_nominal[0] = getBDT_SF(sample.label, Top_isMerg_nominal[0], Top_pt_nominal[0], top_region_nominal[0], Top_flavour_nominal[0],Top_M_nominal[0],Top_MC_nominal[0])
+        if top_region_nominal[0]>=0 :
+            #BDTSF_nominal[0], BDTUp_nominal[0], BDTDown_nominal[0] = getBDT_SF(sample.label, Top_isMerg_nominal[0], Top_pt_nominal[0], top_region_nominal[0], Top_flavour_nominal[0],Top_M_nominal[0],Top_MC_nominal[0])
+            BDTSF_nominal[0], BDTUp_nominal[0], BDTDown_nominal[0] = getNewBDT_SF(sample.label, top_region_nominal[0], Top_flavour_nominal[0], Top_MC_nominal[0])
+
         
 
         
@@ -1136,7 +1254,7 @@ def reco(scenario, isMC, addPDF, training):
                 if(len(tightEle)==0): 
                     if(isMC): 
                         trigSF_nominal[0], trigUp_nominal[0], trigDown_nominal[0] = getTrig_SF(sample.label, sample.year,13, TightMu_pt_nominal[0], TightMu_eta_nominal[0],FatJet_M_nominal[0], FatJet_pt_nominal[0] ,-1)
-                        BDTSF_nominal[0], BDTUp_nominal[0], BDTDown_nominal[0] = getBDT_SF(sample.label, 0, 0, -1, 13,Top_M_nominal[0],0)
+                        ###BDTSF_nominal[0], BDTUp_nominal[0], BDTDown_nominal[0] = getBDT_SF(sample.label, 0, 0, -1, 13,Top_M_nominal[0],0)
             else:
                 N_muTop_nominal[0] = len(list(filter(lambda x: x.looseId and x.miniPFRelIso_all<4 and abs(x.dxy)<0.02, muon))) 
                 N_muVeryLoose_nominal[0] = len(list(filter(lambda x:  x.looseId and x.pfRelIso04_all<0.4, muon)))
@@ -1149,7 +1267,7 @@ def reco(scenario, isMC, addPDF, training):
                 if(len(tightMu)==0): 
                     if(isMC): 
                         trigSF_nominal[0], trigUp_nominal[0], trigDown_nominal[0] = getTrig_SF(sample.label, sample.year,11, TightEl_pt_nominal[0], TightEl_eta_nominal[0],FatJet_M_nominal[0], FatJet_pt_nominal[0] ,-1)
-                        BDTSF_nominal[0], BDTUp_nominal[0], BDTDown_nominal[0] = getBDT_SF(sample.label, 0, 0, -1, 11,Top_M_nominal[0],0)
+                        ###BDTSF_nominal[0], BDTUp_nominal[0], BDTDown_nominal[0] = getBDT_SF(sample.label, 0, 0, -1, 11,Top_M_nominal[0],0)
             else:
                 N_elTop_nominal[0]= len(list(filter(lambda x: x.mvaFall17V2noIso_WPL and abs(x.dxy)<0.05, electron)))
                 N_elVeryLoose_nominal[0] = len(list(filter(lambda x: x.cutBased>=1  and x.pfRelIso03_all<0.4, electron)))

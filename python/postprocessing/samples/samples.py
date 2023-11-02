@@ -62,6 +62,7 @@ TT_Mtt_2016preVFP = sample(ROOT.kRed, 1, 1001, "t#bar{t}", "TT_Mtt_2016preVFP")
 TT_Mtt_2016preVFP.year = 2016
 TT_Mtt_2016preVFP.components = [TT_dilep_2016preVFP,TT_semilep_2016preVFP,TT_Mtt700to1000_2016preVFP, TT_Mtt1000toInf_2016preVFP]
 
+TT_Mtt = sample(ROOT.kRed, 1, 1001, "t#bar{t}", "TT_Mtt")
 
 #WJets
 
@@ -117,6 +118,8 @@ WJets_2016preVFP = sample(ROOT.kGreen+2, 1, 1001, "W + Jets", "WJets_2016preVFP"
 WJets_2016preVFP.year = 2016
 WJets_2016preVFP.components = [WJetsHT70to100_2016preVFP, WJetsHT100to200_2016preVFP, WJetsHT200to400_2016preVFP, WJetsHT400to600_2016preVFP, WJetsHT600to800_2016preVFP, WJetsHT800to1200_2016preVFP, WJetsHT1200to2500_2016preVFP, WJetsHT2500toInf_2016preVFP]
 
+WJets = sample(ROOT.kGreen+2, 1, 1001, "W + Jets", "WJets")
+
 #QCD
 
 QCDHT_50to100_2016preVFP = sample(ROOT.kGray, 1, 1001, "QCD", "QCDHT_50to100_2016preVFP")
@@ -168,6 +171,8 @@ QCD_2016preVFP = sample(ROOT.kGray, 1, 1001, "QCD", "QCD_2016preVFP")
 QCD_2016preVFP.year = 2016
 QCD_2016preVFP.components = [QCDHT_100to200_2016preVFP,QCDHT_200to300_2016preVFP,QCDHT_300to500_2016preVFP, QCDHT_500to700_2016preVFP, QCDHT_700to1000_2016preVFP, QCDHT_1000to1500_2016preVFP, QCDHT_1500to2000_2016preVFP, QCDHT_2000toInf_2016preVFP]
 
+QCD = sample(ROOT.kGray, 1, 1001, "QCD", "QCD")
+
 #ST
 ST_tch_t_2016preVFP = sample(ROOT.kYellow, 1, 1001, "ST t-ch", "ST_tch_t_2016preVFP")
 ST_tch_t_2016preVFP.sigma =  136.02 #pb
@@ -198,10 +203,12 @@ ST_2016preVFP = sample(ROOT.kYellow, 1, 1001, "Single top", "ST_2016preVFP")
 ST_2016preVFP.year = 2016
 ST_2016preVFP.components = [ST_tch_t_2016preVFP, ST_tch_tbar_2016preVFP, ST_tW_t_2016preVFP, ST_tW_tbar_2016preVFP, ST_sch_2016preVFP]
 
+ST = sample(ROOT.kYellow, 1, 1001, "Single top", "ST")
+
 #signal
 
 Tprime_tHq_600LH_2016preVFP = sample(ROOT.kBlue,1,1001,"T' 600 LH","Tprime_tHq_600LH_2016preVFP")
-Tprime_tHq_600LH_2016preVFP.sigma = 203.40/1000. #to be changed
+Tprime_tHq_600LH_2016preVFP.sigma = 0.07453
 Tprime_tHq_600LH_2016preVFP.year = 2016
 Tprime_tHq_600LH_2016preVFP.dataset="/TprimeBToTH_M-600_LH_TuneCP5_13TeV-madgraph_pythia8/"+tag_2016preVFP+"-v1/NANOAODSIM"
 
@@ -231,7 +238,7 @@ Tprime_tHq_1100LH_2016preVFP.year = 2016
 Tprime_tHq_1100LH_2016preVFP.dataset="/TprimeBToTH_M-1100_LH_TuneCP5_13TeV-madgraph_pythia8/"+tag_2016preVFP+"-v1/NANOAODSIM"
 
 Tprime_tHq_1200LH_2016preVFP = sample(ROOT.kCyan,1,1001,"T' 1200 LH","Tprime_tHq_1200LH_2016preVFP")
-Tprime_tHq_1200LH_2016preVFP.sigma = 5.342/1000. #to be changed
+Tprime_tHq_1200LH_2016preVFP.sigma = 0.01973
 Tprime_tHq_1200LH_2016preVFP.year = 2016
 Tprime_tHq_1200LH_2016preVFP.dataset="/TprimeBToTH_M-1200_LH_TuneCP5_13TeV-madgraph_pythia8/"+tag_2016preVFP+"-v1/NANOAODSIM"
 
@@ -261,7 +268,7 @@ Tprime_tHq_1700LH_2016preVFP.year = 2016
 Tprime_tHq_1700LH_2016preVFP.dataset="/TprimeBToTH_M-1700_LH_TuneCP5_13TeV-madgraph_pythia8/"+tag_2016preVFP+"-v1/NANOAODSIM"
 
 Tprime_tHq_1800LH_2016preVFP = sample(ROOT.kBlack,1,1001,"T' 1800 LH","Tprime_tHq_1800LH_2016preVFP")
-Tprime_tHq_1800LH_2016preVFP.sigma = 0.4588/1000. #to be changed
+Tprime_tHq_1800LH_2016preVFP.sigma = 0.005829
 Tprime_tHq_1800LH_2016preVFP.year = 2016
 Tprime_tHq_1800LH_2016preVFP.dataset="/TprimeBToTH_M-1800_LH_TuneCP5_13TeV-madgraph_pythia8/"+tag_2016preVFP+"-v1/NANOAODSIM"
 
@@ -269,6 +276,8 @@ Tprime_LH_2016preVFP = sample(ROOT.kBlue, 1, 1001, "T' LH", "Tprime_LH_2016preVF
 Tprime_LH_2016preVFP.year = 2016
 Tprime_LH_2016preVFP.components = [Tprime_tHq_600LH_2016preVFP,Tprime_tHq_700LH_2016preVFP,Tprime_tHq_800LH_2016preVFP,Tprime_tHq_900LH_2016preVFP,Tprime_tHq_1000LH_2016preVFP,Tprime_tHq_1100LH_2016preVFP,Tprime_tHq_1200LH_2016preVFP,Tprime_tHq_1300LH_2016preVFP,Tprime_tHq_1400LH_2016preVFP,Tprime_tHq_1500LH_2016preVFP,Tprime_tHq_1600LH_2016preVFP,Tprime_tHq_1700LH_2016preVFP,Tprime_tHq_1800LH_2016preVFP]
 
+
+Tprime_tHq_1800LH = sample(ROOT.kBlack,1,1001,"T' 1800 LH","Tprime_tHq_1800LH")
 
 ###################################################################################################################################################################
 ############################################################                                           ############################################################
@@ -443,12 +452,12 @@ ST_2016postVFP.components = [ST_tch_t_2016postVFP, ST_tch_tbar_2016postVFP, ST_t
 #signal
 
 Tprime_tHq_600LH_2016postVFP = sample(ROOT.kBlue,1,1001,"T' 600 LH","Tprime_tHq_600LH_2016postVFP")
-Tprime_tHq_600LH_2016postVFP.sigma = 203.40/1000. #to be changed
+Tprime_tHq_600LH_2016postVFP.sigma = 0.07453
 Tprime_tHq_600LH_2016postVFP.year = 2016
 Tprime_tHq_600LH_2016postVFP.dataset="/TprimeBToTH_M-600_LH_TuneCP5_13TeV-madgraph_pythia8/"+tag_2016postVFP+"-v1/NANOAODSIM"
 
 Tprime_tHq_700LH_2016postVFP = sample(ROOT.kBlue,1,1001,"T' 700 LH","Tprime_tHq_700LH_2016postVFP")
-Tprime_tHq_700LH_2016postVFP.sigma = 88.107/1000. #to be changed
+Tprime_tHq_700LH_2016postVFP.sigma = 45.920/1000. #to be changed
 Tprime_tHq_700LH_2016postVFP.year = 2016
 Tprime_tHq_700LH_2016postVFP.dataset="/TprimeBToTH_M-700_LH_TuneCP5_13TeV-madgraph_pythia8/"+tag_2016postVFP+"-v1/NANOAODSIM"
 
@@ -473,7 +482,7 @@ Tprime_tHq_1100LH_2016postVFP.year = 2016
 Tprime_tHq_1100LH_2016postVFP.dataset="/TprimeBToTH_M-1100_LH_TuneCP5_13TeV-madgraph_pythia8/"+tag_2016postVFP+"-v1/NANOAODSIM"
 
 Tprime_tHq_1200LH_2016postVFP = sample(ROOT.kCyan,1,1001,"T' 1200 LH","Tprime_tHq_1200LH_2016postVFP")
-Tprime_tHq_1200LH_2016postVFP.sigma = 5.342/1000. #to be changed
+Tprime_tHq_1200LH_2016postVFP.sigma = 0.01973
 Tprime_tHq_1200LH_2016postVFP.year = 2016
 Tprime_tHq_1200LH_2016postVFP.dataset="/TprimeBToTH_M-1200_LH_TuneCP5_13TeV-madgraph_pythia8/"+tag_2016postVFP+"-v1/NANOAODSIM"
 
@@ -503,7 +512,7 @@ Tprime_tHq_1700LH_2016postVFP.year = 2016
 Tprime_tHq_1700LH_2016postVFP.dataset="/TprimeBToTH_M-1700_LH_TuneCP5_13TeV-madgraph_pythia8/"+tag_2016postVFP+"-v1/NANOAODSIM"
 
 Tprime_tHq_1800LH_2016postVFP = sample(ROOT.kBlack,1,1001,"T' 1800 LH","Tprime_tHq_1800LH_2016postVFP")
-Tprime_tHq_1800LH_2016postVFP.sigma = 0.4588/1000. #to be changed
+Tprime_tHq_1800LH_2016postVFP.sigma = 0.005829
 Tprime_tHq_1800LH_2016postVFP.year = 2016
 Tprime_tHq_1800LH_2016postVFP.dataset="/TprimeBToTH_M-1800_LH_TuneCP5_13TeV-madgraph_pythia8/"+tag_2016postVFP+"-v1/NANOAODSIM"
 
@@ -514,6 +523,11 @@ Tprime_LH_2016postVFP.components = [Tprime_tHq_600LH_2016postVFP,Tprime_tHq_700L
 
 
 #Data
+DataMuB0_2016preVFP = sample(ROOT.kBlack, 1, 1001, "Data", "DataMuB0_2016preVFP")
+DataMuB0_2016preVFP.runP = 'B'
+DataMuB0_2016preVFP.year = 2016
+DataMuB0_2016preVFP.dataset = '/SingleMuon/Run2016B-ver1_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD'
+
 DataMuB_2016preVFP = sample(ROOT.kBlack, 1, 1001, "Data", "DataMuB_2016preVFP")
 DataMuB_2016preVFP.runP = 'B'
 DataMuB_2016preVFP.year = 2016
@@ -538,7 +552,7 @@ DataMuF_2016preVFP.dataset = '/SingleMuon/Run2016F-HIPM_UL2016_MiniAODv2_NanoAOD
 
 DataMu_2016preVFP = sample(ROOT.kBlack, 1, 1001, "Data", "DataMu_2016preVFP")
 DataMu_2016preVFP.year = 2016
-DataMu_2016preVFP.components = [DataMuB_2016preVFP, DataMuC_2016preVFP, DataMuD_2016preVFP, DataMuE_2016preVFP, DataMuF_2016preVFP]
+DataMu_2016preVFP.components = [DataMuB0_2016preVFP,DataMuB_2016preVFP, DataMuC_2016preVFP, DataMuD_2016preVFP, DataMuE_2016preVFP, DataMuF_2016preVFP]
 
 
 DataMuF_2016postVFP = sample(ROOT.kBlack, 1, 1001, "Data", "DataMuF_2016postVFP")
@@ -558,6 +572,10 @@ DataMu_2016postVFP.year = 2016
 DataMu_2016postVFP.components = [DataMuF_2016postVFP, DataMuG_2016postVFP, DataMuH_2016postVFP]
 
 
+DataEleB0_2016preVFP = sample(ROOT.kBlack, 1, 1001, "Data", "DataEleB0_2016preVFP")
+DataEleB0_2016preVFP.runP = 'B'
+DataEleB0_2016preVFP.year = 2016
+DataEleB0_2016preVFP.dataset = '/SingleElectron/Run2016B-ver1_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD'
 
 DataEleB_2016preVFP = sample(ROOT.kBlack, 1, 1001, "Data", "DataEleB_2016preVFP")
 DataEleB_2016preVFP.runP = 'B'
@@ -583,7 +601,7 @@ DataEleF_2016preVFP.dataset = '/SingleElectron/Run2016F-HIPM_UL2016_MiniAODv2_Na
 
 DataEle_2016preVFP = sample(ROOT.kBlack, 1, 1001, "Data", "DataEle_2016preVFP")
 DataEle_2016preVFP.year = 2016
-DataEle_2016preVFP.components = [DataEleB_2016preVFP, DataEleC_2016preVFP, DataEleD_2016preVFP, DataEleE_2016preVFP, DataEleF_2016preVFP]
+DataEle_2016preVFP.components = [DataEleB0_2016preVFP,DataEleB_2016preVFP, DataEleC_2016preVFP, DataEleD_2016preVFP, DataEleE_2016preVFP, DataEleF_2016preVFP]
 
 
 DataEleF_2016postVFP = sample(ROOT.kBlack, 1, 1001, "Data", "DataEleF_2016postVFP")
@@ -602,6 +620,11 @@ DataEle_2016postVFP = sample(ROOT.kBlack, 1, 1001, "Data", "DataEle_2016postVFP"
 DataEle_2016postVFP.year = 2016
 DataEle_2016postVFP.components = [DataEleF_2016postVFP, DataEleG_2016postVFP, DataEleH_2016postVFP]
 
+
+DataPhB0_2016preVFP = sample(ROOT.kBlack, 1, 1001, "Data", "DataPhB0_2016preVFP")
+DataPhB0_2016preVFP.runP = 'B'
+DataPhB0_2016preVFP.year = 2016
+DataPhB0_2016preVFP.dataset = '/SinglePhoton/Run2016B-ver1_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD'
 
 DataPhB_2016preVFP = sample(ROOT.kBlack, 1, 1001, "Data", "DataPhB_2016preVFP")
 DataPhB_2016preVFP.runP = 'B'
@@ -627,7 +650,7 @@ DataPhF_2016preVFP.dataset = '/SinglePhoton/Run2016F-HIPM_UL2016_MiniAODv2_NanoA
 
 DataPh_2016preVFP = sample(ROOT.kBlack, 1, 1001, "Data", "DataPh_2016preVFP")
 DataPh_2016preVFP.year = 2016
-DataPh_2016preVFP.components = [DataPhB_2016preVFP, DataPhC_2016preVFP, DataPhD_2016preVFP, DataPhE_2016preVFP, DataPhF_2016preVFP]
+DataPh_2016preVFP.components = [DataPhB0_2016preVFP,DataPhB_2016preVFP, DataPhC_2016preVFP, DataPhD_2016preVFP, DataPhE_2016preVFP, DataPhF_2016preVFP]
 
 
 DataPhF_2016postVFP = sample(ROOT.kBlack, 1, 1001, "Data", "DataPhF_2016postVFP")
@@ -646,6 +669,11 @@ DataPh_2016postVFP = sample(ROOT.kBlack, 1, 1001, "Data", "DataPh_2016postVFP")
 DataPh_2016postVFP.year = 2016
 DataPh_2016postVFP.components = [DataPhF_2016postVFP, DataPhG_2016postVFP, DataPhH_2016postVFP]
 
+
+DataHTB0_2016preVFP = sample(ROOT.kBlack, 1, 1001, "Data", "DataHTB0_2016preVFP")
+DataHTB0_2016preVFP.runP = 'B'
+DataHTB0_2016preVFP.year = 2016
+DataHTB0_2016preVFP.dataset = '/JetHT/Run2016B-ver1_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD'
 
 DataHTB_2016preVFP = sample(ROOT.kBlack, 1, 1001, "Data", "DataHTB_2016preVFP")
 DataHTB_2016preVFP.runP = 'B'
@@ -671,7 +699,7 @@ DataHTF_2016preVFP.dataset = '/JetHT/Run2016F-HIPM_UL2016_MiniAODv2_NanoAODv9-v2
 
 DataHT_2016preVFP = sample(ROOT.kBlack, 1, 1001, "Data", "DataHT_2016preVFP")
 DataHT_2016preVFP.year = 2016
-DataHT_2016preVFP.components = [DataHTB_2016preVFP, DataHTC_2016preVFP, DataHTD_2016preVFP, DataHTE_2016preVFP, DataHTF_2016preVFP]
+DataHT_2016preVFP.components = [DataHTB0_2016preVFP,DataHTB_2016preVFP, DataHTC_2016preVFP, DataHTD_2016preVFP, DataHTE_2016preVFP, DataHTF_2016preVFP]
 
 
 DataHTF_2016postVFP = sample(ROOT.kBlack, 1, 1001, "Data", "DataHTF_2016postVFP")
@@ -691,6 +719,404 @@ DataHT_2016postVFP.year = 2016
 DataHT_2016postVFP.components = [DataHTF_2016postVFP, DataHTG_2016postVFP, DataHTH_2016postVFP]
 
 
+###################################################################################################################################################################
+############################################################                                           ############################################################
+############################################################                    2016                   ############################################################
+############################################################                                           ############################################################
+###################################################################################################################################################################
+
+################################ TTbar ################################
+
+TT_Mtt700to1000_2016 = sample(ROOT.kRed, 1, 1001, "t#bar{t}", "TT_Mtt700to1000_2016")
+TT_Mtt700to1000_2016.sigma = 80.5 #pb
+TT_Mtt700to1000_2016.year = 2016
+TT_Mtt700to1000_2016.dataset =""
+
+TT_Mtt1000toInf_2016 = sample(ROOT.kRed, 1, 1001, "t#bar{t}", "TT_Mtt1000toInf_2016")
+TT_Mtt1000toInf_2016.sigma = 21.3 #pb
+TT_Mtt1000toInf_2016.year = 2016
+TT_Mtt1000toInf_2016.dataset = ""
+
+TT_semilep_2016 = sample(ROOT.kRed, 1, 1001, "t#bar{t}", "TT_semilep_2016")
+TT_semilep_2016.sigma = 831.76*0.438 #pb
+TT_semilep_2016.year = 2016
+TT_semilep_2016.dataset = ""
+
+TT_dilep_2016 = sample(ROOT.kRed, 1, 1001, "t#bar{t}", "TT_dilep_2016")
+TT_dilep_2016.sigma =  831.76 * 0.10 #pb
+TT_dilep_2016.year = 2016
+TT_dilep_2016.dataset =""
+
+TT_Mtt_2016 = sample(ROOT.kRed, 1, 1001, "t#bar{t}", "TT_Mtt_2016")
+TT_Mtt_2016.year = 2016
+TT_Mtt_2016.components = [TT_dilep_2016,TT_semilep_2016,TT_Mtt700to1000_2016, TT_Mtt1000toInf_2016]
+
+
+#WJets
+
+
+WJetsHT70to100_2016 = sample(ROOT.kGreen, 1, 1001, "W + Jets", "WJetsHT70to100_2016")
+WJetsHT70to100_2016.sigma = 1353.0 * kFactorsQCD["WJetsHT100to200"] #pb
+WJetsHT70to100_2016.year = 2016
+WJetsHT70to100_2016.dataset = ""
+
+WJetsHT100to200_2016 = sample(ROOT.kGreen+1, 1, 1001, "W + Jets", "WJetsHT100to200_2016")
+WJetsHT100to200_2016.sigma = 1345 * kFactorsQCD["WJetsHT100to200"] #pb
+WJetsHT100to200_2016.year = 2016
+WJetsHT100to200_2016.dataset = ""
+
+WJetsHT200to400_2016 = sample(ROOT.kGreen+2, 1, 1001, "W + Jets", "WJetsHT200to400_2016")
+WJetsHT200to400_2016.sigma = 359.7 * kFactorsQCD["WJetsHT200to400"] #pb
+WJetsHT200to400_2016.year = 2016
+WJetsHT200to400_2016.dataset = ""
+
+
+WJetsHT400to600_2016 = sample(ROOT.kGreen+3, 1, 1001, "W + Jets", "WJetsHT400to600_2016")
+WJetsHT400to600_2016.sigma = 48.91 * kFactorsQCD["WJetsHT400to600"] #pb
+WJetsHT400to600_2016.year = 2016
+WJetsHT400to600_2016.dataset = ""
+
+
+WJetsHT600to800_2016 = sample(ROOT.kGreen+4, 1, 1001, "W + Jets", "WJetsHT600to800_2016")
+WJetsHT600to800_2016.sigma = 12.05 * kFactorsQCD["WJetsHT600to800"] #pb
+WJetsHT600to800_2016.year = 2016
+WJetsHT600to800_2016.dataset = ""
+
+
+WJetsHT800to1200_2016 = sample(ROOT.kGreen+5, 1, 1001, "W + Jets", "WJetsHT800to1200_2016")
+WJetsHT800to1200_2016.sigma = 5.501 * kFactorsQCD["WJetsHT800to1200"] #pb
+WJetsHT800to1200_2016.year = 2016
+WJetsHT800to1200_2016.dataset = ""
+
+
+WJetsHT1200to2500_2016 = sample(ROOT.kGreen+6, 1, 1001, "W + Jets", "WJetsHT1200to2500_2016")
+WJetsHT1200to2500_2016.sigma = 1.329 * kFactorsQCD["WJetsHT1200to2500"] #pb
+WJetsHT1200to2500_2016.year = 2016
+WJetsHT1200to2500_2016.dataset = ""
+
+
+WJetsHT2500toInf_2016 = sample(ROOT.kGreen+7, 1, 1001, "W + Jets", "WJetsHT2500toInf_2016")
+WJetsHT2500toInf_2016.sigma = 0.03216 * 1.2 #pb
+WJetsHT2500toInf_2016.year = 2016
+WJetsHT2500toInf_2016.dataset = ""
+
+
+
+WJets_2016 = sample(ROOT.kGreen+2, 1, 1001, "W + Jets", "WJets_2016")
+WJets_2016.year = 2016
+WJets_2016.components = [WJetsHT70to100_2016, WJetsHT100to200_2016, WJetsHT200to400_2016, WJetsHT400to600_2016, WJetsHT600to800_2016, WJetsHT800to1200_2016, WJetsHT1200to2500_2016, WJetsHT2500toInf_2016]
+
+
+#QCD
+
+QCDHT_50to100_2016 = sample(ROOT.kGray, 1, 1001, "QCD", "QCDHT_50to100_2016")
+QCDHT_50to100_2016.sigma = 0 #347700 #pb
+QCDHT_50to100_2016.year = 2016
+QCDHT_50to100_2016.dataset = ""
+
+QCDHT_100to200_2016 = sample(ROOT.kGray, 1, 1001, "QCD", "QCDHT_100to200_2016")
+QCDHT_100to200_2016.sigma = 27990000#0 #347700 #pb
+QCDHT_100to200_2016.year = 2016
+QCDHT_100to200_2016.dataset = ""
+
+QCDHT_200to300_2016 = sample(ROOT.kGray, 1, 1001, "QCD", "QCDHT_200to300_2016")
+QCDHT_200to300_2016.sigma = 1712000 #347700 #pb
+QCDHT_200to300_2016.year = 2016
+QCDHT_200to300_2016.dataset = ""
+
+QCDHT_300to500_2016 = sample(ROOT.kGray, 1, 1001, "QCD", "QCDHT_300to500_2016")
+QCDHT_300to500_2016.sigma = 347700 #pb
+QCDHT_300to500_2016.year = 2016
+QCDHT_300to500_2016.dataset = ""
+
+QCDHT_500to700_2016 = sample(ROOT.kGray, 1, 1001, "QCD", "QCDHT_500to700_2016")
+QCDHT_500to700_2016.sigma = 32100 #pb
+QCDHT_500to700_2016.year = 2016
+QCDHT_500to700_2016.dataset = ""
+
+QCDHT_700to1000_2016 = sample(ROOT.kGray, 1, 1001, "QCD", "QCDHT_700to1000_2016")
+QCDHT_700to1000_2016.sigma = 6831 #pb
+QCDHT_700to1000_2016.year = 2016
+QCDHT_700to1000_2016.dataset = ""
+
+QCDHT_1000to1500_2016 = sample(ROOT.kGray, 1, 1001, "QCD", "QCDHT_1000to1500_2016")
+QCDHT_1000to1500_2016.sigma = 1207 #pb
+QCDHT_1000to1500_2016.year = 2016
+QCDHT_1000to1500_2016.dataset = ""
+
+QCDHT_1500to2000_2016 = sample(ROOT.kGray, 1, 1001, "QCD", "QCDHT_1500to2000_2016")
+QCDHT_1500to2000_2016.sigma = 119.9 #pb
+QCDHT_1500to2000_2016.year = 2016
+QCDHT_1500to2000_2016.dataset = ""
+
+QCDHT_2000toInf_2016 = sample(ROOT.kGray, 1, 1001, "QCD", "QCDHT_2000toInf_2016")
+QCDHT_2000toInf_2016.sigma = 25.24 #pb
+QCDHT_2000toInf_2016.year = 2016
+QCDHT_2000toInf_2016.dataset = ""
+
+QCD_2016 = sample(ROOT.kGray, 1, 1001, "QCD", "QCD_2016")
+QCD_2016.year = 2016
+QCD_2016.components = [QCDHT_100to200_2016,QCDHT_200to300_2016,QCDHT_300to500_2016, QCDHT_500to700_2016, QCDHT_700to1000_2016, QCDHT_1000to1500_2016, QCDHT_1500to2000_2016, QCDHT_2000toInf_2016]
+
+#ST
+ST_tch_t_2016 = sample(ROOT.kYellow, 1, 1001, "ST t-ch", "ST_tch_t_2016")
+ST_tch_t_2016.sigma =  136.02 #pb
+ST_tch_t_2016.year = 2016
+ST_tch_t_2016.dataset = ""
+
+ST_tch_tbar_2016 = sample(ROOT.kYellow, 1, 1001, "ST t-ch", "ST_tch_tbar_2016")
+ST_tch_tbar_2016.sigma =  80.95 #pb
+ST_tch_tbar_2016.year = 2016
+ST_tch_tbar_2016.dataset = ""
+
+ST_tW_t_2016 = sample(ROOT.kYellow, 1, 1001, "ST tW", "ST_tW_t_2016")
+ST_tW_t_2016.sigma =  71.7/2 #pb
+ST_tW_t_2016.year = 2016
+ST_tW_t_2016.dataset = ""
+
+ST_tW_tbar_2016 = sample(ROOT.kYellow, 1, 1001, "ST tW", "ST_tW_tbar_2016")
+ST_tW_tbar_2016.sigma = 71.7/2 #pb
+ST_tW_tbar_2016.year = 2016
+ST_tW_tbar_2016.dataset = ""
+
+ST_sch_2016 = sample(ROOT.kYellow, 1, 1001, "ST s-ch", "ST_sch_2016")
+ST_sch_2016.sigma = 10.32*0.324 #pb
+ST_sch_2016.year = 2016
+ST_sch_2016.dataset = ""
+
+ST_2016 = sample(ROOT.kYellow, 1, 1001, "Single top", "ST_2016")
+ST_2016.year = 2016
+ST_2016.components = [ST_tch_t_2016, ST_tch_tbar_2016, ST_tW_t_2016, ST_tW_tbar_2016, ST_sch_2016]
+
+#signal
+
+Tprime_tHq_600LH_2016 = sample(ROOT.kBlue,1,1001,"T' 600 LH","Tprime_tHq_600LH_2016")
+Tprime_tHq_600LH_2016.sigma = 0.07453
+Tprime_tHq_600LH_2016.year = 2016
+Tprime_tHq_600LH_2016.dataset=""
+
+Tprime_tHq_700LH_2016 = sample(ROOT.kBlue,1,1001,"T' 700 LH","Tprime_tHq_700LH_2016")
+Tprime_tHq_700LH_2016.sigma = 88.107/1000. #to be changed
+Tprime_tHq_700LH_2016.year = 2016
+Tprime_tHq_700LH_2016.dataset=""
+
+Tprime_tHq_800LH_2016 = sample(ROOT.kBlue,1,1001,"T' 800 LH","Tprime_tHq_800LH_2016")
+Tprime_tHq_800LH_2016.sigma = 45.920/1000. #to be changed
+Tprime_tHq_800LH_2016.year = 2016
+Tprime_tHq_800LH_2016.dataset=""
+
+Tprime_tHq_900LH_2016 = sample(ROOT.kBlue,1,1001,"T' 900 LH","Tprime_tHq_900LH_2016")
+Tprime_tHq_900LH_2016.sigma = 25.327/1000. #to be changed
+Tprime_tHq_900LH_2016.year = 2016
+Tprime_tHq_900LH_2016.dataset=""
+
+Tprime_tHq_1000LH_2016 = sample(ROOT.kBlue,1,1001,"T' 1000 LH","Tprime_tHq_1000LH_2016")
+Tprime_tHq_1000LH_2016.sigma = 14.550/1000. #to be changed
+Tprime_tHq_1000LH_2016.year = 2016
+Tprime_tHq_1000LH_2016.dataset=""
+
+Tprime_tHq_1100LH_2016 = sample(ROOT.kBlue,1,1001,"T' 1100 LH","Tprime_tHq_1100LH_2016")
+Tprime_tHq_1100LH_2016.sigma = 8.640/1000. #to be changed
+Tprime_tHq_1100LH_2016.year = 2016
+Tprime_tHq_1100LH_2016.dataset=""
+
+Tprime_tHq_1200LH_2016 = sample(ROOT.kCyan,1,1001,"T' 1200 LH","Tprime_tHq_1200LH_2016")
+Tprime_tHq_1200LH_2016.sigma = 0.01973
+Tprime_tHq_1200LH_2016.year = 2016
+Tprime_tHq_1200LH_2016.dataset=""
+
+Tprime_tHq_1300LH_2016 = sample(ROOT.kBlue,1,1001,"T' 1300 LH","Tprime_tHq_1300LH_2016")
+Tprime_tHq_1300LH_2016.sigma = 3.390/1000. #to be changed
+Tprime_tHq_1300LH_2016.year = 2016
+Tprime_tHq_1300LH_2016.dataset=""
+
+Tprime_tHq_1400LH_2016 = sample(ROOT.kBlue,1,1001,"T' 1400 LH","Tprime_tHq_1400LH_2016")
+Tprime_tHq_1400LH_2016.sigma = 2.197/1000. #to be changed
+Tprime_tHq_1400LH_2016.year = 2016
+Tprime_tHq_1400LH_2016.dataset=""
+
+Tprime_tHq_1500LH_2016 = sample(ROOT.kBlue,1,1001,"T' 1500 LH","Tprime_tHq_1500LH_2016")
+Tprime_tHq_1500LH_2016.sigma = 1.448/1000. #to be changed
+Tprime_tHq_1500LH_2016.year = 2016
+Tprime_tHq_1500LH_2016.dataset=""
+
+Tprime_tHq_1600LH_2016 = sample(ROOT.kBlue,1,1001,"T' 1600 LH","Tprime_tHq_1600LH_2016")
+Tprime_tHq_1600LH_2016.sigma = 0.9743/1000. #to be changed
+Tprime_tHq_1600LH_2016.year = 2016
+Tprime_tHq_1600LH_2016.dataset=""
+
+Tprime_tHq_1700LH_2016 = sample(ROOT.kBlue,1,1001,"T' 1700 LH","Tprime_tHq_1700LH_2016")
+Tprime_tHq_1700LH_2016.sigma = 0.6638/1000. #to be changed
+Tprime_tHq_1700LH_2016.year = 2016
+Tprime_tHq_1700LH_2016.dataset=""
+
+Tprime_tHq_1800LH_2016 = sample(ROOT.kBlack,1,1001,"T' 1800 LH","Tprime_tHq_1800LH_2016")
+Tprime_tHq_1800LH_2016.sigma = 0.005829
+Tprime_tHq_1800LH_2016.year = 2016
+Tprime_tHq_1800LH_2016.dataset=""
+
+Tprime_LH_2016 = sample(ROOT.kBlue, 1, 1001, "T' LH", "Tprime_LH_2016")
+Tprime_LH_2016.year = 2016
+Tprime_LH_2016.components = [Tprime_tHq_600LH_2016,Tprime_tHq_700LH_2016,Tprime_tHq_800LH_2016,Tprime_tHq_900LH_2016,Tprime_tHq_1000LH_2016,Tprime_tHq_1100LH_2016,Tprime_tHq_1200LH_2016,Tprime_tHq_1300LH_2016,Tprime_tHq_1400LH_2016,Tprime_tHq_1500LH_2016,Tprime_tHq_1600LH_2016,Tprime_tHq_1700LH_2016,Tprime_tHq_1800LH_2016]
+
+
+#Data
+DataMuB0_2016 = sample(ROOT.kBlack, 1, 1001, "Data", "DataMuB0_2016")
+DataMuB0_2016.runP = 'B'
+DataMuB0_2016.year = 2016
+DataMuB0_2016.dataset = ''
+
+DataMuB_2016 = sample(ROOT.kBlack, 1, 1001, "Data", "DataMuB_2016")
+DataMuB_2016.runP = 'B'
+DataMuB_2016.year = 2016
+DataMuB_2016.dataset = ''
+DataMuC_2016 = sample(ROOT.kBlack, 1, 1001, "Data", "DataMuC_2016")
+DataMuC_2016.runP = 'C'
+DataMuC_2016.year = 2016
+DataMuC_2016.dataset = ''
+DataMuD_2016 = sample(ROOT.kBlack, 1, 1001, "Data", "DataMuD_2016")
+DataMuD_2016.runP = 'D'
+DataMuD_2016.year = 2016
+DataMuD_2016.dataset = ''
+DataMuE_2016 = sample(ROOT.kBlack, 1, 1001, "Data", "DataMuE_2016")
+DataMuE_2016.runP = 'E'
+DataMuE_2016.year = 2016
+DataMuE_2016.dataset = ''
+
+DataMuF_2016 = sample(ROOT.kBlack, 1, 1001, "Data", "DataMuF_2016")
+DataMuF_2016.runP = 'F'
+DataMuF_2016.year = 2016
+DataMuF_2016.dataset = ''
+
+DataMuG_2016 = sample(ROOT.kBlack, 1, 1001, "Data", "DataMuG_2016")
+DataMuG_2016.runP = 'G'
+DataMuG_2016.year = 2016
+DataMuG_2016.dataset = ''
+DataMuH_2016 = sample(ROOT.kBlack, 1, 1001, "Data", "DataMuH_2016")
+DataMuH_2016.runP = 'H'
+DataMuH_2016.year = 2016
+DataMuH_2016.dataset = ''
+
+DataMu_2016 = sample(ROOT.kBlack, 1, 1001, "Data", "DataMu_2016")
+DataMu_2016.year = 2016
+DataMu_2016.components = [DataMuB0_2016,DataMuB_2016, DataMuC_2016, DataMuD_2016, DataMuE_2016, DataMuF_2016, DataMuG_2016, DataMuH_2016]
+
+DataEleB0_2016 = sample(ROOT.kBlack, 1, 1001, "Data", "DataEleB0_2016")
+DataEleB0_2016.runP = 'B'
+DataEleB0_2016.year = 2016
+DataEleB0_2016.dataset = ''
+
+DataEleB_2016 = sample(ROOT.kBlack, 1, 1001, "Data", "DataEleB_2016")
+DataEleB_2016.runP = 'B'
+DataEleB_2016.year = 2016
+DataEleB_2016.dataset = ''
+DataEleC_2016 = sample(ROOT.kBlack, 1, 1001, "Data", "DataEleC_2016")
+DataEleC_2016.runP = 'C'
+DataEleC_2016.year = 2016
+DataEleC_2016.dataset = ''
+DataEleD_2016 = sample(ROOT.kBlack, 1, 1001, "Data", "DataEleD_2016")
+DataEleD_2016.runP = 'D'
+DataEleD_2016.year = 2016
+DataEleD_2016.dataset = ''
+DataEleE_2016 = sample(ROOT.kBlack, 1, 1001, "Data", "DataEleE_2016")
+DataEleE_2016.runP = 'E'
+DataEleE_2016.year = 2016
+DataEleE_2016.dataset = ''
+
+DataEleF_2016 = sample(ROOT.kBlack, 1, 1001, "Data", "DataEleF_2016")
+DataEleF_2016.runP = 'F'
+DataEleF_2016.year = 2016
+DataEleF_2016.dataset = ''
+DataEleG_2016 = sample(ROOT.kBlack, 1, 1001, "Data", "DataEleG_2016")
+DataEleG_2016.runP = 'G'
+DataEleG_2016.year = 2016
+DataEleG_2016.dataset = ''
+DataEleH_2016 = sample(ROOT.kBlack, 1, 1001, "Data", "DataEleH_2016")
+DataEleH_2016.runP = 'H'
+DataEleH_2016.year = 2016
+DataEleH_2016.dataset = ''
+
+DataEle_2016 = sample(ROOT.kBlack, 1, 1001, "Data", "DataEle_2016")
+DataEle_2016.year = 2016
+DataEle_2016.components = [DataEleB0_2016,DataEleB_2016, DataEleC_2016, DataEleD_2016, DataEleE_2016, DataEleF_2016, DataEleG_2016, DataEleH_2016]
+
+DataPhB0_2016 = sample(ROOT.kBlack, 1, 1001, "Data", "DataPhB0_2016")
+DataPhB0_2016.runP = 'B'
+DataPhB0_2016.year = 2016
+DataPhB0_2016.dataset = ''
+
+DataPhB_2016 = sample(ROOT.kBlack, 1, 1001, "Data", "DataPhB_2016")
+DataPhB_2016.runP = 'B'
+DataPhB_2016.year = 2016
+DataPhB_2016.dataset = ''
+DataPhC_2016 = sample(ROOT.kBlack, 1, 1001, "Data", "DataPhC_2016")
+DataPhC_2016.runP = 'C'
+DataPhC_2016.year = 2016
+DataPhC_2016.dataset = ''
+DataPhD_2016 = sample(ROOT.kBlack, 1, 1001, "Data", "DataPhD_2016")
+DataPhD_2016.runP = 'D'
+DataPhD_2016.year = 2016
+DataPhD_2016.dataset = ''
+DataPhE_2016 = sample(ROOT.kBlack, 1, 1001, "Data", "DataPhE_2016")
+DataPhE_2016.runP = 'E'
+DataPhE_2016.year = 2016
+DataPhE_2016.dataset = ''
+
+DataPhF_2016 = sample(ROOT.kBlack, 1, 1001, "Data", "DataPhF_2016")
+DataPhF_2016.runP = 'F'
+DataPhF_2016.year = 2016
+DataPhF_2016.dataset = ''
+
+DataPhG_2016 = sample(ROOT.kBlack, 1, 1001, "Data", "DataPhG_2016")
+DataPhG_2016.runP = 'G'
+DataPhG_2016.year = 2016
+DataPhG_2016.dataset = ''
+DataPhH_2016 = sample(ROOT.kBlack, 1, 1001, "Data", "DataPhH_2016")
+DataPhH_2016.runP = 'H'
+DataPhH_2016.year = 2016
+DataPhH_2016.dataset = ''
+DataPh_2016 = sample(ROOT.kBlack, 1, 1001, "Data", "DataPh_2016")
+DataPh_2016.year = 2016
+DataPh_2016.components = [DataPhB0_2016,DataPhB_2016, DataPhC_2016, DataPhD_2016, DataPhE_2016,DataPhF_2016, DataPhG_2016, DataPhH_2016]
+
+DataHTB0_2016 = sample(ROOT.kBlack, 1, 1001, "Data", "DataHTB0_2016")
+DataHTB0_2016.runP = 'B'
+DataHTB0_2016.year = 2016
+DataHTB0_2016.dataset = ''
+
+DataHTB_2016 = sample(ROOT.kBlack, 1, 1001, "Data", "DataHTB_2016")
+DataHTB_2016.runP = 'B'
+DataHTB_2016.year = 2016
+DataHTB_2016.dataset = ''
+DataHTC_2016 = sample(ROOT.kBlack, 1, 1001, "Data", "DataHTC_2016")
+DataHTC_2016.runP = 'C'
+DataHTC_2016.year = 2016
+DataHTC_2016.dataset = ''
+DataHTD_2016 = sample(ROOT.kBlack, 1, 1001, "Data", "DataHTD_2016")
+DataHTD_2016.runP = 'D'
+DataHTD_2016.year = 2016
+DataHTD_2016.dataset = ''
+DataHTE_2016 = sample(ROOT.kBlack, 1, 1001, "Data", "DataHTE_2016")
+DataHTE_2016.runP = 'E'
+DataHTE_2016.year = 2016
+DataHTE_2016.dataset = ''
+
+DataHTF_2016 = sample(ROOT.kBlack, 1, 1001, "Data", "DataHTF_2016")
+DataHTF_2016.runP = 'F'
+DataHTF_2016.year = 2016
+DataHTF_2016.dataset = ''
+
+DataHTG_2016 = sample(ROOT.kBlack, 1, 1001, "Data", "DataHTG_2016")
+DataHTG_2016.runP = 'G'
+DataHTG_2016.year = 2016
+DataHTG_2016.dataset = ''
+DataHTH_2016 = sample(ROOT.kBlack, 1, 1001, "Data", "DataHTH_2016")
+DataHTH_2016.runP = 'H'
+DataHTH_2016.year = 2016
+DataHTH_2016.dataset = ''
+DataHT_2016 = sample(ROOT.kBlack, 1, 1001, "Data", "DataHT_2016")
+DataHT_2016.year = 2016
+DataHT_2016.components = [DataHTB0_2016, DataHTB_2016, DataHTC_2016, DataHTD_2016, DataHTE_2016, DataHTF_2016, DataHTG_2016, DataHTH_2016]
 
 ###################################################################################################################################################################                                                                                                                                               
 ############################################################                                           ############################################################                                                                                                                                               
@@ -864,7 +1290,7 @@ ST_2017.components = [ST_tch_t_2017, ST_tch_tbar_2017, ST_tW_t_2017, ST_tW_tbar_
 #signal
 
 Tprime_tHq_600LH_2017 = sample(ROOT.kBlue,1,1001,"T' 600 LH","Tprime_tHq_600LH_2017")
-Tprime_tHq_600LH_2017.sigma = 203.40/1000. #to be changed
+Tprime_tHq_600LH_2017.sigma = 0.07453
 Tprime_tHq_600LH_2017.year = 2017
 Tprime_tHq_600LH_2017.dataset="/TprimeBToTH_M-600_LH_TuneCP5_13TeV-madgraph_pythia8/"+tag_2017+"-v1/NANOAODSIM"
 
@@ -894,7 +1320,7 @@ Tprime_tHq_1100LH_2017.year = 2017
 Tprime_tHq_1100LH_2017.dataset="/TprimeBToTH_M-1100_LH_TuneCP5_13TeV-madgraph_pythia8/"+tag_2017+"-v1/NANOAODSIM"
 
 Tprime_tHq_1200LH_2017 = sample(ROOT.kCyan,1,1001,"T' 1200 LH","Tprime_tHq_1200LH_2017")
-Tprime_tHq_1200LH_2017.sigma = 5.342/1000. #to be changed
+Tprime_tHq_1200LH_2017.sigma = 0.01973
 Tprime_tHq_1200LH_2017.year = 2017
 Tprime_tHq_1200LH_2017.dataset="/TprimeBToTH_M-1200_LH_TuneCP5_13TeV-madgraph_pythia8/"+tag_2017+"-v1/NANOAODSIM"
 
@@ -924,7 +1350,7 @@ Tprime_tHq_1700LH_2017.year = 2017
 Tprime_tHq_1700LH_2017.dataset="/TprimeBToTH_M-1700_LH_TuneCP5_13TeV-madgraph_pythia8/"+tag_2017+"-v1/NANOAODSIM"
 
 Tprime_tHq_1800LH_2017 = sample(ROOT.kBlack,1,1001,"T' 1800 LH","Tprime_tHq_1800LH_2017")
-Tprime_tHq_1800LH_2017.sigma = 0.4588/1000. #to be changed
+Tprime_tHq_1800LH_2017.sigma = 0.005829
 Tprime_tHq_1800LH_2017.year = 2017
 Tprime_tHq_1800LH_2017.dataset="/TprimeBToTH_M-1800_LH_TuneCP5_13TeV-madgraph_pythia8/"+tag_2017+"-v1/NANOAODSIM"
 
@@ -1066,10 +1492,89 @@ TT_dilep_2018.sigma =  831.76 * 0.10 #pb
 TT_dilep_2018.year = 2018
 TT_dilep_2018.dataset ="/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8/"+tag_2018+"-v1/NANOAODSIM"
 
+"""
+TT_Had_2018 = sample(ROOT.kRed, 1, 1001, "t#bar{t}", "TT_Had_2018")
+TT_Had_2018.sigma =  831.76 * (1-0.10-0.438) #pb
+TT_Had_2018.year = 2018
+TT_Had_2018.dataset ="/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/"+tag_2018+"-v1/TT"
+"""
+
 TT_Mtt_2018 = sample(ROOT.kRed, 1, 1001, "t#bar{t}", "TT_Mtt_2018")
 TT_Mtt_2018.year = 2018
 TT_Mtt_2018.components = [TT_dilep_2018,TT_semilep_2018,TT_Mtt700to1000_2018, TT_Mtt1000toInf_2018]
 
+TTJetsHT600to800_2018 = sample(ROOT.kRed, 1, 1001, "t#bar{t} Jets", "TTJetsHT600to800_2018")
+TTJetsHT600to800_2018.sigma =  1.402 #pb
+TTJetsHT600to800_2018.year = 2018
+TTJetsHT600to800_2018.dataset ="/TTJets_HT-600to800_TuneCP5_13TeV-madgraphMLM-pythia8/"+tag_2018+"-v1/NANOAODSIM"
+
+TTJetsHT800to1200_2018 = sample(ROOT.kRed, 1, 1001, "t#bar{t} Jets", "TTJetsHT800to1200_2018")
+TTJetsHT800to1200_2018.sigma =  0.5581 #pb
+TTJetsHT800to1200_2018.year = 2018
+TTJetsHT800to1200_2018.dataset ="/TTJets_HT-800to1200_TuneCP5_13TeV-madgraphMLM-pythia8/"+tag_2018+"-v1/NANOAODSIM"
+
+TTJetsHT1200to2500_2018 = sample(ROOT.kRed, 1, 1001, "t#bar{t} Jets", "TTJetsHT1200to2500_2018")
+TTJetsHT1200to2500_2018.sigma =  0.09876 #pb
+TTJetsHT1200to2500_2018.year = 2018
+TTJetsHT1200to2500_2018.dataset ="/TTJets_HT-1200to2500_TuneCP5_13TeV-madgraphMLM-pythia8/"+tag_2018+"-v1/NANOAODSIM"
+
+TTJetsHT2500toInf_2018 = sample(ROOT.kRed, 1, 1001, "t#bar{t} Jets", "TTJetsHT2500toInf_2018")
+TTJetsHT2500toInf_2018.sigma =  9.277e-06 #pb
+TTJetsHT2500toInf_2018.year = 2018
+TTJetsHT2500toInf_2018.dataset ="/TTJets_HT-2500toInf_TuneCP5_13TeV-madgraphMLM-pythia8/"+tag_2018+"-v1/NANOAODSIM"
+
+TTJets_2018 = sample(ROOT.kRed, 1, 1001, "t#bar{t} Jets", "TTJets_2018")
+TTJets_2018.year = 2018
+TTJets_2018.components = [TTJetsHT600to800_2018,TTJetsHT800to1200_2018,TTJetsHT1200to2500_2018,TTJetsHT2500toInf_2018]
+
+TTHtobb_2018 = sample(ROOT.kBlue, 1, 1001, "t#bar{t} H", "TTHtobb_2018")
+TTHtobb_2018.sigma =  0.5269 #pb
+TTHtobb_2018.year = 2018
+TTHtobb_2018.dataset ="/ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8/"+tag_2018+"-v2/NANOAODSIM"
+
+TTHtoNonbb_2018 = sample(ROOT.kBlue, 1, 1001, "t#bar{t} H", "TTHtoNonbb_2018")
+TTHtoNonbb_2018.sigma =  0.5638 #pb
+TTHtoNonbb_2018.year = 2018
+TTHtoNonbb_2018.dataset ="/ttHToNonbb_M125_TuneCP5_13TeV-powheg-pythia8/"+tag_2018+"-v2/NANOAODSIM"
+
+TTH_2018 = sample(ROOT.kBlue, 1, 1001, "t#bar{t} H", "TTH_2018")
+TTH_2018.year = 2018
+TTH_2018.components = [TTHtoNonbb_2018,TTHtobb_2018]
+
+TTWJets_2018 = sample(ROOT.kBlue, 1, 1001, "t#bar{t} W Jets", "TTWJets_2018")
+TTWJets_2018.sigma =  0.4611 #pb
+TTWJets_2018.year = 2018
+TTWJets_2018.dataset ="/ttWJets_TuneCP5_13TeV_madgraphMLM_pythia8/"+tag_2018+"-v2/NANOAODSIM"
+
+TTZJets_2018 = sample(ROOT.kBlue, 1, 1001, "t#bar{t} Z Jets", "TTZJets_2018")
+TTZJets_2018.sigma =  0.5407 #pb
+TTZJets_2018.year = 2018
+TTZJets_2018.dataset ="/ttZJets_TuneCP5_13TeV_madgraphMLM_pythia8/"+tag_2018+"-v2/NANOAODSIM"
+
+TTVJets_2018 = sample(ROOT.kBlue, 1, 1001, "t#bar{t} V", "TTVJets_2018")
+TTVJets_2018.year = 2018
+TTVJets_2018.components = [TTWJets_2018,TTZJets_2018]
+
+TTGJets_2018 = sample(ROOT.kBlue, 1, 1001, "t#bar{t} G Jets", "TTGJets_2018")
+TTGJets_2018.sigma =  3.774 #pb
+TTGJets_2018.year = 2018
+TTGJets_2018.dataset ="/TTGJets_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8/"+tag_2018+"-v1/NANOAODSIM"
+
+TTGHadJets_2018 = sample(ROOT.kBlue, 1, 1001, "t#bar{t} G Jets", "TTGHadJets_2018")
+TTGHadJets_2018.sigma =  4.178 #pb
+TTGHadJets_2018.year = 2018
+TTGHadJets_2018.dataset ="/TTGamma_Hadronic_TuneCP5_13TeV-madgraph-pythia8/"+tag_2018+"-v1/NANOAODSIM"
+
+
+TTGammaJets_2018 = sample(ROOT.kBlue, 1, 1001, "t#bar{t} G Jets", "TTGammaJets_2018")
+TTGammaJets_2018.sigma =  5.098 #pb
+TTGammaJets_2018.year = 2018
+TTGammaJets_2018.dataset ="/TTGamma_SingleLept_TuneCP5_13TeV-madgraph-pythia8/"+tag_2018+"-v1/NANOAODSIM"
+
+TGJets_2018 = sample(ROOT.kBlue, 1, 1001, "t G Jets", "TGJets_2018")
+TGJets_2018.sigma =  2.997 #pb
+TGJets_2018.year = 2018
+TGJets_2018.dataset ="/TGJets_TuneCP5_13TeV-amcatnlo-madspin-pythia8/"+tag_2018+"-v2/NANOAODSIM"
 
 #WJets
 
@@ -1209,67 +1714,67 @@ ST_2018.components = [ST_tch_t_2018, ST_tch_tbar_2018, ST_tW_t_2018, ST_tW_tbar_
 #signal
 
 Tprime_tHq_600LH_2018 = sample(ROOT.kBlue,1,1001,"T' 600 LH","Tprime_tHq_600LH_2018")
-Tprime_tHq_600LH_2018.sigma = 203.40/1000. #to be changed
+Tprime_tHq_600LH_2018.sigma = 0.07453 
 Tprime_tHq_600LH_2018.year = 2018
-Tprime_tHq_600LH_2018.dataset="/TprimeBToTH_M-600_LH_TuneCP5_PSweights_13TeV-madgraph_pythia8/RunIISummer19UL18NanoAODv2-106X_upgrade2018_realistic_v15_L1v1-v1/NANOAODSIM"
+Tprime_tHq_600LH_2018.dataset="/TprimeBToTH_M-600_LH_TuneCP5_13TeV-madgraph_pythia8/"+tag_2018+"-v1/NANOAODSIM"
 
 Tprime_tHq_700LH_2018 = sample(ROOT.kBlue,1,1001,"T' 700 LH","Tprime_tHq_700LH_2018")
 Tprime_tHq_700LH_2018.sigma = 88.107/1000. #to be changed
 Tprime_tHq_700LH_2018.year = 2018
-Tprime_tHq_700LH_2018.dataset="/TprimeBToTH_M-700_LH_TuneCP5_PSweights_13TeV-madgraph_pythia8/RunIISummer19UL18NanoAODv2-106X_upgrade2018_realistic_v15_L1v1-v1/NANOAODSIM"
+Tprime_tHq_700LH_2018.dataset="/TprimeBToTH_M-700_LH_TuneCP5_13TeV-madgraph_pythia8/"+tag_2018+"-v1/NANOAODSIM"
 
 Tprime_tHq_800LH_2018 = sample(ROOT.kBlue,1,1001,"T' 800 LH","Tprime_tHq_800LH_2018")
 Tprime_tHq_800LH_2018.sigma = 45.920/1000. #to be changed
 Tprime_tHq_800LH_2018.year = 2018
-Tprime_tHq_800LH_2018.dataset="/TprimeBToTH_M-800_LH_TuneCP5_PSweights_13TeV-madgraph_pythia8/RunIISummer19UL18NanoAODv2-106X_upgrade2018_realistic_v15_L1v1-v1/NANOAODSIM"
+Tprime_tHq_800LH_2018.dataset="/TprimeBToTH_M-800_LH_TuneCP5_13TeV-madgraph_pythia8/"+tag_2018+"-v1/NANOAODSIM"
 
 Tprime_tHq_900LH_2018 = sample(ROOT.kBlue,1,1001,"T' 900 LH","Tprime_tHq_900LH_2018")
 Tprime_tHq_900LH_2018.sigma = 25.327/1000. #to be changed
 Tprime_tHq_900LH_2018.year = 2018
-Tprime_tHq_900LH_2018.dataset="/TprimeBToTH_M-900_LH_TuneCP5_PSweights_13TeV-madgraph_pythia8/RunIISummer19UL18NanoAODv2-106X_upgrade2018_realistic_v15_L1v1-v1/NANOAODSIM"
+Tprime_tHq_900LH_2018.dataset="/TprimeBToTH_M-900_LH_TuneCP5_13TeV-madgraph_pythia8/"+tag_2018+"-v1/NANOAODSIM"
 
 Tprime_tHq_1000LH_2018 = sample(ROOT.kBlue,1,1001,"T' 1000 LH","Tprime_tHq_1000LH_2018")
 Tprime_tHq_1000LH_2018.sigma = 14.550/1000. #to be changed
 Tprime_tHq_1000LH_2018.year = 2018
-Tprime_tHq_1000LH_2018.dataset="/TprimeBToTH_M-1000_LH_TuneCP5_PSweights_13TeV-madgraph_pythia8/RunIISummer19UL18NanoAODv2-106X_upgrade2018_realistic_v15_L1v1-v1/NANOAODSIM"
+Tprime_tHq_1000LH_2018.dataset="/TprimeBToTH_M-1000_LH_TuneCP5_13TeV-madgraph_pythia8/"+tag_2018+"-v1/NANOAODSIM"
 
 Tprime_tHq_1100LH_2018 = sample(ROOT.kBlue,1,1001,"T' 1100 LH","Tprime_tHq_1100LH_2018")
 Tprime_tHq_1100LH_2018.sigma = 8.640/1000. #to be changed
 Tprime_tHq_1100LH_2018.year = 2018
-Tprime_tHq_1100LH_2018.dataset="/TprimeBToTH_M-1100_LH_TuneCP5_PSweights_13TeV-madgraph_pythia8/RunIISummer19UL18NanoAODv2-106X_upgrade2018_realistic_v15_L1v1-v1/NANOAODSIM"
+Tprime_tHq_1100LH_2018.dataset="/TprimeBToTH_M-1100_LH_TuneCP5_13TeV-madgraph_pythia8/"+tag_2018+"-v1/NANOAODSIM"
 
 Tprime_tHq_1200LH_2018 = sample(ROOT.kCyan,1,1001,"T' 1200 LH","Tprime_tHq_1200LH_2018")
-Tprime_tHq_1200LH_2018.sigma = 5.342/1000. #to be changed
+Tprime_tHq_1200LH_2018.sigma = 0.01973
 Tprime_tHq_1200LH_2018.year = 2018
-Tprime_tHq_1200LH_2018.dataset="/TprimeBToTH_M-1200_LH_TuneCP5_PSweights_13TeV-madgraph_pythia8/RunIISummer19UL18NanoAODv2-106X_upgrade2018_realistic_v15_L1v1-v1/NANOAODSIM"
+Tprime_tHq_1200LH_2018.dataset="/TprimeBToTH_M-1200_LH_TuneCP5_13TeV-madgraph_pythia8/"+tag_2018+"-v1/NANOAODSIM"
 
 Tprime_tHq_1300LH_2018 = sample(ROOT.kBlue,1,1001,"T' 1300 LH","Tprime_tHq_1300LH_2018")
 Tprime_tHq_1300LH_2018.sigma = 3.390/1000. #to be changed
 Tprime_tHq_1300LH_2018.year = 2018
-Tprime_tHq_1300LH_2018.dataset="/TprimeBToTH_M-1300_LH_TuneCP5_PSweights_13TeV-madgraph_pythia8/RunIISummer19UL18NanoAODv2-106X_upgrade2018_realistic_v15_L1v1-v1/NANOAODSIM"
+Tprime_tHq_1300LH_2018.dataset="/TprimeBToTH_M-1300_LH_TuneCP5_13TeV-madgraph_pythia8/"+tag_2018+"-v1/NANOAODSIM"
 
 Tprime_tHq_1400LH_2018 = sample(ROOT.kBlue,1,1001,"T' 1400 LH","Tprime_tHq_1400LH_2018")
 Tprime_tHq_1400LH_2018.sigma = 2.197/1000. #to be changed
 Tprime_tHq_1400LH_2018.year = 2018
-Tprime_tHq_1400LH_2018.dataset="/TprimeBToTH_M-1400_LH_TuneCP5_PSweights_13TeV-madgraph_pythia8/RunIISummer19UL18NanoAODv2-106X_upgrade2018_realistic_v15_L1v1-v1/NANOAODSIM"
+Tprime_tHq_1400LH_2018.dataset="/TprimeBToTH_M-1400_LH_TuneCP5_13TeV-madgraph_pythia8/"+tag_2018+"-v1/NANOAODSIM"
 
 Tprime_tHq_1500LH_2018 = sample(ROOT.kBlue,1,1001,"T' 1500 LH","Tprime_tHq_1500LH_2018")
 Tprime_tHq_1500LH_2018.sigma = 1.448/1000. #to be changed
 Tprime_tHq_1500LH_2018.year = 2018
-Tprime_tHq_1500LH_2018.dataset="/TprimeBToTH_M-1500_LH_TuneCP5_PSweights_13TeV-madgraph_pythia8/RunIISummer19UL18NanoAODv2-106X_upgrade2018_realistic_v15_L1v1-v1/NANOAODSIM"
+Tprime_tHq_1500LH_2018.dataset="/TprimeBToTH_M-1500_LH_TuneCP5_13TeV-madgraph_pythia8/"+tag_2018+"-v1/NANOAODSIM"
 
 Tprime_tHq_1600LH_2018 = sample(ROOT.kBlue,1,1001,"T' 1600 LH","Tprime_tHq_1600LH_2018")
 Tprime_tHq_1600LH_2018.sigma = 0.9743/1000. #to be changed
 Tprime_tHq_1600LH_2018.year = 2018
-Tprime_tHq_1600LH_2018.dataset="/TprimeBToTH_M-1600_LH_TuneCP5_PSweights_13TeV-madgraph_pythia8/RunIISummer19UL18NanoAODv2-106X_upgrade2018_realistic_v15_L1v1-v1/NANOAODSIM"
+Tprime_tHq_1600LH_2018.dataset="/TprimeBToTH_M-1600_LH_TuneCP5_13TeV-madgraph_pythia8/"+tag_2018+"-v1/NANOAODSIM"
 
 Tprime_tHq_1700LH_2018 = sample(ROOT.kBlue,1,1001,"T' 1700 LH","Tprime_tHq_1700LH_2018")
 Tprime_tHq_1700LH_2018.sigma = 0.6638/1000. #to be changed
 Tprime_tHq_1700LH_2018.year = 2018
-Tprime_tHq_1700LH_2018.dataset="/TprimeBToTH_M-1700_LH_TuneCP5_PSweights_13TeV-madgraph_pythia8/RunIISummer19UL18NanoAODv2-106X_upgrade2018_realistic_v15_L1v1-v1/NANOAODSIM"
+Tprime_tHq_1700LH_2018.dataset="/TprimeBToTH_M-1700_LH_TuneCP5_13TeV-madgraph_pythia8/"+tag_2018+"-v1/NANOAODSIM"
 
 Tprime_tHq_1800LH_2018 = sample(ROOT.kBlack,1,1001,"T' 1800 LH","Tprime_tHq_1800LH_2018")
-Tprime_tHq_1800LH_2018.sigma = 0.4588/1000. #to be changed
+Tprime_tHq_1800LH_2018.sigma = 0.005829
 Tprime_tHq_1800LH_2018.year = 2018
 Tprime_tHq_1800LH_2018.dataset="/TprimeBToTH_M-1800_LH_TuneCP5_13TeV-madgraph_pythia8/"+tag_2018+"-v1/NANOAODSIM"
 
@@ -7808,7 +8313,19 @@ Tprime_tAq_3000_LH_2018.components = [Tprime_tAq_3000_MH25_LH_2018, Tprime_tAq_3
 
 
 
+
+
 sample_dict = {
+"QCD":QCD, "TT_Mtt":TT_Mtt, "WJets":WJets,"ST":ST,"Tprime_tHq_1800LH":Tprime_tHq_1800LH,
+"Tprime_tHq_600LH_2016":Tprime_tHq_600LH_2016,"Tprime_tHq_700LH_2016":Tprime_tHq_700LH_2016,"Tprime_tHq_800LH_2016":Tprime_tHq_800LH_2016,"Tprime_tHq_900LH_2016":Tprime_tHq_900LH_2016,
+"Tprime_tHq_1000LH_2016":Tprime_tHq_1000LH_2016,"Tprime_tHq_1100LH_2016":Tprime_tHq_1100LH_2016,"Tprime_tHq_1200LH_2016":Tprime_tHq_1200LH_2016,"Tprime_tHq_1300LH_2016":Tprime_tHq_1300LH_2016,
+"Tprime_tHq_1400LH_2016":Tprime_tHq_1400LH_2016,"Tprime_tHq_1500LH_2016":Tprime_tHq_1500LH_2016,"Tprime_tHq_1600LH_2016":Tprime_tHq_1600LH_2016,"Tprime_tHq_1700LH_2016":Tprime_tHq_1700LH_2016,
+"Tprime_tHq_1800LH_2016":Tprime_tHq_1800LH_2016,"Tprime_LH_2016":Tprime_LH_2016,
+'TT_Mtt700to1000_2016':TT_Mtt700to1000_2016, 'TT_Mtt1000toInf_2016':TT_Mtt1000toInf_2016,"TT_semilep_2016":TT_semilep_2016,"TT_dilep_2016":TT_dilep_2016, "TT_Mtt_2016":TT_Mtt_2016,
+'WJets_2016':WJets_2016, 'WJetsHT70to100_2016':WJetsHT70to100_2016, 'WJetsHT100to200_2016':WJetsHT100to200_2016, 'WJetsHT200to400_2016':WJetsHT200to400_2016,'WJetsHT400to600_2016':WJetsHT400to600_2016, 'WJetsHT600to800_2016':WJetsHT600to800_2016, 'WJetsHT800to1200_2016':WJetsHT800to1200_2016, 'WJetsHT1200to2500_2016':WJetsHT1200to2500_2016,'WJetsHT2500toInf_2016':WJetsHT2500toInf_2016,
+'QCD_2016':QCD_2016, 'QCDHT_50to100_2016':QCDHT_50to100_2016,'QCDHT_100to200_2016':QCDHT_100to200_2016,'QCDHT_200to300_2016':QCDHT_200to300_2016,'QCDHT_300to500_2016':QCDHT_300to500_2016, 'QCDHT_500to700_2016':QCDHT_500to700_2016, 'QCDHT_700to1000_2016':QCDHT_700to1000_2016,'QCDHT_1000to1500_2016':QCDHT_1000to1500_2016, 'QCDHT_1500to2000_2016':QCDHT_1500to2000_2016, 'QCDHT_2000toInf_2016':QCDHT_2000toInf_2016,
+'ST_2016':ST_2016, 'ST_tch_t_2016':ST_tch_t_2016, 'ST_tch_tbar_2016':ST_tch_tbar_2016, 'ST_tW_t_2016':ST_tW_t_2016, 'ST_tW_tbar_2016':ST_tW_tbar_2016, 'ST_sch_2016':ST_sch_2016,
+
 "Tprime_tHq_600LH_2016preVFP":Tprime_tHq_600LH_2016preVFP,"Tprime_tHq_700LH_2016preVFP":Tprime_tHq_700LH_2016preVFP,"Tprime_tHq_800LH_2016preVFP":Tprime_tHq_800LH_2016preVFP,"Tprime_tHq_900LH_2016preVFP":Tprime_tHq_900LH_2016preVFP,
 "Tprime_tHq_1000LH_2016preVFP":Tprime_tHq_1000LH_2016preVFP,"Tprime_tHq_1100LH_2016preVFP":Tprime_tHq_1100LH_2016preVFP,"Tprime_tHq_1200LH_2016preVFP":Tprime_tHq_1200LH_2016preVFP,"Tprime_tHq_1300LH_2016preVFP":Tprime_tHq_1300LH_2016preVFP,
 "Tprime_tHq_1400LH_2016preVFP":Tprime_tHq_1400LH_2016preVFP,"Tprime_tHq_1500LH_2016preVFP":Tprime_tHq_1500LH_2016preVFP,"Tprime_tHq_1600LH_2016preVFP":Tprime_tHq_1600LH_2016preVFP,"Tprime_tHq_1700LH_2016preVFP":Tprime_tHq_1700LH_2016preVFP,
@@ -7829,18 +8346,18 @@ sample_dict = {
 
 
 
-"DataMu_2016preVFP":DataMu_2016preVFP,"DataMuB_2016preVFP":DataMuB_2016preVFP,"DataMuC_2016preVFP":DataMuC_2016preVFP,"DataMuD_2016preVFP":DataMuD_2016preVFP,"DataMuE_2016preVFP":DataMuE_2016preVFP,"DataMuF_2016preVFP":DataMuF_2016preVFP,
+"DataMu_2016preVFP":DataMu_2016preVFP,"DataMuB0_2016preVFP":DataMuB0_2016preVFP,"DataMuB_2016preVFP":DataMuB_2016preVFP,"DataMuC_2016preVFP":DataMuC_2016preVFP,"DataMuD_2016preVFP":DataMuD_2016preVFP,"DataMuE_2016preVFP":DataMuE_2016preVFP,"DataMuF_2016preVFP":DataMuF_2016preVFP,
 "DataMu_2016postVFP":DataMu_2016postVFP,"DataMuF_2016postVFP":DataMuF_2016postVFP,"DataMuG_2016postVFP":DataMuG_2016postVFP,"DataMuH_2016postVFP":DataMuH_2016postVFP,
-
-"DataEle_2016preVFP":DataEle_2016preVFP,"DataEleB_2016preVFP":DataEleB_2016preVFP,"DataEleC_2016preVFP":DataEleC_2016preVFP,"DataEleD_2016preVFP":DataEleD_2016preVFP,"DataEleE_2016preVFP":DataEleE_2016preVFP,"DataEleF_2016preVFP":DataEleF_2016preVFP,
+"DataMu_2016":DataMu_2016,
+"DataEle_2016preVFP":DataEle_2016preVFP,"DataEleB0_2016preVFP":DataEleB0_2016preVFP,"DataEleB_2016preVFP":DataEleB_2016preVFP,"DataEleC_2016preVFP":DataEleC_2016preVFP,"DataEleD_2016preVFP":DataEleD_2016preVFP,"DataEleE_2016preVFP":DataEleE_2016preVFP,"DataEleF_2016preVFP":DataEleF_2016preVFP,
 "DataEle_2016postVFP":DataEle_2016postVFP,"DataEleF_2016postVFP":DataEleF_2016postVFP,"DataEleG_2016postVFP":DataEleG_2016postVFP,"DataEleH_2016postVFP":DataEleH_2016postVFP,
-
-"DataPh_2016preVFP":DataPh_2016preVFP,"DataPhB_2016preVFP":DataPhB_2016preVFP,"DataPhC_2016preVFP":DataPhC_2016preVFP,"DataPhD_2016preVFP":DataPhD_2016preVFP,"DataPhE_2016preVFP":DataPhE_2016preVFP,"DataPhF_2016preVFP":DataPhF_2016preVFP,
+"DataEle_2016":DataEle_2016,
+"DataPh_2016preVFP":DataPh_2016preVFP,"DataPhB0_2016preVFP":DataPhB0_2016preVFP,"DataPhB_2016preVFP":DataPhB_2016preVFP,"DataPhC_2016preVFP":DataPhC_2016preVFP,"DataPhD_2016preVFP":DataPhD_2016preVFP,"DataPhE_2016preVFP":DataPhE_2016preVFP,"DataPhF_2016preVFP":DataPhF_2016preVFP,
 "DataPh_2016postVFP":DataPh_2016postVFP,"DataPhF_2016postVFP":DataPhF_2016postVFP,"DataPhG_2016postVFP":DataPhG_2016postVFP,"DataPhH_2016postVFP":DataPhH_2016postVFP,
-
-"DataHT_2016preVFP":DataHT_2016preVFP,"DataHTB_2016preVFP":DataHTB_2016preVFP,"DataHTC_2016preVFP":DataHTC_2016preVFP,"DataHTD_2016preVFP":DataHTD_2016preVFP,"DataHTE_2016preVFP":DataHTE_2016preVFP,"DataHTF_2016preVFP":DataHTF_2016preVFP,
+"DataPh_2016":DataPh_2016,
+"DataHT_2016preVFP":DataHT_2016preVFP,"DataHTB0_2016preVFP":DataHTB0_2016preVFP,"DataHTB_2016preVFP":DataHTB_2016preVFP,"DataHTC_2016preVFP":DataHTC_2016preVFP,"DataHTD_2016preVFP":DataHTD_2016preVFP,"DataHTE_2016preVFP":DataHTE_2016preVFP,"DataHTF_2016preVFP":DataHTF_2016preVFP,
 "DataHT_2016postVFP":DataHT_2016postVFP,"DataHTF_2016postVFP":DataHTF_2016postVFP,"DataHTG_2016postVFP":DataHTG_2016postVFP,"DataHTH_2016postVFP":DataHTH_2016postVFP,
-
+"DataHT_2016":DataHT_2016,
 "Tprime_tHq_600LH_2017":Tprime_tHq_600LH_2017,"Tprime_tHq_700LH_2017":Tprime_tHq_700LH_2017,"Tprime_tHq_800LH_2017":Tprime_tHq_800LH_2017,"Tprime_tHq_900LH_2017":Tprime_tHq_900LH_2017,
 "Tprime_tHq_1000LH_2017":Tprime_tHq_1000LH_2017,"Tprime_tHq_1100LH_2017":Tprime_tHq_1100LH_2017,"Tprime_tHq_1200LH_2017":Tprime_tHq_1200LH_2017,"Tprime_tHq_1300LH_2017":Tprime_tHq_1300LH_2017,
 "Tprime_tHq_1400LH_2017":Tprime_tHq_1400LH_2017,"Tprime_tHq_1500LH_2017":Tprime_tHq_1500LH_2017,"Tprime_tHq_1600LH_2017":Tprime_tHq_1600LH_2017,"Tprime_tHq_1700LH_2017":Tprime_tHq_1700LH_2017,
@@ -7859,7 +8376,7 @@ sample_dict = {
 "Tprime_tHq_1000LH_2018":Tprime_tHq_1000LH_2018,"Tprime_tHq_1100LH_2018":Tprime_tHq_1100LH_2018,"Tprime_tHq_1200LH_2018":Tprime_tHq_1200LH_2018,"Tprime_tHq_1300LH_2018":Tprime_tHq_1300LH_2018,
 "Tprime_tHq_1400LH_2018":Tprime_tHq_1400LH_2018,"Tprime_tHq_1500LH_2018":Tprime_tHq_1500LH_2018,"Tprime_tHq_1600LH_2018":Tprime_tHq_1600LH_2018,"Tprime_tHq_1700LH_2018":Tprime_tHq_1700LH_2018,
 "Tprime_tHq_1800LH_2018":Tprime_tHq_1800LH_2018,"Tprime_LH_2018":Tprime_LH_2018,
-'TT_Mtt700to1000_2018':TT_Mtt700to1000_2018, 'TT_Mtt1000toInf_2018':TT_Mtt1000toInf_2018,"TT_semilep_2018":TT_semilep_2018,"TT_dilep_2018":TT_dilep_2018, "TT_Mtt_2018":TT_Mtt_2018,  
+'TT_Mtt700to1000_2018':TT_Mtt700to1000_2018, 'TT_Mtt1000toInf_2018':TT_Mtt1000toInf_2018,"TT_semilep_2018":TT_semilep_2018,"TT_dilep_2018":TT_dilep_2018,"TTJetsHT600to800_2018":TTJetsHT600to800_2018,"TTJetsHT800to1200_2018":TTJetsHT800to1200_2018, "TTJetsHT1200to2500_2018":TTJetsHT1200to2500_2018, "TTJetsHT2500toInf_2018":TTJetsHT2500toInf_2018, "TTJets_2018":TTJets_2018 ,"TT_Mtt_2018":TT_Mtt_2018, "TTH_2018":TTH_2018,"TTHtoNonbb_2018":TTHtoNonbb_2018,"TTHtobb_2018":TTHtobb_2018, "TTVJets_2018": TTVJets_2018,"TTZJets_2018":TTZJets_2018, "TTWJets_2018":TTWJets_2018, "TTGJets_2018":TTGJets_2018, "TGJets_2018":TGJets_2018, "TTGammaJets_2018":TTGammaJets_2018, "TTGHadJets_2018":TTGHadJets_2018,
 'WJets_2018':WJets_2018, 'WJetsHT70to100_2018':WJetsHT70to100_2018, 'WJetsHT100to200_2018':WJetsHT100to200_2018, 'WJetsHT200to400_2018':WJetsHT200to400_2018,'WJetsHT400to600_2018':WJetsHT400to600_2018, 'WJetsHT600to800_2018':WJetsHT600to800_2018, 'WJetsHT800to1200_2018':WJetsHT800to1200_2018, 'WJetsHT1200to2500_2018':WJetsHT1200to2500_2018,
 'WJetsHT2500toInf_2018':WJetsHT2500toInf_2018,
 'QCD_2018':QCD_2018, 'QCDHT_50to100_2018':QCDHT_50to100_2018,'QCDHT_100to200_2018':QCDHT_100to200_2018,'QCDHT_200to300_2018':QCDHT_200to300_2018,'QCDHT_300to500_2018':QCDHT_300to500_2018, 'QCDHT_500to700_2018':QCDHT_500to700_2018, 'QCDHT_700to1000_2018':QCDHT_700to1000_2018,
