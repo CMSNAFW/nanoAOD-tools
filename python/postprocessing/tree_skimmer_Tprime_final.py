@@ -25,7 +25,7 @@ import xgboost as xgb
 import numpy as np
 from training_MultiClass import *
 from samples.samples import *
-
+from btagSF import *
 print("all import are ok \n")
 
 if sys.argv[5] == None: training = training_dict["BDT_Tprime"]
@@ -93,7 +93,10 @@ for scenario in scenarios:
 systTree.initTreesSysts(trees, outTreeFile)
 
 systTree.setWeightName("w_nominal",1.)
-systTree.setWeightName("w_pt",1.)
+systTree.setWeightName("btagSF",1.)
+systTree.setWeightName("w_ptSF",1.)
+systTree.setWeightName("w_ptUp",1.)
+systTree.setWeightName("w_ptDown",1.)
 systTree.setWeightName("LHESF", 1.)
 systTree.setWeightName("LHEUp", 1.)
 systTree.setWeightName("LHEDown", 1.)
@@ -152,7 +155,10 @@ def reco(scenario, isMC, addPDF, training):
     trigDown_nominal = array.array('f',[1.])
 
     w_PDF_nominal = array.array('f',[0.])
+    btagSF_nominal = array.array('f',[1.])
     w_pt_nominal = array.array('f',[1.])
+    w_ptup_nominal = array.array('f',[1.])
+    w_ptdown_nominal = array.array('f',[1.])
     w_nominal_nominal = array.array('f', [0.])
     HLT_Muon_nominal = array.array('f',[0.])
     HLT_Electron_nominal = array.array('f',[0.])
@@ -618,7 +624,10 @@ def reco(scenario, isMC, addPDF, training):
         HLT_Photon_nominal[0] = 0.
         HLT_PFJet_nominal[0] = 0.
         w_nominal_nominal[0]=1.
+        btagSF_nominal[0]=1.
         w_pt_nominal[0]=1.
+        w_ptup_nominal[0]=1.
+        w_ptdown_nominal[0]=1.
         BDTSF_nominal[0]=1.
         BDTUp_nominal[0]=1.
         BDTDown_nominal[0]=1.
@@ -657,12 +666,25 @@ def reco(scenario, isMC, addPDF, training):
         
         if ("TT" in sample.label) and (not "Gamma" in sample.label): 
             genpart = Collection(event,"GenPart")
-            top = list(filter(lambda x: x.pdgId==6 ,genpart))[0]
-            antitop = list(filter(lambda x: x.pdgId==-6 ,genpart))[0]
+            top = list(filter(lambda x: x.pdgId==6 and x.statusFlags>=pow(2,13) ,genpart))[0]
+            antitop = list(filter(lambda x: x.pdgId==-6 and x.statusFlags>=pow(2,13),genpart))[0]
             Mtt = (top.p4() + antitop.p4()).M()
-            SF_t = 0.973-0.000134*top.pt+0.103*math.exp(-0.0118*top.pt)
-            SF_antit = 0.973-0.000134*antitop.pt+0.103*math.exp(-0.0118*antitop.pt)
+            #SF_t = 0.973-0.000134*top.pt+0.103*math.exp(-0.0118*top.pt)
+            #SF_antit = 0.973-0.000134*antitop.pt+0.103*math.exp(-0.0118*antitop.pt)
+
+            SF_t = math.exp(0.0615-0.0005*top.pt)
+            SF_antit = math.exp(0.0615-0.0005*antitop.pt)
+            
+            SF_t_up = math.exp(1.5*0.0615-0.0005*top.pt)
+            SF_antit_up = math.exp(1.5*0.0615-0.0005*antitop.pt)
+
+            SF_t_down = math.exp(0.5*0.0615-0.0005*top.pt)
+            SF_antit_down = math.exp(0.5*0.0615-0.0005*antitop.pt)
+
+        
             w_pt_nominal[0]=math.sqrt(SF_t*SF_antit)
+            w_ptup_nominal[0]=math.sqrt(SF_t_up*SF_antit_up)
+            w_ptdown_nominal[0]=math.sqrt(SF_t_down*SF_antit_down)
             if (Mtt>=700) and (not "Mtt" in sample.label) and (not "Jets" in sample.label) and (not "TTH" in sample.label):
                 #print(Mtt)
                 continue
@@ -1295,7 +1317,10 @@ def reco(scenario, isMC, addPDF, training):
 
         #check Iso or MiniIso N_ecc                            
         systTree.setWeightName("w_nominal",copy.deepcopy(w_nominal_nominal[0]))
-        systTree.setWeightName("w_pt",copy.deepcopy(w_pt_nominal[0]))
+        systTree.setWeightName("btagSF",copy.deepcopy(btagSF_nominal[0]))
+        systTree.setWeightName("w_ptSF",copy.deepcopy(w_pt_nominal[0]))
+        systTree.setWeightName("w_ptUp",copy.deepcopy(w_ptup_nominal[0]))
+        systTree.setWeightName("w_ptDown",copy.deepcopy(w_ptdown_nominal[0]))
         systTree.setWeightName("ParNetSF",copy.deepcopy(ParNetSF_nominal[0]))
         systTree.setWeightName("ParNetUp",copy.deepcopy(ParNetUp_nominal[0]))
         systTree.setWeightName("ParNetDown",copy.deepcopy(ParNetDown_nominal[0]))

@@ -12,8 +12,8 @@ signal = "Tprime_tHq_1800LH"
 samples = ["ST","WJets","QCD", "TT_Mtt",signal]
 
 regions_mu = {
-    "VR6":("h_FatJet_M_nominal_TopL_FatJetL_AK8HighPt", "VR6_muon", "AK8L,TopL mu"),
-    "VR5":("h_FatJet_M_nominal_TopT_FatJetL_AK8HighPt", "VR5_muon", "AK8L,TopT mu"),
+    "VR6":("h_FatJet_partM_nominal_TopL_FatJetL_AK8HighPt", "VR6_muon", "AK8L,TopL mu"),
+    "VR5":("h_FatJet_partM_nominal_TopT_FatJetL_AK8HighPt", "VR5_muon", "AK8L,TopT mu"),
     #"VR2":("h_Tprime_M_nominal_TopL_FatJetL_AK8HighPt", "VR2_muon", "AK8L,TopL mu"),
     #"VR1":("h_Tprime_M_nominal_TopT_FatJetL_AK8HighPt", "VR1_muon", "AK8L,TopT mu"),
     "SRT":("h_jets_best_Wprime_m_SRT", "SRT_muon", "RT_{A} muon"),
@@ -21,8 +21,8 @@ regions_mu = {
     "SR2B":("h_jets_best_Wprime_m_SR2B", "SR2B_muon", "R2B_{A} muon"),
     }
 regions_ele = {
-    "VR6":("h_FatJet_M_nominal_TopL_FatJetL_AK8HighPt", "VR6_electron", "AK8L,TopL el"),
-    "VR5":("h_FatJet_M_nominal_TopT_FatJetL_AK8HighPt", "VR5_electron", "AK8L,TopT el"),
+    "VR6":("h_FatJet_partM_nominal_TopL_FatJetL_AK8HighPt", "VR6_electron", "AK8L,TopL el"),
+    "VR5":("h_FatJet_partM_nominal_TopT_FatJetL_AK8HighPt", "VR5_electron", "AK8L,TopT el"),
     #"VR2":("h_Tprime_M_nominal_TopL_FatJetL_AK8HighPt", "VR2_electron", "AK8L,TopL el"),
     #"VR1":("h_Tprime_M_nominal_TopT_FatJetL_AK8HighPt", "VR1_electron", "AK8L,TopT el"),
     "CR0B":("h_jets_best_Wprime_m_CR0B", "CR0B_electron", "R0_{A} electron"),
@@ -38,12 +38,12 @@ fitPhase = "prefit"
 #fitfolder = "/afs/cern.ch/user/o/oiorio/public/xAgostino/Wprime_v22/fixed/an_v22explin_sigh/fitDiagnostics.root" # <--- SR
 #fitfolder = "/afs/cern.ch/user/o/oiorio/public/xAgostino/Wprime_v22/an_v22explincr0b/fitDiagnostics.root" # <--- CR0B
 #fitfolder = "/afs/cern.ch/user/f/fcarneva/CMSSW_10_2_5/src/Stat/Limits/test/fitValid_v6_2018/fitDiagnosticsTest.root"
-fitfolder = "/afs/cern.ch/user/f/fcarneva/CMSSW_10_2_5/src/Stat/Limits/test/fitValid_NoBDTPN_2017/fitDiagnosticsTest.root"
+fitfolder = "/afs/cern.ch/user/f/fcarneva/CMSSW_10_2_5/src/Stat/Limits/test/fitValid_ParNetMass_2018_v19/fitDiagnosticsTest.root"
 
 
 #histfolder = "/eos/user/a/adeiorio/Wprime/nosynch/v18/plot_fit3Apr"
-#histfolder = "/eos/user/f/fcarneva/Tprime/nosynch/UL_v18/plot/"
-histfolder = "/eos/user/f/fcarneva/Tprime/nosynch/UL_v11/plot/"
+histfolder = "/eos/user/f/fcarneva/Tprime/nosynch/UL_v19/plot/"
+#histfolder = "/eos/user/f/fcarneva/Tprime/nosynch/UL_v11/plot/"
 
 print('hello! Starting now')
 blind = False

@@ -41,9 +41,9 @@ label_y = np.arange(600,3100,100)#[600, 800, 1000, 1200, 1400, 1600, 1800, 2000,
 # primo numero riga Mt secondo numero colonna Mh
 #MT1000_MH125
 #file1="2016samples_preVFP.txt"
-file1="2016samples_postVFP.txt"
+#file1="2016samples_postVFP.txt"
 #file1="2017samples.txt"
-#file1="2018samples.txt"
+file1="2018samples.txt"
 
 for i in label_x:
     for j in label_y:

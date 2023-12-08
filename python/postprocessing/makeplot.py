@@ -108,11 +108,11 @@ def lumi_writer(dataset, lumi):
                treejesdown_new = treejesdown.CloneTree(0)
                treejerup_new = treejerup.CloneTree(0)
                treejerdown_new = treejerdown.CloneTree(0)
-               tree.SetBranchStatus('w_pt', 1)
-               treejesup.SetBranchStatus('w_pt', 1)
-               treejesdown.SetBranchStatus('w_pt', 1)
-               treejerup.SetBranchStatus('w_pt', 1)
-               treejerdown.SetBranchStatus('w_pt', 1)
+               #tree.SetBranchStatus('w_pt', 1)
+               #treejesup.SetBranchStatus('w_pt', 1)
+               #treejesdown.SetBranchStatus('w_pt', 1)
+               #treejerup.SetBranchStatus('w_pt', 1)
+               #treejerdown.SetBranchStatus('w_pt', 1)
                tree.SetBranchStatus('w_nominal', 1)
                tree.SetBranchStatus('w_PDF', 1)
                treejesup.SetBranchStatus('w_nominal', 1)
@@ -198,9 +198,9 @@ def cutToTag(cut):
      
      newstring=""
      if "(TightMu_Iso_nominal<0.1 && TightEl_Iso_nominal<0.1)" in cut: newstring=newstring+"_LepIso"
-     if "FatJet_M_nominal<50" in cut: newstring=newstring+"_FatJet_Low"
-     if "FatJet_M_nominal>=50 && FatJet_M_nominal<110" in cut: newstring=newstring+"_FatJet_Medium"
-     if "FatJet_M_nominal>=110" in cut: newstring=newstring+"_FatJet_Heavy"
+     if "FatJet_partM_nominal<50" in cut: newstring=newstring+"_FatJet_Low"
+     if "FatJet_partM_nominal>=50 && FatJet_partM_nominal<110" in cut: newstring=newstring+"_FatJet_Medium"
+     if "FatJet_partM_nominal>=110" in cut: newstring=newstring+"_FatJet_Heavy"
      if "(TightMu_pt_nominal!=0 || TightEl_pt_nominal!=0)" in cut: newstring=newstring+"_TightLep"
      if "HLT_PFJet_nominal==0" in cut: newstring=newstring+"_NoHLTJet"
      if "top_region_nominal==-1" in cut: newstring=newstring+"_TopVeto"
@@ -211,8 +211,8 @@ def cutToTag(cut):
      if "AK8_region_nominal==2" in cut:newstring=newstring+"_FatJetT"
      if "Fwd4_region_nominal==0"in cut: newstring=newstring+"_Fwd0"
      if"Fwd4_region_nominal==1"in cut:newstring=newstring+"_Fwd1"
-     if "FatJet_M_nominal>=100 && FatJet_M_nominal<=140" in cut : newstring=newstring+"_HiggsMass"
-     if "FatJet_M_nominal<100 || FatJet_M_nominal>140" in cut: newstring=newstring+"_NotHiggsMass"
+     if "FatJet_partM_nominal>=100 && FatJet_partM_nominal<=140" in cut : newstring=newstring+"_HiggsMass"
+     if "FatJet_partM_nominal<100 || FatJet_partM_nominal>140" in cut: newstring=newstring+"_NotHiggsMass"
      if "Top_isMerg_nominal==1" in cut: newstring=newstring+"_Merg"
      if"Top_isMerg_nominal==0" in cut:newstring=newstring+"_Res"
      if "Top_pt_nominal>=500" in cut: newstring=newstring+"_HighPt"
@@ -390,6 +390,7 @@ def makestack(lep_, reg_, variabile_, samples_, cut_tag_, syst_, lumi):
                if not "Data" in s.label:infile[s.label] = ROOT.TFile.Open(plotrepo + "plot/" + lep + "/" + s.label + "_" + lep + "_" + syst_ + ".root")
                else:infile[s.label] = ROOT.TFile.Open(plotrepo + "plot/" + lep + "/" + s.label + "_" + lep + ".root")
      i = 0
+     Integral =0
 
      if variabile_._name == "Tprime_M_nominal": f.write(cut_tag_+"\n")
      for s in samples_:
@@ -430,6 +431,7 @@ def makestack(lep_, reg_, variabile_, samples_, cut_tag_, syst_, lumi):
                     tmp.SetLineColor(s.color)
                histo.append(tmp.Clone(""))
                stack.Add(tmp.Clone(""))
+               Integral += tmp.Integral()
           tmp.Reset("ICES")
      for hist in reversed(histo):
           if not ('Data' in hist.GetName()):
@@ -469,7 +471,7 @@ def makestack(lep_, reg_, variabile_, samples_, cut_tag_, syst_, lumi):
           maximum = max(stack.GetMaximum(),hdata.GetMaximum())
      else:
           maximum = stack.GetMaximum()
-     logscale =  True
+     logscale =  False#True
      if(logscale):
           pad1.SetLogy()
           stack.SetMaximum(maximum*1000)
@@ -505,13 +507,14 @@ def makestack(lep_, reg_, variabile_, samples_, cut_tag_, syst_, lumi):
      stack.GetYaxis().SetLabelSize(0.07)
      stack.GetYaxis().SetTitleSize(0.07)
      stack.SetTitle("")
-     
+     print("Background", Integral)
      if(signal):
           for hsig in h_sig:
                #hsig.Scale(1000)
                hsig.Draw("same")
                leg_stack.AddEntry(hsig, hsig.GetName(), "l")
                print("Signal",hsig.GetName(),hsig.Integral())
+               print("RATIO",hsig.GetName(),hsig.Integral()/Integral)
      
      
      #f.write(hsig.GetName()+" "+str(hsig.Integral())+"\n")
@@ -672,9 +675,9 @@ def fitplot(lep,variable, year,cut, syst,f1):
 
      #histoname= "h_"+variable._name+""
      if "(TightMu_Iso_nominal<0.1 && TightEl_Iso_nominal<0.1)" in cut: histoname=histoname+"_LepIso"
-     if "FatJet_M_nominal<50" in cut: histoname=histoname+"_FatJet_Low"
-     if "FatJet_M_nominal>=50 && FatJet_M_nominal<110" in cut: histoname=histoname+"_FatJet_Medium"
-     if "FatJet_M_nominal>=110" in cut: histoname=histoname+"_FatJet_Heavy"
+     if "FatJet_partM_nominal<50" in cut: histoname=histoname+"_FatJet_Low"
+     if "FatJet_partM_nominal>=50 && FatJet_partM_nominal<110" in cut: histoname=histoname+"_FatJet_Medium"
+     if "FatJet_partM_nominal>=110" in cut: histoname=histoname+"_FatJet_Heavy"
      if "top_region_nominal==-1" in cut: histoname=histoname+"_TopVeto"
      if "top_region_nominal==0" in cut: histoname=histoname+"_TopL"
      if "top_region_nominal==1" in cut: histoname=histoname+"_TopT"
@@ -773,7 +776,7 @@ else:
           '2016':[ST_2016,WJets_2016, QCD_2016, TT_Mtt_2016, DataMu_2016,DataEle_2016,DataPh_2016,DataHT_2016,Tprime_tHq_1800LH_2016],#Tprime_tHq_600LH_2016,Tprime_tHq_1200LH_2016],# Tprime_tHq_600LH_2016,Tprime_tHq_700LH_2016,Tprime_tHq_800LH_2016,Tprime_tHq_900LH_2016,Tprime_tHq_1000LH_2016,Tprime_tHq_1100LH_2016,Tprime_tHq_1200LH_2016,Tprime_tHq_1300LH_2016,Tprime_tHq_1400LH_2016,Tprime_tHq_1600LH_2016,Tprime_tHq_1700LH_2016],
           #'2017':[ST_2017,WJets_2017, QCD_2017, TT_Mtt_2017, Tprime_tHq_600LH_2017,Tprime_tHq_700LH_2017,Tprime_tHq_800LH_2017,Tprime_tHq_900LH_2017,Tprime_tHq_1000LH_2017,Tprime_tHq_1100LH_2017,Tprime_tHq_1200LH_2017,Tprime_tHq_1300LH_2017,Tprime_tHq_1400LH_2017,Tprime_tHq_1600LH_2017,Tprime_tHq_1700LH_2017,Tprime_tHq_1800LH_2017],
           '2017':[ST_2017,WJets_2017, QCD_2017,TT_Mtt_2017,DataHT_2017,DataMu_2017,DataEle_2017,DataPh_2017,Tprime_tHq_1800LH_2017],#Tprime_tHq_600LH_2017,Tprime_tHq_1200LH_2017],
-          '2018': [ST_2018,WJets_2018, QCD_2018,TT_Mtt_2018,DataHT_2018,DataMu_2018,DataEle_2018,Tprime_tHq_1800LH_2018],#Tprime_tHq_600LH_2018,Tprime_tHq_1200LH_2018],#TTVJets_2018,TTGammaJets_2018,TTH_2018,TGJets_2018],#Tprime_tHq_600LH_2018,Tprime_tHq_700LH_2018,Tprime_tHq_800LH_2018,Tprime_tHq_900LH_2018,Tprime_tHq_1000LH_2018,Tprime_tHq_1100LH_2018,Tprime_tHq_1200LH_2018,Tprime_tHq_1300LH_2018,Tprime_tHq_1400LH_2018,Tprime_tHq_1600LH_2018,Tprime_tHq_1700LH_2018,Tprime_tHq_1800LH_2018,DataMu_2018,Tprime_tHq_1500LH_2018, DataEle_2018, DataHT_2018, TT_Mtt_2018],
+          '2018': [ST_2018,WJets_2018, QCD_2018,TT_Mtt_2018,DataHT_2018,DataMu_2018,DataEle_2018,Tprime_tHq_1800LH_2018,Tprime_tHq_600LH_2018,Tprime_tHq_1200LH_2018],#TTVJets_2018,TTGammaJets_2018,TTH_2018,TGJets_2018],#Tprime_tHq_600LH_2018,Tprime_tHq_700LH_2018,Tprime_tHq_800LH_2018,Tprime_tHq_900LH_2018,Tprime_tHq_1000LH_2018,Tprime_tHq_1100LH_2018,Tprime_tHq_1200LH_2018,Tprime_tHq_1300LH_2018,Tprime_tHq_1400LH_2018,Tprime_tHq_1600LH_2018,Tprime_tHq_1700LH_2018,Tprime_tHq_1800LH_2018,DataMu_2018,Tprime_tHq_1500LH_2018, DataEle_2018, DataHT_2018, TT_Mtt_2018],
           #'2018':[ST_2018,WJets_2018, QCD_2018, Tprime_tHq_600LH_2018,Tprime_tHq_700LH_2018,Tprime_tHq_800LH_2018,Tprime_tHq_900LH_2018,Tprime_tHq_1000LH_2018,Tprime_tHq_1100LH_2018,Tprime_tHq_1200LH_2018,Tprime_tHq_1300LH_2018,Tprime_tHq_1400LH_2018,Tprime_tHq_1600LH_2018,Tprime_tHq_1700LH_2018,Tprime_tHq_1800LH_2018,Tprime_tHq_1500LH_2018, TT_Mtt_2018]
           '2018_nodata': [ST_2018,WJets_2018, QCD_2018, Tprime_tHq_600LH_2018,Tprime_tHq_700LH_2018,Tprime_tHq_800LH_2018,Tprime_tHq_900LH_2018,Tprime_tHq_1000LH_2018,Tprime_tHq_1100LH_2018,Tprime_tHq_1200LH_2018,Tprime_tHq_1300LH_2018,Tprime_tHq_1400LH_2018,Tprime_tHq_1600LH_2018,Tprime_tHq_1700LH_2018,Tprime_tHq_1800LH_2018,Tprime_tHq_1500LH_2018, #TT_Mtt_2018,
                           DataEle_2018, DataHT_2018]
@@ -829,7 +832,7 @@ if opt.syst!="all" and opt.syst!="noSyst":
 elif opt.syst!="all" and opt.syst=="noSyst":
     systematics.append("") #di default per syst="" alla variabile si applica il peso standard incluso nella macro macro_plot.C
 else:
-     systematics = ["", "jesUp",  "jesDown",  "jerUp",  "jerDown", "PFUp", "PFDown", "puUp", "puDown","lepUp", "lepDown", "trigUp", "trigDown"]#,"BDTUp","BDTDown","ParNetUp","ParNetDown"]#, "btagUp", "btagDown", "mistagUp", "mistagDown", "lepUp", "lepDown", "trigUp", "trigDown", "pdf_totalUp", "pdf_totalDown", "q2Up", "q2Down"]
+     systematics = ["", "jesUp",  "jesDown",  "jerUp",  "jerDown", "w_ptUp","w_ptDown","PFUp", "PFDown", "puUp", "puDown","lepUp", "lepDown", "trigUp", "trigDown","BDTUp","BDTDown","ParNetUp","ParNetDown"]#, "btagUp", "btagDown", "mistagUp", "mistagDown", "lepUp", "lepDown", "trigUp", "trigDown", "pdf_totalUp", "pdf_totalDown", "q2Up", "q2Down"]
 
 for year in years:
      for sample in dataset_dict[year]:
@@ -847,8 +850,8 @@ for year in years:
      for lep in leptons:
           dataset_new = dataset_dict[year]
           variables = []
-          #wzero = 'w_nominal*PFSF*puSF*w_pt*lepSF*trigSF*BDTSF*ParNetSF'               
-          wzero = 'w_nominal*PFSF*puSF*w_pt*lepSF*trigSF'
+          #wzero = 'w_nominal*PFSF*puSF*w_ptSF*lepSF*trigSF*BDTSF*ParNetSF'               
+          wzero = 'w_nominal*PFSF*puSF*w_ptSF*lepSF*trigSF'
           if year =="2017": 
                wzero=wzero+"*(FatJet_pt_nominal[0]>500)"
                print(wzero)
@@ -886,7 +889,7 @@ for year in years:
           
           #variables.append(variabile('Top_TvsOth_nominal','Best Top ScoreVsOth',wzero+'*('+cut+')',  5, 0, 1))
           
-          variables.append(variabile('FatJet_M_nominal','FatJet M',wzero+'*('+cut+')',  20, 0, 400))
+          #variables.append(variabile('FatJet_M_nominal','FatJet M',wzero+'*('+cut+')',  20, 0, 400))
           variables.append(variabile('FatJet_partM_nominal','FatJet M',wzero+'*('+cut+')',  20, 0, 400))
           #variables.append(variabile('FatJet_M_nominal','FatJet M new',wzero+'*('+cut+')',  80, 0, 400))
           
@@ -899,7 +902,7 @@ for year in years:
          
           #variables.append(variabile('TightMu_pt_nominal','TightMu p_{T}',wzero+'*('+cut+')',  20, 35, 535))
           #variables.append(variabile('TightEl_pt_nominal','TightEl p_{T}',wzero+'*('+cut+')',  20, 35, 535))
-          ###variables.append(variabile('TightEl_pt_nominal+TightMu_pt_nominal','TightLep p_{T}',wzero+'*('+cut+')',  20, 35, 635))
+          variables.append(variabile('TightEl_pt_nominal+TightMu_pt_nominal','TightLep p_{T}',wzero+'*('+cut+')',  20, 35, 635))
           """
           variables.append(variabile('TightMu_dxy_nominal','TightMu dxy',wzero+'*('+cut+')',  100, -2, 2))                                                                                      
           variables.append(variabile('TightMu_dxyerr_nominal','TightMu dxy err',wzero+'*('+cut+')',  50, 0, 2))                                                                                
@@ -921,7 +924,7 @@ for year in years:
           """
           #variables.append(variabile('Jet_pt_nominal','Jet p_{T}',wzero+'*('+cut+')',  20, 25, 925))
           #variables.append(variabile('Jet_M_nominal','Jet M',wzero+'*('+cut+')',  20, 25, 925))
-          #variables.append(variabile('Jet_btag_nominal','Jet b-tag',wzero+'*('+cut+')',  20, 0, 1))
+          variables.append(variabile('Jet_btag_nominal','Jet b-tag',wzero+'*('+cut+')',  20, 0, 1))
           #variables.append(variabile('Lep_dxy_nominal','Lep dxy',wzero+'*('+cut+')',  40, -2, 2))
           #variables.append(variabile('Lep_dxyerr_nominal','Lep dxy err',wzero+'*('+cut+')',  50, 0, 2))
           #variables.append(variabile('Lep_dz_nominal','Lep dz',wzero+'*('+cut+')',  40, -2, 2))
@@ -1013,14 +1016,14 @@ for year in years:
                     variables_fit.append(variabile('Jet_btag_nominal','Jet b-tag Oth',wzero+'*('+cut+'&& FatJet_MC_nominal!=200 && FatJet_MC_nominal!=201)',  20, 0, 1))
                     """
                     ### NEW Variables
-                    """
+                    
                     variables_fit.append(variabile('TightEl_pt_nominal+TightMu_pt_nominal','TightLep p_{T} 1b+2q',wzero+'*('+cut+'&& FatJet_MC_nominal==201 && Top_MC_nominal==1)',  20, 35, 635))
                     variables_fit.append(variabile('TightEl_pt_nominal+TightMu_pt_nominal','TightLep p_{T} 2q',wzero+'*('+cut+'&& FatJet_MC_nominal==200 && Top_MC_nominal==1)',  20, 35, 635))
                     variables_fit.append(variabile('TightEl_pt_nominal+TightMu_pt_nominal','TightLep p_{T} Oth',wzero+'*('+cut+'&& FatJet_MC_nominal!=200 && FatJet_MC_nominal!=201 && Top_MC_nominal==1)',  20, 35, 635))
 
-                    variables_fit.append(variabile('FatJet_M_nominal','FatJet M 1b+2q',wzero+'*('+cut+'&& FatJet_MC_nominal==201 && Top_MC_nominal==1)',  20, 0, 400))
-                    variables_fit.append(variabile('FatJet_M_nominal','FatJet M 2q',wzero+'*('+cut+'&& FatJet_MC_nominal==200 && Top_MC_nominal==1)',  20, 0, 400))
-                    variables_fit.append(variabile('FatJet_M_nominal','FatJet M Oth',wzero+'*('+cut+'&& FatJet_MC_nominal!=200 && FatJet_MC_nominal!=201 && Top_MC_nominal==1)',  20, 0, 400))
+                    #variables_fit.append(variabile('FatJet_M_nominal','FatJet M 1b+2q',wzero+'*('+cut+'&& FatJet_MC_nominal==201 && Top_MC_nominal==1)',  20, 0, 400))
+                    #variables_fit.append(variabile('FatJet_M_nominal','FatJet M 2q',wzero+'*('+cut+'&& FatJet_MC_nominal==200 && Top_MC_nominal==1)',  20, 0, 400))
+                    #variables_fit.append(variabile('FatJet_M_nominal','FatJet M Oth',wzero+'*('+cut+'&& FatJet_MC_nominal!=200 && FatJet_MC_nominal!=201 && Top_MC_nominal==1)',  20, 0, 400))
 
                     variables_fit.append(variabile('Jet_btag_nominal','Jet b-tag 1b+2q',wzero+'*('+cut+'&& FatJet_MC_nominal==201 && Top_MC_nominal==1)',  20, 0, 1))
                     variables_fit.append(variabile('Jet_btag_nominal','Jet b-tag 2q',wzero+'*('+cut+'&& FatJet_MC_nominal==200 && Top_MC_nominal==1)',  20, 0, 1))
@@ -1032,15 +1035,15 @@ for year in years:
                     variables_fit.append(variabile('TightEl_pt_nominal+TightMu_pt_nominal','TightLep p_{T} 2q',wzero+'*('+cut+'&& FatJet_MC_nominal==200 && Top_MC_nominal!=1)',  20, 35, 635))
                     variables_fit.append(variabile('TightEl_pt_nominal+TightMu_pt_nominal','TightLep p_{T} Oth',wzero+'*('+cut+'&& FatJet_MC_nominal!=200 && FatJet_MC_nominal!=201 && Top_MC_nominal!=1)',  20, 35, 635))
 
-                    variables_fit.append(variabile('FatJet_M_nominal','FatJet M 1b+2q',wzero+'*('+cut+'&& FatJet_MC_nominal==201 && Top_MC_nominal!=1)',  20, 0, 400))
-                    variables_fit.append(variabile('FatJet_M_nominal','FatJet M 2q',wzero+'*('+cut+'&& FatJet_MC_nominal==200 && Top_MC_nominal!=1)',  20, 0, 400))
-                    variables_fit.append(variabile('FatJet_M_nominal','FatJet M Oth',wzero+'*('+cut+'&& FatJet_MC_nominal!=200 && FatJet_MC_nominal!=201 && Top_MC_nominal!=1)',  20, 0, 400))
+                    #variables_fit.append(variabile('FatJet_M_nominal','FatJet M 1b+2q',wzero+'*('+cut+'&& FatJet_MC_nominal==201 && Top_MC_nominal!=1)',  20, 0, 400))
+                    #variables_fit.append(variabile('FatJet_M_nominal','FatJet M 2q',wzero+'*('+cut+'&& FatJet_MC_nominal==200 && Top_MC_nominal!=1)',  20, 0, 400))
+                    #variables_fit.append(variabile('FatJet_M_nominal','FatJet M Oth',wzero+'*('+cut+'&& FatJet_MC_nominal!=200 && FatJet_MC_nominal!=201 && Top_MC_nominal!=1)',  20, 0, 400))
 
                     variables_fit.append(variabile('Jet_btag_nominal','Jet b-tag 1b+2q',wzero+'*('+cut+'&& FatJet_MC_nominal==201 && Top_MC_nominal!=1)',  20, 0, 1))
                     variables_fit.append(variabile('Jet_btag_nominal','Jet b-tag 2q',wzero+'*('+cut+'&& FatJet_MC_nominal==200 && Top_MC_nominal!=1)',  20, 0, 1))
                     variables_fit.append(variabile('Jet_btag_nominal','Jet b-tag Oth',wzero+'*('+cut+'&& FatJet_MC_nominal!=200 && FatJet_MC_nominal!=201 && Top_MC_nominal!=1)',  20, 0, 1))
 
-                    """
+                    
 
                     variables_fit.append(variabile('FatJet_partM_nominal','FatJet M 1b+2q',wzero+'*('+cut+'&& FatJet_MC_nominal==201 && Top_MC_nominal==1)',  20, 0, 400))
                     variables_fit.append(variabile('FatJet_partM_nominal','FatJet M 2q',wzero+'*('+cut+'&& FatJet_MC_nominal==200 && Top_MC_nominal==1)',  20, 0, 400))

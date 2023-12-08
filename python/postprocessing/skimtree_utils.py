@@ -367,7 +367,9 @@ def getNewBDT_SF(sample, top_region, lepton, top_truth=0):
   year = sample[-4:]
   if "2016" in sample:
     year = "2016"
-  path = "SF_" + year + "v6.json"
+  #path = "SF_" + year + "v6.json"
+  path = "SF_" + year + "v0_PNM.json"
+
   with open(path,"r") as json_file:
     BDT_SFs = json.load(json_file)
 
@@ -410,11 +412,12 @@ def getNewPN_SF(sample, AK8_region, MC_Truth):
   year = sample[-4:]
   if "2016" in sample:
     year = "2016"
-  path = "SF_" + year + "v6.json"
+  #path = "SF_" + year + "v6.json"
+  path = "SF_" + year + "v0_PNM.json"
   with open(path,"r") as json_file:
     PN_SFs = json.load(json_file)
 
-  if (not "TT" in sample) and (not "Tprime" in sample) and (not "ST" in sample) : key="Oth"
+  if (not "TT" in sample) and (not "Tprime" in sample) and (not "ST" in sample) : key="WJ"
   else:
     if "Tprime" in sample: 
       if "2016" in sample: return [0.87,0.99,0.75]
@@ -1553,11 +1556,14 @@ class systWeights(object):
             self.weightedNames[23] = "ParNetSF"
             self.weightedNames[24] = "ParNetUp"
             self.weightedNames[25] = "ParNetDown"
-            self.weightedNames[26] = "w_pt"
-            self.weightedNames[27] = "BDTSF"
-            self.weightedNames[28] = "BDTUp"
-            self.weightedNames[29] = "BDTDown"
-            self.weightedNames[30] = "w_Dcount"
+            self.weightedNames[26] = "w_ptSF"
+            self.weightedNames[27] = "w_ptUp"
+            self.weightedNames[28] = "w_ptDown"
+            self.weightedNames[29] = "BDTSF"
+            self.weightedNames[30] = "BDTUp"
+            self.weightedNames[31] = "BDTDown"
+            self.weightedNames[32] = "w_Dcount"
+            self.weightedNames[33] = "btagSF"
             '''
             self.weightedNames[13] = "btagShape"
             self.weightedNames[14] = "btagShapeUpCferr1"
@@ -1584,8 +1590,8 @@ class systWeights(object):
             #self.weightedNames[11] = "trigUp"
             #self.weightedNames[12] = "trigDown"
             '''
-            self.setMax(31)
-            self.setMaxNonPDF(31)
+            self.setMax(34)
+            self.setMaxNonPDF(34)
             self.weightedNames[self.maxSysts] = ""
 
         if addQ2: 
