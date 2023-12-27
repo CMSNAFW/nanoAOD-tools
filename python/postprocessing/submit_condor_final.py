@@ -45,6 +45,7 @@ def sub_writer(sample, n, files, folder, training, train_files):
     f.write("output                  = condor/output/"+ sample.label + "_part" + str(n) + ".out\n")
     f.write("error                   = condor/error/"+ sample.label + "_part" + str(n) + ".err\n")
     f.write("log                     = condor/log/"+ sample.label + "_part" + str(n) + ".log\n")
+    f.write('requirements = (TARGET.OpSysAndVer =?= "CentOS7") \n')
     f.write("queue\n")
 
 def runner_writer(sample, n, files, folder, training):

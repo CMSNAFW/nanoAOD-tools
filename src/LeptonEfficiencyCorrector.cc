@@ -67,13 +67,13 @@ float LeptonEfficiencyCorrector::getSF(int pdgid, float pt, float eta) {
   float x = abs(pdgid)==13 ? fabs(eta) : eta;
   for(std::vector<TH2F*>::iterator hist=effmaps_.begin(); hist<effmaps_.end(); ++hist) {
     WeightCalculatorFromHistogram wc(*hist);
-    if(out==1 && abs(pdgid)==13){
-      //std::cout<<" pt was "<<y<<std::endl;
-      y = y * (exp(x)+exp(-x))*0.5;      
-    }
-    else{
-      y = pt;
-    }
+    //if(out==1 && abs(pdgid)==13){
+    //  //std::cout<<" pt was "<<y<<std::endl;
+    //  y = y * (exp(x)+exp(-x))*0.5;      
+    //}
+    //else{
+    y = pt;
+    //}
     //std::cout<<pdgid<<" weight "<<out<<" pt "<<y<<" eta "<<x<<std::endl;
     if(fabs(wc.getWeight(x,y))>0.01)
       out *= wc.getWeight(x,y);

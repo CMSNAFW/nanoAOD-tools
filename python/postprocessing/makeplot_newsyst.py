@@ -562,8 +562,7 @@ def makestack(lep_, reg_, variabile_, samples_, cut_tag_, syst_, lumi):
                err = hratio.GetBinError(i)
                #h_bkg_err.SetBinError(i, (hratio.GetBinError(i)/hratio.GetBinContent(i)))
                for k in ["jesUp",  "jesDown",  "jerUp",  "jerDown", "PFUp", "PFDown", "puUp", "puDown","lepUp", "lepDown", "trigUp", "trigDown","BDTUp","BDTDown", "ParNetUp","ParNetDown"]:
-                    try:
-                         
+                         print("to be done, no syst added!")
           else:
                h_bkg_err.SetBinError(i, 10^(-99))
      h_bkg_err.SetLineWidth(100)

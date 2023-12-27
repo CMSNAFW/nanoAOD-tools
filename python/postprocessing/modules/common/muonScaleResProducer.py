@@ -22,10 +22,10 @@ class muonScaleResProducer(Module):
     def __init__(self, rc_dir, rc_corrections, dataYear):
         p_postproc = '%s/src/PhysicsTools/NanoAODTools/python/postprocessing' % os.environ['CMSSW_BASE']
         p_roccor = p_postproc + '/data/' + rc_dir
-        if "/RoccoR_cc.so" not in ROOT.gSystem.GetLibraries():
-            p_helper = '%s/RoccoR.cc' % p_roccor
-            print 'Loading C++ helper from ' + p_helper
-            ROOT.gROOT.ProcessLine('.L ' + p_helper)
+        #if "/RoccoR_cc.so" not in ROOT.gSystem.GetLibraries():
+        p_helper = '%s/RoccoR.cc' % p_roccor
+        #print 'Loading C++ helper from ' + p_helper
+        ROOT.gROOT.ProcessLine('.L ' + p_helper)
         self._roccor = ROOT.RoccoR(p_roccor + '/' + rc_corrections)
 
     def beginJob(self):
@@ -83,6 +83,7 @@ class muonScaleResProducer(Module):
         return True
 
 
-muonScaleRes2016 = lambda : muonScaleResProducer('roccor.Run2.v3', 'RoccoR2016.txt', 2016)
-muonScaleRes2017 = lambda : muonScaleResProducer('roccor.Run2.v3', 'RoccoR2017.txt', 2017)
-muonScaleRes2018 = lambda : muonScaleResProducer('roccor.Run2.v3', 'RoccoR2018.txt', 2018)
+muonScaleRes2016preVFP = lambda : muonScaleResProducer('roccor.Run.v5', 'RoccoR2016aUL.txt', 2016)
+muonScaleRes2016postVFP = lambda : muonScaleResProducer('roccor.Run.v5', 'RoccoR2016bUL.txt', 2016)
+muonScaleRes2017 = lambda : muonScaleResProducer('roccor.Run.v5', 'RoccoR2017UL.txt', 2017)
+muonScaleRes2018 = lambda : muonScaleResProducer('roccor.Run.v5', 'RoccoR2018UL.txt', 2018)

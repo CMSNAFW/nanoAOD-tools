@@ -31,7 +31,7 @@ archiveTagsDATA = {
     '2018': 'Autumn18_V19_DATA',
     'UL2016preVFP': 'Summer19UL16APV_V7_DATA',
     'UL2016postVFP': 'Summer19UL16_V7_DATA',
-    'UL2017': 'Summer19UL17_V6_DATA',
+    'UL2017': 'Summer19UL17_V5_DATA',
     'UL2018': 'Summer19UL18_V5_DATA'
 }
 
@@ -60,11 +60,11 @@ jecTagsDATA = {
     'UL2016postVFPF': 'Summer19UL16_RunFGH_V7_DATA',
     'UL2016postVFPG': 'Summer19UL16_RunFGH_V7_DATA',
     'UL2016postVFPH': 'Summer19UL16_RunFGH_V7_DATA',
-    'UL2017B': 'Summer19UL17_RunB_V6_DATA',
-    'UL2017C': 'Summer19UL17_RunC_V6_DATA',
-    'UL2017D': 'Summer19UL17_RunD_V6_DATA',
-    'UL2017E': 'Summer19UL17_RunE_V6_DATA',
-    'UL2017F': 'Summer19UL17_RunF_V6_DATA',
+    'UL2017B': 'Summer19UL17_RunB_V5_DATA',
+    'UL2017C': 'Summer19UL17_RunC_V5_DATA',
+    'UL2017D': 'Summer19UL17_RunD_V5_DATA',
+    'UL2017E': 'Summer19UL17_RunE_V5_DATA',
+    'UL2017F': 'Summer19UL17_RunF_V5_DATA',
     'UL2018A': 'Summer19UL18_RunA_V5_DATA',
     'UL2018B': 'Summer19UL18_RunB_V5_DATA',
     'UL2018C': 'Summer19UL18_RunC_V5_DATA',
@@ -78,7 +78,7 @@ jerTagsMC = {
     '2018': 'Autumn18_V7b_MC',
     'UL2016preVFP': 'Summer20UL16APV_JRV3_MC',
     'UL2016postVFP': 'Summer20UL16_JRV3_MC',
-    'UL2017': 'Fall17_V3_MC',#'Summer19UL17_JRV2_MC',
+    'UL2017': 'Summer19UL17_JRV3_MC',
     'UL2018': 'Summer19UL18_JRV2_MC',
 }
 

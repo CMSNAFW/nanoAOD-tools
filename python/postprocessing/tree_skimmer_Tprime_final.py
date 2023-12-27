@@ -112,7 +112,7 @@ systTree.setWeightName("trigDown",1.)
 systTree.setWeightName("PFSF",1.)
 systTree.setWeightName("PFUp",1.)
 systTree.setWeightName("PFDown",1.)
-systTree.setWeightName("btagSF",1.)
+#systTree.setWeightName("btagSF",1.)
 systTree.setWeightName("btagUp",1.)
 systTree.setWeightName("btagDown",1.)
 systTree.setWeightName("mistagUp",1.)
@@ -1100,7 +1100,9 @@ def reco(scenario, isMC, addPDF, training):
         #for top in all_coll: print(top.TvsQCD,top.TvsOth,top.Is_dR_merg, top.pt, top.nu_pt, top.el_index)
         #print("len(tightEle) ",len(tightEle))
         #print("len(tightMu) ",len(tightMu))
-        if(len(all_coll_wp90)>0): goodfatjets = list(filter(lambda x: deltaR(x.eta,x.phi,Top_eta_nominal[0],Top_phi_nominal[0])>1.2 and deltaR(x.eta,x.phi,Jet_eta_nominal[0],Jet_phi_nominal[0])>1.2 and deltaR(x.eta,x.phi,Lep_eta_nominal[0],Lep_phi_nominal[0])>0.8 and (weird_division(x.particleNetMD_Xbb,x.particleNetMD_Xbb+x.particleNetMD_QCD)>=0.8 or (x.msd_nom>=60 and x.msd_nom<=220)),fatjets))
+        if(len(all_coll_wp90)>0): 
+            goodfatjets = list(filter(lambda x: deltaR(x.eta,x.phi,Top_eta_nominal[0],Top_phi_nominal[0])>1.2 and deltaR(x.eta,x.phi,Jet_eta_nominal[0],Jet_phi_nominal[0])>1.2 and deltaR(x.eta,x.phi,Lep_eta_nominal[0],Lep_phi_nominal[0])>0.8 and (weird_division(x.particleNetMD_Xbb,x.particleNetMD_Xbb+x.particleNetMD_QCD)>=0.8 or (x.msd_nom>=60 and x.msd_nom<=220)),fatjets))
+            if(isMC): btagSF_nominal[0] = btagSFProducer(Jet_pt_nominal[0], Jet_eta_nominal[0], jets[int(lista[0].bjet_index)].hadronFlavour , Jet_btag_nominal[0], sample.label)[0]
         elif(len(tightEle)>0 and len(tightMu)==0):
             goodfatjets = list(filter(lambda x: (deltaR(x.eta,x.phi,TightEl_eta_nominal[0],TightEl_phi_nominal[0])>0.8) and (weird_division(x.particleNetMD_Xbb,x.particleNetMD_Xbb+x.particleNetMD_QCD)>=0.8 or (x.msd_nom>=60 and x.msd_nom<=220)),fatjets))
             top_region_nominal[0]=-1

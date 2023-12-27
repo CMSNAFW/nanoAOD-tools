@@ -160,7 +160,7 @@ class unpacking_vers2(Module):
         allJet = list(filter(lambda x :  x.pt>0 , jets))
         allEl = list(filter(lambda x : x.pt>0, electrons))
 
-        looseFatJet = list(filter(lambda x : (x.msoftdrop>=60 and x.msoftdrop<=220) or x.particleNetMD_Xbb>=0.8 or weird_division(x.particleNetMD_Xbb,x.particleNetMD_Xbb+x.particleNetMD_QCD)>=0.8,fatjets))
+        looseFatJet = list(filter(lambda x : (x.msoftdrop>=60 and x.msoftdrop<=220) or (x.particleNet_mass>=60 and x.particleNet_mass<=220) or x.particleNetMD_Xbb>=0.8 or weird_division(x.particleNetMD_Xbb,x.particleNetMD_Xbb+x.particleNetMD_QCD)>=0.8,fatjets))
         nLooseFatJet= len(looseFatJet)
         #looseFatJet.sort(key=lambda x:x.particleNetMD_Xbb,reverse=True)
         fatjets_list = list(fatjets)

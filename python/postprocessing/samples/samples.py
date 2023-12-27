@@ -552,7 +552,7 @@ DataMuF_2016preVFP.dataset = '/SingleMuon/Run2016F-HIPM_UL2016_MiniAODv2_NanoAOD
 
 DataMu_2016preVFP = sample(ROOT.kBlack, 1, 1001, "Data", "DataMu_2016preVFP")
 DataMu_2016preVFP.year = 2016
-DataMu_2016preVFP.components = [DataMuB0_2016preVFP,DataMuB_2016preVFP, DataMuC_2016preVFP, DataMuD_2016preVFP, DataMuE_2016preVFP, DataMuF_2016preVFP]
+DataMu_2016preVFP.components = [DataMuB_2016preVFP, DataMuC_2016preVFP, DataMuD_2016preVFP, DataMuE_2016preVFP, DataMuF_2016preVFP] #DataMuB0_2016preVFP,
 
 
 DataMuF_2016postVFP = sample(ROOT.kBlack, 1, 1001, "Data", "DataMuF_2016postVFP")
@@ -601,7 +601,7 @@ DataEleF_2016preVFP.dataset = '/SingleElectron/Run2016F-HIPM_UL2016_MiniAODv2_Na
 
 DataEle_2016preVFP = sample(ROOT.kBlack, 1, 1001, "Data", "DataEle_2016preVFP")
 DataEle_2016preVFP.year = 2016
-DataEle_2016preVFP.components = [DataEleB0_2016preVFP,DataEleB_2016preVFP, DataEleC_2016preVFP, DataEleD_2016preVFP, DataEleE_2016preVFP, DataEleF_2016preVFP]
+DataEle_2016preVFP.components = [DataEleB_2016preVFP, DataEleC_2016preVFP, DataEleD_2016preVFP, DataEleE_2016preVFP, DataEleF_2016preVFP] # DataEleB0_2016preVFP,
 
 
 DataEleF_2016postVFP = sample(ROOT.kBlack, 1, 1001, "Data", "DataEleF_2016postVFP")
@@ -650,7 +650,7 @@ DataPhF_2016preVFP.dataset = '/SinglePhoton/Run2016F-HIPM_UL2016_MiniAODv2_NanoA
 
 DataPh_2016preVFP = sample(ROOT.kBlack, 1, 1001, "Data", "DataPh_2016preVFP")
 DataPh_2016preVFP.year = 2016
-DataPh_2016preVFP.components = [DataPhB0_2016preVFP,DataPhB_2016preVFP, DataPhC_2016preVFP, DataPhD_2016preVFP, DataPhE_2016preVFP, DataPhF_2016preVFP]
+DataPh_2016preVFP.components = [DataPhB_2016preVFP, DataPhC_2016preVFP, DataPhD_2016preVFP, DataPhE_2016preVFP, DataPhF_2016preVFP] #DataPhB0_2016preVFP,
 
 
 DataPhF_2016postVFP = sample(ROOT.kBlack, 1, 1001, "Data", "DataPhF_2016postVFP")
@@ -699,7 +699,7 @@ DataHTF_2016preVFP.dataset = '/JetHT/Run2016F-HIPM_UL2016_MiniAODv2_NanoAODv9-v2
 
 DataHT_2016preVFP = sample(ROOT.kBlack, 1, 1001, "Data", "DataHT_2016preVFP")
 DataHT_2016preVFP.year = 2016
-DataHT_2016preVFP.components = [DataHTB0_2016preVFP,DataHTB_2016preVFP, DataHTC_2016preVFP, DataHTD_2016preVFP, DataHTE_2016preVFP, DataHTF_2016preVFP]
+DataHT_2016preVFP.components = [DataHTB_2016preVFP, DataHTC_2016preVFP, DataHTD_2016preVFP, DataHTE_2016preVFP, DataHTF_2016preVFP] #DataHTB0_2016preVFP,
 
 
 DataHTF_2016postVFP = sample(ROOT.kBlack, 1, 1001, "Data", "DataHTF_2016postVFP")

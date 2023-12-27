@@ -28,7 +28,7 @@ def cfg_writer(sample, isMC, outdir):
     f.write("config.JobType.psetName = 'PSet.py'\n")
     f.write("config.JobType.scriptExe = 'crab_script.sh'\n")
     f.write("config.JobType.inputFiles = ['crab_script.py','../scripts/haddnano.py', '../scripts/keep_and_drop.txt','../python/postprocessing/training_MultiClass.py','../python/model/JSON_MultiClass/high_pt_el_merged.json','../python/model/JSON_MultiClass/high_pt_el_resolved.json','../python/model/JSON_MultiClass/high_pt_mu_merged.json','../python/model/JSON_MultiClass/high_pt_mu_resolved.json','../python/model/JSON_MultiClass/low_pt_el_merged.json','../python/model/JSON_MultiClass/low_pt_el_resolved.json','../python/model/JSON_MultiClass/low_pt_mu_merged.json','../python/model/JSON_MultiClass/low_pt_mu_resolved.json']\n") #hadd nano will not be needed once nano tools are in cmssw
-    f.write("config.JobType.sendPythonFolder = True\n")
+    #f.write("config.JobType.sendPythonFolder = True\n")
     f.write("config.section_('Data')\n")
     f.write("config.Data.inputDataset = '"+sample.dataset+"'\n")
     f.write("config.Data.allowNonValidInputDataset = True\n")
@@ -65,6 +65,7 @@ def crab_script_writer(sample, outpath, isMC, modules, presel):
     f.write("import os\n")
     f.write("from PhysicsTools.NanoAODTools.postprocessing.framework.postprocessor import *\n")
     f.write("from PhysicsTools.NanoAODTools.postprocessing.modules.jme.jetmetHelperRun2 import *\n")
+    f.write("from PhysicsTools.NanoAODTools.postprocessing.modules.common.muonScaleResProducer import *\n")
     f.write("from PhysicsTools.NanoAODTools.postprocessing.framework.crabhelper import inputFiles,runsAndLumis\n")
     f.write("from PhysicsTools.NanoAODTools.postprocessing.examples.MCweight_writer import *\n")
     f.write("from PhysicsTools.NanoAODTools.postprocessing.examples.MET_HLT_Filter import *\n")
@@ -174,10 +175,14 @@ for sample in samples:
                 year_tag = year+"postVFP"
         else:
             year_tag = year
-        Tightlep_mod = 'TightlepSF_'+year_tag+'()'
-        Looselep_mod = 'LooselepSF_'+year_tag+'()'
-        IsoLooselep_mod = 'IsoLooselepSF_'+year_tag+'()'
-        trg_mod = 'trigSF_'+year+'()'
+
+        
+        lep_mod = 'RECOMuSF_'+year_tag+'_stat(),TightMuSF_'+year_tag+'_stat(),LooseMuSF_'+year_tag+'_stat(),TightIsoMuSF_'+year_tag+'_stat(),LooseIsoMuSF_'+year_tag+'_stat(),RECOMuSF_'+year_tag+'_syst(),TightMuSF_'+year_tag+'_syst(),LooseMuSF_'+year_tag+'_syst(),TightIsoMuSF_'+year_tag+'_syst(),LooseIsoMuSF_'+year_tag+'_syst(),RECOElSF_'+year_tag+'(),LooseElSF_'+year_tag+'(),TightIsoElSF_'+year_tag+'(),LooseIsoElSF_'+year_tag+'()'
+        muon_res = 'muonScaleRes'+year_tag+'()'
+        #Tightlep_mod = 'TightlepSF_'+year_tag+'()'
+        #Looselep_mod = 'LooselepSF_'+year_tag+'()'
+        #IsoLooselep_mod = 'IsoLooselepSF_'+year_tag+'()'
+        #trg_mod = 'trigSF_'+year+'()'
         #btag_mod = 'btagSF_'+year+'()'
         #btag_mod=''
         print(' no b tag mode')
@@ -186,11 +191,11 @@ for sample in samples:
         prefire_mod = 'PrefCorr_'+year+'()'
         if ('Data' in sample.label):
             isMC = False
-            presel = "Flag_goodVertices && Flag_globalSuperTightHalo2016Filter && Flag_HBHENoiseFilter && Flag_HBHENoiseIsoFilter && Flag_EcalDeadCellTriggerPrimitiveFilter && Flag_BadPFMuonFilter && Flag_eeBadScFilter "
+            presel = "Flag_goodVertices && Flag_globalSuperTightHalo2016Filter && Flag_HBHENoiseFilter && Flag_HBHENoiseIsoFilter && Flag_EcalDeadCellTriggerPrimitiveFilter && Flag_BadPFMuonFilter && Flag_eeBadScFilter && Flag_BadPFMuonDzFilter && Flag_ecalBadCalibFilter "
             #presel = "run>=0"
             #presel = "Flag_goodVertices && Flag_globalSuperTightHalo2016Filter && Flag_HBHENoiseFilter && Flag_HBHENoiseIsoFilter && Flag_EcalDeadCellTriggerPrimitiveFilter && Flag_BadPFMuonFilter && Flag_eeBadScFilter && Flag_ecalBadCalibFilter"
-            #if sample.year == 2016:
-            # presel = "Flag_goodVertices && Flag_globalSuperTightHalo2016Filter && Flag_HBHENoiseFilter && Flag_HBHENoiseIsoFilter && Flag_EcalDeadCellTriggerPrimitiveFilter && Flag_BadPFMuonFilter && Flag_eeBadScFilter"
+            if sample.year == 2016:
+             presel = "Flag_goodVertices && Flag_globalSuperTightHalo2016Filter && Flag_HBHENoiseFilter && Flag_HBHENoiseIsoFilter && Flag_EcalDeadCellTriggerPrimitiveFilter && Flag_BadPFMuonFilter && Flag_eeBadScFilter && Flag_BadPFMuonDzFilter"
         else:
             isMC = True
             presel = ""
@@ -202,10 +207,10 @@ for sample in samples:
         
         #print("no Jes/Jer modules!!!!! Rememeber to add them in the next submission amche nei datiiiiii!!,  metCorrector(), fatJetCorrector(), metCorrector_tot(), fatJetCorrector_tot() ")
         if isMC:
-            modules = "MCweight_writer(),MET_HLT_Filter("+year+"), preselection_Tprime(), GenPart_MomFirstCp(flavour=\"11,12,13,14,15,16,5,6,24,23,25\"), unpacking_MC(),scoring(),  metCorrector(), fatJetCorrector(), metCorrector_tot(), fatJetCorrector_tot(),"+pu_mod+","+Tightlep_mod+","+IsoLooselep_mod+","+Looselep_mod
+            modules = "MCweight_writer(),MET_HLT_Filter("+year+"), preselection_Tprime(), GenPart_MomFirstCp(flavour=\"11,12,13,14,15,16,5,6,24,23,25\"), unpacking_MC(),scoring(),  metCorrector(), fatJetCorrector(), metCorrector_tot(), fatJetCorrector_tot(),"+pu_mod+","+lep_mod+","+ muon_res  #+Tightlep_mod+","+IsoLooselep_mod+","+Looselep_mod +","+ muon_res
         
             if year!="2018": 
-                modules = "MCweight_writer(),MET_HLT_Filter("+year+"), preselection_Tprime(), GenPart_MomFirstCp(flavour=\"11,12,13,14,15,16,5,6,24,23,25\"), unpacking_MC(),scoring(),  metCorrector(), fatJetCorrector(), metCorrector_tot(), fatJetCorrector_tot(),"+pu_mod+","+ prefire_mod+","+Tightlep_mod+","+IsoLooselep_mod+","+Looselep_mod
+                modules = "MCweight_writer(),MET_HLT_Filter("+year+"), preselection_Tprime(), GenPart_MomFirstCp(flavour=\"11,12,13,14,15,16,5,6,24,23,25\"), unpacking_MC(),scoring(),  metCorrector(), fatJetCorrector(), metCorrector_tot(), fatJetCorrector_tot(),"+pu_mod+","+ prefire_mod+","+lep_mod+","+ muon_res  #+Tightlep_mod+","+IsoLooselep_mod+","+Looselep_mod+","+ muon_res
                 
             #modules = "MCweight_writer(), preselection_Tprime(), GenPart_MomFirstCp(flavour=\"11,12,13,14,15,16,5,6,24,23,25\"), unpacking_MC()"
             if ("WJets" in sample.label) and ("1200to" in sample.label): modules = "random_cut()," + modules  

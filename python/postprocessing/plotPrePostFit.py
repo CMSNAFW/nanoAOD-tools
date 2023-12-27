@@ -10,6 +10,7 @@ signal = "Tprime_tHq_1800LH"
 #samples_SRW = ["QCD", "DDFitWJetsTT_MttST", signal]
 #samples_SR2B = ["QCD", "DDFitWJetsTT_MttST", signal]
 samples = ["ST","WJets","QCD", "TT_Mtt",signal]
+#samples = ["ST","QCD", "TT_Mtt",signal]
 
 regions_mu = {
     "VR6":("h_FatJet_partM_nominal_TopL_FatJetL_AK8HighPt", "VR6_muon", "AK8L,TopL mu"),
@@ -38,11 +39,11 @@ fitPhase = "prefit"
 #fitfolder = "/afs/cern.ch/user/o/oiorio/public/xAgostino/Wprime_v22/fixed/an_v22explin_sigh/fitDiagnostics.root" # <--- SR
 #fitfolder = "/afs/cern.ch/user/o/oiorio/public/xAgostino/Wprime_v22/an_v22explincr0b/fitDiagnostics.root" # <--- CR0B
 #fitfolder = "/afs/cern.ch/user/f/fcarneva/CMSSW_10_2_5/src/Stat/Limits/test/fitValid_v6_2018/fitDiagnosticsTest.root"
-fitfolder = "/afs/cern.ch/user/f/fcarneva/CMSSW_10_2_5/src/Stat/Limits/test/fitValid_ParNetMass_2018_v19/fitDiagnosticsTest.root"
+fitfolder = "/afs/cern.ch/user/f/fcarneva/CMSSW_10_2_5/src/Stat/Limits/test/fitValid_ParNetMass_btag_alpha_beta_2016_v20/fitDiagnosticsTest.root"
 
 
 #histfolder = "/eos/user/a/adeiorio/Wprime/nosynch/v18/plot_fit3Apr"
-histfolder = "/eos/user/f/fcarneva/Tprime/nosynch/UL_v19/plot/"
+histfolder = "/eos/user/f/fcarneva/Tprime/nosynch/UL_v20_pnm/plot/"
 #histfolder = "/eos/user/f/fcarneva/Tprime/nosynch/UL_v11/plot/"
 
 print('hello! Starting now')
