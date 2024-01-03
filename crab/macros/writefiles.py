@@ -25,18 +25,19 @@ for sample in samples:
     if not os.path.exists("./macros/files/"):
         os.makedirs("./macros/files/")
     f = open("./macros/files/"+str(sample.label)+".txt", "w")
-    url = os.popen('crab getoutput --xrootd --jobids=1 -d ' + path + '/crab_' + str(sample.label) + '/').readlines()[0]
-    print(url)
+    url = os.popen('crab getoutput --xrootd --jobids=1 -d ' + path + '/crab_' + str(sample.label) + '/').readlines()[2]
+    
+    #print(url)
     s1=url.split(str(os.environ.get('USER')))
-    
+    #print(str(s1[1]))
     s2=s1[1].split('/000')
-    
+    #print("s2: " +str(s2))
     path_xrd = 'root://cms-xrd-global.cern.ch//store/user/' + str(os.environ.get('USER')) + s2[0]+"/"
     newurl = 'srm://stormfe1.pi.infn.it:8444/srm/managerv2?SFN=/cms/store/user/' + str(os.environ.get('USER')) + s2[0]+"/"
     #path_xrd = 'root://cms-xrd-global.cern.ch//store/user/adeiorio/OutDir/JetHT/DataHTB_2016/200511_122826/'
     #newurl = 'srm://stormfe1.pi.infn.it/cms/store/user/adeiorio/OutDir/JetHT/DataHTB_2016/200511_122826/'
 
-    print(newurl)
+    print("newurl: "+newurl)
     cont =True
     i=0
     print('\nChecking files in the folder '+newurl.strip('\n')+'\n')
