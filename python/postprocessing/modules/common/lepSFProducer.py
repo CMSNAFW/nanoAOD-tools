@@ -226,15 +226,15 @@ class lepSFProducer(Module):
                 self.out.branch("Electron_RECOeffSF_Up", "F", lenVar="nElectron")
                 self.out.branch("Electron_RECOeffSF_Down", "F", lenVar="nElectron")
             else:
-                if not "Tight" in self.SelectionTag:
-                    if "Iso" in self.SelectionTag:
-                        self.out.branch("Electron_IsoLooseeffSF", "F", lenVar="nElectron")
-                        self.out.branch("Electron_IsoLooseeffSF_Up", "F", lenVar="nElectron")
-                        self.out.branch("Electron_IsoLooseeffSF_Down", "F", lenVar="nElectron")
-                    else:
+                if not "80" in self.SelectionTag:
+                    if "NoIso" in self.SelectionTag:
                         self.out.branch("Electron_LooseeffSF", "F", lenVar="nElectron")
                         self.out.branch("Electron_LooseeffSF_Up", "F", lenVar="nElectron")
                         self.out.branch("Electron_LooseeffSF_Down", "F", lenVar="nElectron")
+                    else:
+                        self.out.branch("Electron_IsoLooseeffSF", "F", lenVar="nElectron")
+                        self.out.branch("Electron_IsoLooseeffSF_Up", "F", lenVar="nElectron")
+                        self.out.branch("Electron_IsoLooseeffSF_Down", "F", lenVar="nElectron")
                 else:
                     self.out.branch("Electron_TighteffSF", "F", lenVar="nElectron")
                     self.out.branch("Electron_TighteffSF_Up", "F", lenVar="nElectron")
@@ -308,15 +308,15 @@ class lepSFProducer(Module):
                 self.out.fillBranch("Electron_RECOeffSF_Up", [errsf + sf for errsf, sf in zip(sferr_el, sf_el)])
                 self.out.fillBranch("Electron_RECOeffSF_Down", [sf - errsf for errsf, sf in zip(sf_el, sferr_el)])
             else:
-                if not "Tight" in self.SelectionTag:
-                    if "Iso" in self.SelectionTag:
-                        self.out.fillBranch("Electron_IsoLooseeffSF", sf_el)
-                        self.out.fillBranch("Electron_IsoLooseeffSF_Up", [errsf + sf for errsf, sf in zip(sferr_el, sf_el)])
-                        self.out.fillBranch("Electron_IsoLooseeffSF_Down", [sf - errsf for errsf, sf in zip(sf_el, sferr_el)])
-                    else:
+                if not "80" in self.SelectionTag:
+                    if "NoIso" in self.SelectionTag:
                         self.out.fillBranch("Electron_LooseeffSF", sf_el)
                         self.out.fillBranch("Electron_LooseeffSF_Up", [errsf + sf for errsf, sf in zip(sferr_el, sf_el)])
                         self.out.fillBranch("Electron_LooseeffSF_Down", [sf - errsf for errsf, sf in zip(sf_el, sferr_el)])
+                    else:
+                        self.out.fillBranch("Electron_IsoLooseeffSF", sf_el)
+                        self.out.fillBranch("Electron_IsoLooseeffSF_Up", [errsf + sf for errsf, sf in zip(sferr_el, sf_el)])
+                        self.out.fillBranch("Electron_IsoLooseeffSF_Down", [sf - errsf for errsf, sf in zip(sf_el, sferr_el)])
                 else:
                     self.out.fillBranch("Electron_TighteffSF", sf_el)
                     self.out.fillBranch("Electron_TighteffSF_Up", [errsf + sf for errsf, sf in zip(sferr_el, sf_el)])

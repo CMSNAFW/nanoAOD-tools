@@ -12,6 +12,8 @@ import xgboost as xgb
 import numpy as np
 from training_MultiClass import *
 from samples.samples import *
+from btagSF import *
+
 
 if sys.argv[5] == None: training = training_dict["BDT_Tprime"]
 else: training = training_dict[sys.argv[5]]
@@ -142,8 +144,8 @@ def reco(scenario, isMC, addPDF, training):
     AK8_region_nominal = array.array('i',[0])
     FatJet_pt_nominal = array.array('f',[0.])
     FatJet_eta_nominal = array.array('f',[0.])
-    FatJet_msd_nominal = array.array('f',[0.])
-    
+    FatJet_partM_nominal = array.array('f',[0.])
+    btagSF_nominal = array.array('f',[1.])
 
     systTree.branchTreesSysts(trees, "all", "isdileptonic", outTreeFile, isdileptonic)
     systTree.branchTreesSysts(trees, "all", "isPromptEle", outTreeFile, isPromptEle)
@@ -166,7 +168,7 @@ def reco(scenario, isMC, addPDF, training):
     systTree.branchTreesSysts(trees, "all","HLT_PFJet_nominal", outTreeFile, HLT_PFJet_nominal)
     systTree.branchTreesSysts(trees, "all","FatJet_pt_nominal", outTreeFile, FatJet_pt_nominal)
     systTree.branchTreesSysts(trees, "all","FatJet_eta_nominal", outTreeFile, FatJet_eta_nominal)
-    systTree.branchTreesSysts(trees, "all","FatJet_msd_nominal", outTreeFile, FatJet_msd_nominal)
+    systTree.branchTreesSysts(trees, "all","FatJet_partM_nominal", outTreeFile, FatJet_partM_nominal)
 
     #print("!!!!!!! Change msoftdrop con msd_nom e pt con pt_nom per i FatJet !!!!!!!")
 
@@ -214,6 +216,7 @@ def reco(scenario, isMC, addPDF, training):
     h_eff_ele = ROOT.TH1D("h_eff_ele", "h_eff_ele", nbinseff, 0, nbinseff)
     
     for i in range(tree.GetEntries()):        
+        btagSF_nominal[0]=1.
         top_region_nominal[0]=0        
         isdileptonic[0]=0
         muon_pt[0]=0
@@ -234,7 +237,7 @@ def reco(scenario, isMC, addPDF, training):
         AK8_region_nominal[0] = 0
         FatJet_pt_nominal[0] = 0.
         FatJet_eta_nominal[0] = 0.
-        FatJet_msd_nominal[0] = 0.
+        FatJet_partM_nominal[0] = 0.
         isPromptEle[0]=False
         
         w_Dcount_nominal[0]=1.
@@ -245,8 +248,10 @@ def reco(scenario, isMC, addPDF, training):
             top = list(filter(lambda x: x.pdgId==6 ,genpart))[0]
             antitop = list(filter(lambda x: x.pdgId==-6 ,genpart))[0]
             Mtt = (top.p4() + antitop.p4()).M()
-            SF_t = 0.973-0.000134*top.pt+0.103*math.exp(-0.0118*top.pt)
-            SF_antit = 0.973-0.000134*antitop.pt+0.103*math.exp(-0.0118*antitop.pt)
+            #SF_t = 0.973-0.000134*top.pt+0.103*math.exp(-0.0118*top.pt)
+            #SF_antit = 0.973-0.000134*antitop.pt+0.103*math.exp(-0.0118*antitop.pt)
+            SF_t = math.exp(0.0615-0.0005*top.pt)
+            SF_antit = math.exp(0.0615-0.0005*antitop.pt)
             w_pt_nominal[0]=math.sqrt(SF_t*SF_antit)
             if (Mtt>=700) and (not "Mtt" in sample.label):
                 w_Dcount_nominal[0]=0.
@@ -277,17 +282,24 @@ def reco(scenario, isMC, addPDF, training):
 
         
         if sample.year== 2016: 
-            HLT_Muon_nominal[0] = HLT.Mu50 or HLT.IsoMu24
+            try:
+                HLT_Muon_nominal[0] = HLT.IsoTkMu24 or HLT.TkMu50 or HLT.Mu50 or HLT.IsoMu24
+            except:
+                HLT_Muon_nominal[0] = HLT.IsoTkMu24 or HLT.Mu50 or HLT.IsoMu24
             HLT_PFJet_nominal[0] = HLT.AK8PFJet360_TrimMass30
             HLT_Electron_nominal[0] = HLT.Ele27_WPTight_Gsf
             HLT_Photon_nominal[0] = HLT.Photon175
         if sample.year== 2017:
-            HLT_Muon_nominal[0] = HLT.Mu50 or HLT.IsoMu27
+            try:
+                HLT_Muon_nominal[0] = HLT.Mu50 or HLT.IsoMu27 or  HLT.OldMu100 or HLT.TkMu100
+            except:
+                HLT_Muon_nominal[0] = HLT.Mu50 or HLT.IsoMu27
+                
             HLT_PFJet_nominal[0] = HLT.AK8PFJet500
-            HLT_Electron_nominal[0] = HLT.Ele35_WPTight_Gsf
+            HLT_Electron_nominal[0] = HLT.Ele32_WPTight_Gsf
             HLT_Photon_nominal[0] = HLT.Photon200
         if sample.year== 2018:
-            HLT_Muon_nominal[0] = HLT.Mu50 or HLT.IsoMu27
+            HLT_Muon_nominal[0] =  HLT.Mu50 or HLT.IsoMu24 or HLT.OldMu100 or HLT.TkMu100
             HLT_PFJet_nominal[0] = HLT.AK8PFJet400_TrimMass30
             HLT_Electron_nominal[0] = HLT.Ele32_WPTight_Gsf
             HLT_Photon_nominal[0] = HLT.Photon200
@@ -382,14 +394,14 @@ def reco(scenario, isMC, addPDF, training):
                                                 (x.nu_pt>= train.pt_cut[0]) and (x.nu_pt<train.pt_cut[1])
                                                 and (x.Is_dR_merg == train.category)
                                                 and (x.el_index != -1) and abs(electron[int(x.el_index)].eta)<2.5
-                                                ,tops))
+                                                and abs(jets[int(x.bjet_index)].eta)<2.4 and ((jets[int(x.bjet_index)].jetId==2 or jets[int(x.bjet_index)].jetId==6) or (jets[int(x.bjet_index)].jetId==3 or jets[int(x.bjet_index)].jetId==7)) and (jets[int(x.bjet_index)].pt>50 or jets[int(x.bjet_index)].puId==True),tops))
                 is_el=True
             else:
                 good_top = list(filter(lambda x: 
                                                 (x.nu_pt>= train.pt_cut[0]) and (x.nu_pt<train.pt_cut[1])
                                                 and (x.Is_dR_merg == train.category)
                                                 and (x.mu_index != -1) and abs(muon[int(x.mu_index)].eta)<2.4
-                                                ,tops))
+                                                and abs(jets[int(x.bjet_index)].eta)<2.4 and ((jets[int(x.bjet_index)].jetId==2 or jets[int(x.bjet_index)].jetId==6) or (jets[int(x.bjet_index)].jetId==3 or jets[int(x.bjet_index)].jetId==7)) and (jets[int(x.bjet_index)].pt>50 or jets[int(x.bjet_index)].puId==True),tops))
                 is_el=False
 
 
@@ -430,7 +442,8 @@ def reco(scenario, isMC, addPDF, training):
 
           
         
-        if(len(all_coll_wp90)>0): 
+        if(len(all_coll_wp90)>0):
+            if(isMC): btagSF_nominal[0] = btagSFProducer(jets[int(lista[0].bjet_index)].pt, jets[int(lista[0].bjet_index)].eta, jets[int(lista[0].bjet_index)].hadronFlavour , jets[int(lista[0].bjet_index)].btagDeepFlavB, sample.label)[0]
             if lista[0].el_index!=-1:
                 Lep_eta_nominal= electron[int(lista[0].el_index)].eta
                 Lep_phi_nominal= electron[int(lista[0].el_index)].phi
@@ -439,7 +452,7 @@ def reco(scenario, isMC, addPDF, training):
                 electron_eta[0]= electron[int(lista[0].el_index)].eta
                 electron_phi[0]= electron[int(lista[0].el_index)].phi
                 electron_m[0]= electron[int(lista[0].el_index)].mass
-                if(isMC): electron_SF[0]= electron[int(lista[0].el_index)].LooseeffSF
+                if(isMC): electron_SF[0]= electron[int(lista[0].el_index)].LooseeffSF*electron[int(lista[0].el_index)].RECOeffSF
             else:
                 Lep_eta_nominal= muon[int(lista[0].mu_index)].eta
                 Lep_phi_nominal= muon[int(lista[0].mu_index)].phi
@@ -448,35 +461,35 @@ def reco(scenario, isMC, addPDF, training):
                 muon_eta[0]= muon[int(lista[0].mu_index)].eta
                 muon_phi[0]= muon[int(lista[0].mu_index)].phi
                 muon_m[0]= muon[int(lista[0].mu_index)].mass
-                if(isMC): muon_SF[0]= muon[int(lista[0].mu_index)].LooseeffSF
+                if(isMC): muon_SF[0]= muon[int(lista[0].mu_index)].RECOeffSF*muon[int(lista[0].mu_index)].LooseeffSF
             
             goodfatjets = list(filter(lambda x: deltaR(x.eta,x.phi,lista[0].nu_eta,lista[0].nu_phi)>1.2 and 
                                                             deltaR(x.eta,x.phi,jets[int(lista[0].bjet_index)].eta,jets[int(lista[0].bjet_index)].phi)>1.2 and 
                                                             deltaR(x.eta,x.phi,Lep_eta_nominal,Lep_phi_nominal)>0.8 and 
                                                             (weird_division(x.particleNetMD_Xbb,x.particleNetMD_Xbb+x.particleNetMD_QCD)>=0.8 or 
-                                                             (x.msd_nom>=60 and x.msd_nom<=220)),fatjets))
+                                                             (x.particleNet_mass>=60 and x.particleNet_mass<=220)) and abs(x.eta)<2.4 and ((x.jetId==2 or x.jetId==6) or (x.jetId==3 or x.jetId==7)),fatjets))
         elif(len(tightEle)==1 and len(tightMu)==0):
             goodfatjets = list(filter(lambda x: (deltaR(x.eta,x.phi,tightEle[0].eta,tightEle[0].phi)>0.8) and 
                                       (weird_division(x.particleNetMD_Xbb,x.particleNetMD_Xbb+x.particleNetMD_QCD)>=0.8 or 
-                                       (x.msd_nom>=60 and x.msd_nom<=220)),fatjets))
+                                       (x.particleNet_mass>=60 and x.particleNet_mass<=220))  and abs(x.eta)<2.4 and ((x.jetId==2 or x.jetId==6) or (x.jetId==3 or x.jetId==7)),fatjets))
             top_region_nominal[0]=-1
             prompt_el = True
             electron_pt[0]= tightEle[0].pt
             electron_eta[0]= tightEle[0].eta
             electron_phi[0]= tightEle[0].phi
             electron_m[0]= tightEle[0].mass
-            if(isMC): electron_SF[0]=electron[int(allelectrons.index(tightEle[0]))].TighteffSF
+            if(isMC): electron_SF[0]=electron[int(allelectrons.index(tightEle[0]))].TighteffSF*electron[int(allelectrons.index(tightEle[0]))].RECOeffSF
         elif(len(tightEle)==0 and len(tightMu)==1):
             goodfatjets = list(filter(lambda x: (deltaR(x.eta,x.phi,tightMu[0].eta,tightMu[0].phi)>0.8)  and 
                                       (weird_division(x.particleNetMD_Xbb,x.particleNetMD_Xbb+x.particleNetMD_QCD)>=0.8 or 
-                                       (x.msd_nom>=60 and x.msd_nom<=220)),fatjets))
+                                       (x.particleNet_mass>=60 and x.particleNet_mass<=220))  and abs(x.eta)<2.4 and ((x.jetId==2 or x.jetId==6) or (x.jetId==3 or x.jetId==7)),fatjets))
             top_region_nominal[0]=-1
             prompt_el =False
             muon_pt[0]= tightMu[0].pt
             muon_eta[0]= tightMu[0].eta
             muon_phi[0]= tightMu[0].phi
             muon_m[0]= tightMu[0].mass
-            if(isMC): muon_SF[0]= muon[int(allmuons.index(tightMu[0]))].TighteffSF
+            if(isMC): muon_SF[0]= muon[int(allmuons.index(tightMu[0]))].RECOeffSF*muon[int(allmuons.index(tightMu[0]))].TighteffSF* muon[int(allmuons.index(tightMu[0]))].IsoTighteffSF
         elif(len(tightEle)>0 and len(tightMu)>0):
             goodfatjets = []
             continue
@@ -488,7 +501,7 @@ def reco(scenario, isMC, addPDF, training):
         else: AK8_region_nominal[0]=1
         
         FatJet_pt_nominal[0]= goodfatjets[0].pt_nom
-        FatJet_msd_nominal[0]= goodfatjets[0].msd_nom
+        FatJet_partM_nominal[0]= goodfatjets[0].particleNet_mass
         FatJet_eta_nominal[0]= goodfatjets[0].eta
         
 
@@ -521,14 +534,14 @@ def reco(scenario, isMC, addPDF, training):
             muon_eta[0]= AddMuon[0].eta
             muon_phi[0]= AddMuon[0].phi
             muon_m[0]= AddMuon[0].mass
-            if(isMC): muon_SF[0]= muon[int(allmuons.index(AddMuon[0]))].IsoLooseeffSF
+            if(isMC): muon_SF[0]= muon[int(allmuons.index(AddMuon[0]))].RECOeffSF*muon[int(allmuons.index(AddMuon[0]))].LooseeffSF*muon[int(allmuons.index(AddMuon[0]))].IsoLooseeffSF
             isdileptonic[0] = True 
         elif((prompt_el==False) and (N_muLoose_nominal==0) and (N_elLoose_nominal==1)):
             electron_pt[0]= AddElectron[0].pt
             electron_eta[0]= AddElectron[0].eta
             electron_phi[0]= AddElectron[0].phi
             electron_m[0]= AddElectron[0].mass
-            if(isMC): electron_SF[0]= electron[int(allelectrons.index(AddElectron[0]))].IsoLooseeffSF
+            if(isMC): electron_SF[0]= electron[int(allelectrons.index(AddElectron[0]))].IsoLooseeffSF*electron[int(allelectrons.index(AddElectron[0]))].RECOeffSF
             isdileptonic[0] = True
         elif((N_elLoose_nominal==0) and (N_muLoose_nominal==0) and (top_region_nominal[0]==-1) and (AK8_region_nominal[0]==0)):
             isdileptonic[0] = False
@@ -538,6 +551,7 @@ def reco(scenario, isMC, addPDF, training):
         #if top_region_nominal[0]>-1: print("!!!! Found It !!!!")
         isPromptEle[0]=prompt_el                            
         systTree.setWeightName("w_nominal",copy.deepcopy(w_nominal_nominal[0]))
+        systTree.setWeightName("btagSF",copy.deepcopy(btagSF_nominal[0]))
         systTree.setWeightName("w_pt",copy.deepcopy(w_pt_nominal[0]))
         systTree.setWeightName("w_Dcount",copy.deepcopy(w_Dcount_nominal[0]))
         systTree.setWeightName("ParNetSF",copy.deepcopy(ParNetSF_nominal[0]))
