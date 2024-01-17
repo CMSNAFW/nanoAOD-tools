@@ -368,7 +368,8 @@ def getNewBDT_SF(sample, top_region, lepton, top_truth=0):
   if "2016" in sample:
     year = "2016"
   #path = "SF_" + year + "v6.json"
-  path = "SF_" + year + "v2_PNM.json"
+  path = "SF_"+year+"ORv0.json"
+  #path = "SF_" + year + "v2_PNM.json"
 
   with open(path,"r") as json_file:
     BDT_SFs = json.load(json_file)
@@ -413,7 +414,9 @@ def getNewPN_SF(sample, AK8_region, MC_Truth):
   if "2016" in sample:
     year = "2016"
   #path = "SF_" + year + "v6.json"
-  path = "SF_" + year + "v2_PNM.json"
+  #path = "SF_" + year + "v2_PNM.json"
+  path = "SF_"+year+"ORv0.json"
+
   with open(path,"r") as json_file:
     PN_SFs = json.load(json_file)
 
@@ -475,6 +478,58 @@ def getPN_SF(sample, MC_Truth):
       elif MC_Truth == 201 : key = key+"1b2q"
       else: key = key+"fake"
   return PN_SFs[key]
+
+def getReco_SF(sample, eta):
+  
+  bins =[0.,0.9,1.2,2.1,2.4]
+
+  if "2016pre" in sample:
+    val = [0.99982297,1.0001594,0.99989361,0.99902689]
+    stat = [0.00015388021,0.00019861903,0.00012188590,0.00027638903]
+    syst = [0.00035408974,0.00031024592,0.00021277120,0.0019462360]
+
+
+  if "2016post" in sample:
+    val = [1.0000407,0.99979591,0.99949282,0.99907285]
+    stat = [0.00010260292,0.00019912838,0.00012513847,0.00027544747]
+    syst = [0.0014366928,0.0010917857,0.0014814654,0.0017364779]
+
+  if "2017" in sample:
+    val = [0.99967426,0.99978137,0.99946749,0.99935663]
+    stat = [7.6501914e-05,0.00014496239,7.7395108e-05,0.00022835791]
+    syst = [0.00065148744,0.00043727959,0.0010650515,0.0011810962]
+
+  if "2018" in sample:
+    val = [0.99980879,0.99975473,0.99958426,0.99903417]
+    stat = [6.4988458e-05,0.00011054080,7.5744440e-05,0.00019911479]
+    syst = [0.00038239874,0.00052211242,0.00083144163,0.0017237408]
+
+  for i in range(4):
+    if (eta > bins[i]) and (eta < bins[i+1]):
+      return [val[i],stat[i],syst[i]]
+    
+
+def getIsoSF_muon(sample,year,lepPt,lepEta):
+    year = str(year)[2:]
+    if year == "16":
+      if "pre" in sample: year=year+"preVFP"
+      else: year = year + "postVFP"
+    
+    lep_path = "/afs/cern.ch/user/f/fcarneva/CMSSW_10_6_30/src/PhysicsTools/NanoAODTools/python/postprocessing/data/leptonSF/Mu_20"+year+"_ISO.root"
+    lepFile = ROOT.TFile.Open(lep_path)
+
+    SF_stat = lepFile.Get("NUM_TightRelIso_DEN_TightIDandIPCut_abseta_pt_stat")
+    SF_syst = lepFile.Get("NUM_TightRelIso_DEN_TightIDandIPCut_abseta_pt_syst")
+    
+    lep_binx = max(1, min(SF_stat.GetNbinsX(),SF_stat.GetXaxis().FindBin(abs(lepEta))))
+    lep_biny = max(1, min(SF_stat.GetNbinsY(),SF_stat.GetYaxis().FindBin(lepPt)))
+
+    SF = SF_stat.GetBinContent(lep_binx,lep_biny)
+    err_stat = SF_stat.GetBinError(lep_binx,lep_biny)
+    err_syst = SF_syst.GetBinError(lep_binx,lep_biny)
+
+    return [SF, err_stat, err_syst]
+
 
 def getTrig_SF(sample, year, lepId, lepPt, lepEta,fatjet_M, fatjet_pt, top_region, path= "/eos/home-f/fcarneva/Tprime/nosynch/Trigger_v2/"):
   year = str(year)[2:]
@@ -555,7 +610,7 @@ def getTrig_SF(sample, year, lepId, lepPt, lepEta,fatjet_M, fatjet_pt, top_regio
 
 
   w = (effData_lep+effData_jet-effData_jet*effData_lep)/(effMC_lep+effMC_jet-effMC_jet*effMC_lep)
-
+  #if(w==1): print(str(effData_lep)+" "+str(effData_jet)+" "+str(effMC_lep)+" "+str(effMC_jet))
 
   w_err = math.sqrt(((1-effData_jet)/(effMC_lep+effMC_jet-effMC_jet*effMC_lep)*effData_lep_err)**2 + ((1-effData_lep)/(effMC_lep+effMC_jet-effMC_jet*effMC_lep)*effData_jet_err)**2 + (w*(1-effMC_jet)/(effMC_lep+effMC_jet-effMC_jet*effMC_lep)*effMC_lep_err)**2 + (w*(1-effMC_lep)/(effMC_lep+effMC_jet-effMC_jet*effMC_lep)*effMC_jet_err)**2)
 
@@ -1531,9 +1586,9 @@ class systWeights(object):
 
         if addDefault:
             self.weightedNames[0] = "w_nominal"
-            self.weightedNames[1] = "lepSF"
-            self.weightedNames[2] = "lepUp"
-            self.weightedNames[3] = "lepDown"
+            self.weightedNames[1] = "muStatSF"
+            self.weightedNames[2] = "muStatUp"
+            self.weightedNames[3] = "muStatDown"
             self.weightedNames[4] = "puSF"
             self.weightedNames[5] = "puUp"
             self.weightedNames[6] = "puDown"
@@ -1548,9 +1603,9 @@ class systWeights(object):
             self.weightedNames[15] = "btagDown"
             self.weightedNames[16] = "mistagUp"
             self.weightedNames[17] = "mistagDown"
-            self.weightedNames[18] = "trigSF"
-            self.weightedNames[19] = "trigUp"
-            self.weightedNames[20] = "trigDown"
+            self.weightedNames[18] = "mutrigSF"
+            self.weightedNames[19] = "mutrigUp"
+            self.weightedNames[20] = "mutrigDown"
             self.weightedNames[21] = "pdf_totalUp"
             self.weightedNames[22] = "pdf_totalDown"
             self.weightedNames[23] = "ParNetSF"
@@ -1562,8 +1617,33 @@ class systWeights(object):
             self.weightedNames[29] = "BDTSF"
             self.weightedNames[30] = "BDTUp"
             self.weightedNames[31] = "BDTDown"
-            self.weightedNames[32] = "w_Dcount"
-            #self.weightedNames[33] = "btagSF"
+            self.weightedNames[32] = "w_Dcount"     
+            
+            self.weightedNames[33] ="muRECOSystSF"
+            self.weightedNames[34] ="muRECOSystUp"
+            self.weightedNames[35] ="muRECOSystDown"
+            self.weightedNames[36] ="muIDSystSF"
+            self.weightedNames[37] ="muIDSystUp"
+            self.weightedNames[38] ="muIDSystDown"
+            self.weightedNames[39] ="muISOSystSF"
+            self.weightedNames[40] ="muISOSystUp"
+            self.weightedNames[41] ="muISOSystDown"
+            self.weightedNames[42] ="elStatSF"
+            self.weightedNames[43] ="elStatUp"
+            self.weightedNames[44] ="elStatDown"
+            self.weightedNames[45] ="elRECOSystSF"
+            self.weightedNames[46] ="elRECOSystUp"
+            self.weightedNames[47] ="elRECOSystDown"
+            self.weightedNames[48] ="elIDSystSF"
+            self.weightedNames[49] ="elIDSystUp"
+            self.weightedNames[50] ="elIDSystDown"
+            self.weightedNames[51] ="elISOSystSF"
+            self.weightedNames[52] ="elISOSystUp"
+            self.weightedNames[53] ="elISOSystDown"
+            self.weightedNames[54] ="eltrigSF"
+            self.weightedNames[55] ="eltrigUp"
+            self.weightedNames[56] ="eltrigDown"
+            
             '''
             self.weightedNames[13] = "btagShape"
             self.weightedNames[14] = "btagShapeUpCferr1"
@@ -1590,8 +1670,8 @@ class systWeights(object):
             #self.weightedNames[11] = "trigUp"
             #self.weightedNames[12] = "trigDown"
             '''
-            self.setMax(33)
-            self.setMaxNonPDF(33)
+            self.setMax(57)
+            self.setMaxNonPDF(57)
             self.weightedNames[self.maxSysts] = ""
 
         if addQ2: 

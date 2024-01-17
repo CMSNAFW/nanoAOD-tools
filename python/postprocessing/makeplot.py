@@ -59,7 +59,7 @@ def mergepart(dataset):
           #print "Number of entries of the file %s are %s" %(filerepo + sample.label + "/"  + sample.label + "_merged.root", (check.Get("events_all")).GetEntries())
 
 def update_weight(year, syst, tag, lep):
-     f = open("SF_"+str(year)+"v2_PNM.json","r")
+     f = open("SF_"+str(year)+"ORv0.json","r")
      SFs = json.loads(f.read())
      if lep == "muon":
           lep_tag = "m"
@@ -337,10 +337,16 @@ def plot(lep, reg, variable, sample, cut_tag, syst, f1, fout):
                ###foutput = plotrepo + "plot/" + lep + "/" + sample.label + "_" + lep + "_" + syst + ".root"
                if syst.endswith("Up"): normSF = syst.split("Up")[0]
                else:  normSF = syst.split("Down")[0]
-               if (not "alpha"in syst) and (not "beta" in syst): cut += '*'+syst+"/"+normSF+"SF"
+               if (not "alpha"in syst) and (not "beta" in syst): cut += '*abs('+syst+")/"+normSF+"SF"
      #print treename
-     if not "Data" in sample.label: cut = cut +"*"+str(update_weight(sample.year,syst,cut_tag,lep))
-     print(str(update_weight(sample.year,syst,cut_tag,lep)))
+     if (not "Data" in sample.label) and ("BDT" in cut): 
+          cut = cut +"*"+str(update_weight(sample.year,syst,cut_tag,lep))
+          print("Added alpha and Beta")
+     else:
+          print("NOt Added alpha and beta")
+     #print(str(update_weight(sample.year,syst,cut_tag,lep)))
+     #print("Check No alpha or beta params")
+     #print("Check you are using alpha and beta")
      if not ("top_region_nominal==-1" in cut):
           if "muon" in lep:
                f1.Get(treename).Project(histoname,variable._name,cut+"*(abs(Top_flavour_nominal)=="+str(lep_flav)+" && Lep_pt_nominal>30)")
@@ -790,7 +796,7 @@ def fitplot(lep,variable, year,cut, syst,f1):
                foutput = plotrepo + "plot/" + lep + "/" +  sample.label[:2] + string_name+"_"+year+"_" + lep + "_" + syst + ".root"
                if syst.endswith("Up"): normSF = syst.split("Up")[0]
                else:  normSF = syst.split("Down")[0]
-               cut += '*'+syst+"/"+normSF+"SF"
+               cut += '*abs('+syst+")/"+normSF+"SF"
      #f1.Get(treename).Project(histoname,variable._name,cut+"*(abs(Top_flavour_nominal)=="+str(lep_flav)+")")
      print(foutput +" \n")
      if not ("top_region_nominal==-1" in cut):
@@ -893,7 +899,10 @@ if opt.syst!="all" and opt.syst!="noSyst":
 elif opt.syst!="all" and opt.syst=="noSyst":
     systematics.append("") #di default per syst="" alla variabile si applica il peso standard incluso nella macro macro_plot.C
 else:
-     systematics = ["", "jesUp",  "jesDown",  "jerUp",  "jerDown", "w_ptUp","w_ptDown","PFUp", "PFDown", "puUp", "puDown","lepUp", "lepDown", "trigUp", "trigDown","BDTUp","BDTDown","ParNetUp","ParNetDown","alphaUp","alphaDown","betaUp","betaDown"]#, "btagUp", "btagDown", "mistagUp", "mistagDown", "lepUp", "lepDown", "trigUp", "trigDown", "pdf_totalUp", "pdf_totalDown", "q2Up", "q2Down"]
+     #systematics = ["", "jesUp",  "jesDown",  "jerUp",  "jerDown", "w_ptUp","w_ptDown","PFUp", "PFDown", "puUp", "puDown","lepUp", "lepDown", "trigUp", "trigDown","BDTUp","BDTDown","ParNetUp","ParNetDown","alphaUp","alphaDown","betaUp","betaDown"]#, "btagUp", "btagDown", "mistagUp", "mistagDown", "lepUp", "lepDown", "trigUp", "trigDown", "pdf_totalUp", "pdf_totalDown", "q2Up", "q2Down"]
+     #systematics = ["", "jesUp",  "jesDown",  "jerUp",  "jerDown", "w_ptUp","w_ptDown","PFUp", "PFDown", "puUp", "puDown","muStatUp","muStatDown","muRECOSystUp","muRECOSystDown","muIDSystUp","muIDSystDown","muISOSystUp","muISOSystDown","mutrigUp","mutrigDown","elStatUp","elStatDown","elRECOSystUp","elRECOSystDown","elIDSystUp","elIDSystDown","eltrigUp","elISOSystUp","elISOSystDown","eltrigDown","BDTUp","BDTDown","ParNetUp","ParNetDown","alphaUp","alphaDown","betaUp","betaDown"]
+     systematics = ["", "jesUp",  "jesDown",  "jerUp",  "jerDown", "w_ptUp","w_ptDown","PFUp", "PFDown", "puUp", "puDown","muStatUp","muStatDown","muRECOSystUp","muRECOSystDown","muIDSystUp","muIDSystDown","muISOSystUp","muISOSystDown","mutrigUp","mutrigDown","elStatUp","elStatDown","elRECOSystUp","elRECOSystDown","elIDSystUp","elIDSystDown","eltrigUp","elISOSystUp","elISOSystDown","eltrigDown"]
+     #systematics = ["muStatDown","muRECOSystDown","muIDSystDown","muISOSystDown","elStatDown","elRECOSystDown","elIDSystDown","elISOSystDown"]
 
 for year in years:
      for sample in dataset_dict[year]:
@@ -911,14 +920,15 @@ for year in years:
      for lep in leptons:
           dataset_new = dataset_dict[year]
           variables = []
-          wzero = 'w_nominal*PFSF*puSF*w_ptSF*lepSF*trigSF*btagSF*BDTSF*ParNetSF'               
+          #wzero = 'w_nominal*PFSF*puSF*w_ptSF*lepSF*trigSF*btagSF*BDTSF*ParNetSF'               
           #wzero = 'w_nominal*PFSF*puSF*w_ptSF*lepSF*trigSF*btagSF'
-          
+          #wzero = 'w_nominal*PFSF*puSF*w_ptSF*btagSF*muStatSF*mutrigSF*muRECOSystSF*muIDSystSF*muISOSystSF*elStatSF*elRECOSystSF*elIDSystSF*elISOSystSF*eltrigSF*BDTSF*ParNetSF'
+          wzero = 'w_nominal*PFSF*puSF*w_ptSF*btagSF*muStatSF*mutrigSF*muRECOSystSF*muIDSystSF*muISOSystSF*elStatSF*elRECOSystSF*elIDSystSF*elISOSystSF*eltrigSF'
           #wzero = 'w_nominal*PFSF*puSF*w_ptSF*btagSF'
           if year =="2017": 
                wzero=wzero+"*(FatJet_pt_nominal[0]>500)"
                print(wzero)
-          print("No BDT and PN SF!!! Check btagSF and change w_pt to w_ptSF!!!")
+          print("Check!! The are NOT!!! BDT and PN SF!!")
           cut = cut_dict[lep]
           cut_tag_coll=[]
           #dR_jet_AK8_nominal
@@ -953,7 +963,7 @@ for year in years:
           ###variables.append(variabile('Top_TvsOth_nominal','Best Top ScoreVsOth',wzero+'*('+cut+')',  80, 0.8, 1))
           
           #variables.append(variabile('FatJet_M_nominal','FatJet M',wzero+'*('+cut+')',  20, 0, 400))
-          ###variables.append(variabile('FatJet_partM_nominal','FatJet M',wzero+'*('+cut+')',  20, 0, 400))
+          variables.append(variabile('FatJet_partM_nominal','FatJet M',wzero+'*('+cut+')',  20, 0, 400))
           #variables.append(variabile('FatJet_partM_nominal','FatJet M',wzero+'*('+cut+')',  80, 0, 400))
           #variables.append(variabile('FatJet_M_nominal','FatJet M new',wzero+'*('+cut+')',  80, 0, 400))
           
@@ -966,7 +976,7 @@ for year in years:
          
           #variables.append(variabile('TightMu_pt_nominal','TightMu p_{T}',wzero+'*('+cut+')',  20, 35, 535))
           #variables.append(variabile('TightEl_pt_nominal','TightEl p_{T}',wzero+'*('+cut+')',  20, 35, 535))
-          ###variables.append(variabile('TightEl_pt_nominal+TightMu_pt_nominal','TightLep p_{T}',wzero+'*('+cut+')',  20, 35, 635))
+          variables.append(variabile('TightEl_pt_nominal+TightMu_pt_nominal','TightLep p_{T}',wzero+'*('+cut+')',  20, 35, 635))
           ###variables.append(variabile('TightEl_phi_nominal+TightMu_phi_nominal','TightLep Phi',wzero+'*('+cut+')',  20, -3.14, 3.14))
           ###variables.append(variabile('TightEl_eta_nominal+TightMu_eta_nominal','TightLep Eta',wzero+'*('+cut+')',  20, -3, 3))
           """
@@ -988,9 +998,9 @@ for year in years:
           variables.append(variabile('TightEl_Iso_nominal','TightEl Iso',wzero+'*('+cut+')',  50, 0, 2))                                                                                       
           variables.append(variabile('TightEl_MiniIso_nominal','TightEl MiniIso',wzero+'*('+cut+')',  50, 0, 2))
           """
-          variables.append(variabile('Jet_pt_nominal','Jet p_{T}',wzero+'*('+cut+')',  100, 25, 925))
+          #variables.append(variabile('Jet_pt_nominal','Jet p_{T}',wzero+'*('+cut+')',  100, 25, 925))
           #variables.append(variabile('Jet_M_nominal','Jet M',wzero+'*('+cut+')',  20, 25, 925))
-          #variables.append(variabile('Jet_btag_nominal','Jet b-tag',wzero+'*('+cut+')',  20, 0, 1))
+          variables.append(variabile('Jet_btag_nominal','Jet b-tag',wzero+'*('+cut+')',  20, 0, 1))
           #variables.append(variabile('Lep_dxy_nominal','Lep dxy',wzero+'*('+cut+')',  40, -2, 2))
           #variables.append(variabile('Lep_dxyerr_nominal','Lep dxy err',wzero+'*('+cut+')',  50, 0, 2))
           #variables.append(variabile('Lep_dz_nominal','Lep dz',wzero+'*('+cut+')',  40, -2, 2))

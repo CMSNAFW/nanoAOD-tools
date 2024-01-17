@@ -45,14 +45,24 @@ def sub_writer(sample, n, files, folder, training, train_files):
     f.write("output                  = condor/output/"+ sample.label + "_part" + str(n) + ".out\n")
     f.write("error                   = condor/error/"+ sample.label + "_part" + str(n) + ".err\n")
     f.write("log                     = condor/log/"+ sample.label + "_part" + str(n) + ".log\n")
-    f.write('requirements = (TARGET.OpSysAndVer =?= "CentOS7") \n')
+    #f.write('requirements = (TARGET.OpSysAndVer =?= "CentOS7") \n')
+    f.write('MY.WantOS               = "el7" \n')
     f.write("queue\n")
 
 def runner_writer(sample, n, files, folder, training):
     f = open("runner_"+sample.label+"_"+str(n)+".sh", "w")
     f.write("#!/bin/bash \n")
+    """
     f.write("cd " + str(os.getcwd()) + "\n")
     f.write("eval `scramv1 runtime -sh` \n")
+    """
+    f.write("export SCRAM_ARCH=slc7_amd64_gcc700 \n")
+    f.write("cd /afs/cern.ch/user/" + inituser + "/" + username + "/ \n")
+    f.write("source /cvmfs/cms.cern.ch/cmsset_default.sh \n")
+    ver = str(os.getcwd()).split("CMSSW")[1].split("/src")[0]
+    f.write("cd CMSSW"+ver+"/src \n")
+    f.write("eval `scramv1 runtime -sh` \n")
+    f.write("cd PhysicsTools/NanoAODTools/python/postprocessing \n")
     f.write("python tree_skimmer_Tprime_final.py " + sample.label + " " + str(n) + " " + str(files) + " " + str(folder)+" "+str(training)+"\n")
     f.write("rm runner_"+sample.label+"_"+str(n)+".sh")
 
@@ -112,6 +122,10 @@ for sample in samples:
             #os.popen("python tree_skimmer.py " " + sample.label + " " + str(i) + " " + str(files))
             print("python tree_skimmer.py " + sample.label + " " + str(i) + " " + str(files) + " " + str(final_folder)+" "+str(training))
     else:
+        #if sample.runP == 'B' and sample.year == 2016:
+        #    split=1
+        #else: 
+        #    split=100
         for i in range(len(files_list)/split+1):
             files_selected=",".join( e for e in files_list[split*i:split*(i+1)])
             runner_writer(sample, i, files_selected, final_folder,training)

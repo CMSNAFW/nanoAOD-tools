@@ -18,7 +18,7 @@ import math
 import datetime
 import copy
 from array import array
-from skimtree_utils import *
+from skimtree_utils_final import *
 from tools import *
 print("ok \n")
 import xgboost as xgb
@@ -58,7 +58,7 @@ print("Number of events in tree from chain " + str((chain.GetTree()).GetEntries(
 tree = InputTree(chain)
 isMC = True
 scenarios = ["nominal", "jesUp", "jesDown", "jerUp", "jerDown"] 
-print("Warning only nominal!!")
+#print("Warning only nominal!!")
 if ('Data' in sample.label):
     isMC = False
     scenarios = ["nominal"]
@@ -103,12 +103,47 @@ systTree.setWeightName("LHEDown", 1.)
 systTree.setWeightName("puSF",1.)
 systTree.setWeightName("puUp",1.)
 systTree.setWeightName("puDown",1.)
-systTree.setWeightName("lepSF",1.)
-systTree.setWeightName("lepUp",1.)
-systTree.setWeightName("lepDown",1.)
-systTree.setWeightName("trigSF",1.)
-systTree.setWeightName("trigUp",1.)
-systTree.setWeightName("trigDown",1.)
+
+systTree.setWeightName("muStatSF",1.)
+systTree.setWeightName("muStatUp",1.)
+systTree.setWeightName("muStatDown",1.)
+
+systTree.setWeightName("muRECOSystSF",1.)
+systTree.setWeightName("muRECOSystUp",1.)
+systTree.setWeightName("muRECOSystDown",1.)
+
+systTree.setWeightName("muIDSystSF",1.)
+systTree.setWeightName("muIDSystUp",1.)
+systTree.setWeightName("muIDSystDown",1.)
+
+systTree.setWeightName("muISOSystSF",1.)
+systTree.setWeightName("muISOSystUp",1.)
+systTree.setWeightName("muISOSystDown",1.)
+
+systTree.setWeightName("elStatSF",1.)
+systTree.setWeightName("elStatUp",1.)
+systTree.setWeightName("elStatDown",1.)
+
+systTree.setWeightName("elRECOSystSF",1.)
+systTree.setWeightName("elRECOSystUp",1.)
+systTree.setWeightName("elRECOSystDown",1.)
+
+systTree.setWeightName("elIDSystSF",1.)
+systTree.setWeightName("elIDSystUp",1.)
+systTree.setWeightName("elIDSystDown",1.)
+
+systTree.setWeightName("elISOSystSF",1.)
+systTree.setWeightName("elISOSystUp",1.)
+systTree.setWeightName("elISOSystDown",1.)
+
+systTree.setWeightName("eltrigSF",1.)
+systTree.setWeightName("eltrigUp",1.)
+systTree.setWeightName("eltrigDown",1.)
+
+systTree.setWeightName("mutrigSF",1.)
+systTree.setWeightName("mutrigUp",1.)
+systTree.setWeightName("mutrigDown",1.)
+
 systTree.setWeightName("PFSF",1.)
 systTree.setWeightName("PFUp",1.)
 systTree.setWeightName("PFDown",1.)
@@ -147,12 +182,29 @@ def reco(scenario, isMC, addPDF, training):
     ParNetUp_nominal = array.array('f',[1.])
     ParNetDown_nominal = array.array('f',[1.])
 
-    lepSF_nominal = array.array('f',[1.])
-    lepUp_nominal = array.array('f',[1.])
-    lepDown_nominal = array.array('f',[1.])
+
+    lepStatSF_nominal = array.array('f',[1.])
+    lepStatUp_nominal = array.array('f',[1.])
+    lepStatDown_nominal = array.array('f',[1.])
+    
+    lepRECOSystSF_nominal = array.array('f',[1.])
+    lepRECOSystUp_nominal = array.array('f',[1.])
+    lepRECOSystDown_nominal = array.array('f',[1.])
+    
+    
+    lepIDSystSF_nominal = array.array('f',[1.])
+    lepIDSystUp_nominal = array.array('f',[1.])
+    lepIDSystDown_nominal = array.array('f',[1.])
+    
+    lepISOSystSF_nominal = array.array('f',[1.])
+    lepISOSystUp_nominal = array.array('f',[1.])
+    lepISOSystDown_nominal = array.array('f',[1.])
+
+
     trigSF_nominal = array.array('f',[1.])
     trigUp_nominal = array.array('f',[1.])
     trigDown_nominal = array.array('f',[1.])
+
 
     w_PDF_nominal = array.array('f',[0.])
     btagSF_nominal = array.array('f',[1.])
@@ -499,8 +551,10 @@ def reco(scenario, isMC, addPDF, training):
 
         
 
-    #print(tree.GetEntries())
+    #print("Check!! Only 100 Entries!!")
     for i in range(tree.GetEntries()):
+    #for i in range(1000):
+        
         AK8_region_nominal[0]=0        
         top_region_nominal[0]=0        
         Fwd_region_nominal[0]=0        
@@ -636,14 +690,25 @@ def reco(scenario, isMC, addPDF, training):
         ParNetUp_nominal[0]=1.
         ParNetDown_nominal[0]=1.
 
-        lepSF_nominal[0]=1.
-        lepUp_nominal[0]=1.
-        lepDown_nominal[0]=1.
+        lepStatSF_nominal[0]=1.
+        lepStatUp_nominal[0]=1.
+        lepStatDown_nominal[0]=1.
+        
+        lepRECOSystSF_nominal[0]=1.
+        lepRECOSystUp_nominal[0]=1.
+        lepRECOSystDown_nominal[0]=1.
+        
+        lepIDSystSF_nominal[0]=1.
+        lepIDSystUp_nominal[0]=1.
+        lepIDSystDown_nominal[0]=1.
+    
+        lepISOSystSF_nominal[0]=1.
+        lepISOSystUp_nominal[0]=1.
+        lepISOSystDown_nominal[0]=1.
 
         trigSF_nominal[0]=1.
         trigUp_nominal[0]=1.
         trigDown_nominal[0]=1.
-
 
         FatJet_is25Cut10_nominal[0]=0
         FatJet_is37Cut10_nominal[0]=0
@@ -722,6 +787,7 @@ def reco(scenario, isMC, addPDF, training):
         h_cutFlow.Fill("HLT_PresEvents",1)
         HLT = Object(event,"HLT")
 
+        """
         if sample.year== 2016:
             HLT_Muon_nominal[0] = HLT.Mu50 or HLT.IsoMu24
             HLT_PFJet_nominal[0] = HLT.AK8PFJet360_TrimMass30
@@ -737,7 +803,36 @@ def reco(scenario, isMC, addPDF, training):
             HLT_PFJet_nominal[0] = HLT.AK8PFJet400_TrimMass30
             HLT_Electron_nominal[0] = HLT.Ele32_WPTight_Gsf
             HLT_Photon_nominal[0] = HLT.Photon200
+        """
+        chain.GetEntry(i)
 
+        if sample.year== 2016:
+            try:
+                HLT_Muon_nominal[0] = (HLT.IsoTkMu24!=0) or (HLT.Mu50!=0) or (HLT.IsoMu24!=0) or (int(chain.HLT_TkMu50)!=0)
+            except:
+                HLT_Muon_nominal[0] = (HLT.IsoTkMu24!=0) or (HLT.Mu50!=0) or (HLT.IsoMu24!=0)
+            HLT_PFJet_nominal[0] = HLT.AK8PFJet360_TrimMass30
+            HLT_Electron_nominal[0] = HLT.Ele27_WPTight_Gsf
+            HLT_Photon_nominal[0] = HLT.Photon175
+            if not (HLT.IsoTkMu24 or HLT.Mu50 or HLT.IsoMu24 or HLT.AK8PFJet360_TrimMass30 or HLT.Ele27_WPTight_Gsf or HLT.Photon175) and (HLT.TkMu50) and (isMC):
+                w_nominal_nominal[0] *= (33.64/36.47)
+
+        if sample.year== 2017:
+            try:
+                HLT_Muon_nominal[0] = HLT.Mu50 or HLT.IsoMu27 or  HLT.OldMu100 or HLT.TkMu100
+            except:
+                HLT_Muon_nominal[0] = HLT.Mu50 or HLT.IsoMu27
+
+            HLT_PFJet_nominal[0] = HLT.AK8PFJet500
+            HLT_Electron_nominal[0] = int(chain.HLT_Ele32_WPTight_Gsf)
+            HLT_Photon_nominal[0] = HLT.Photon200
+            if not (HLT.Mu50 or HLT.IsoMu27 or HLT.AK8PFJet500 or HLT.Ele32_WPTight_Gsf or HLT.Photon200) and (HLT.OldMu100 or HLT.TkMu100) and (isMC):
+                w_nominal_nominal[0] *= (36.75/41.54)
+        if sample.year== 2018:
+            HLT_Muon_nominal[0] =  HLT.Mu50 or HLT.IsoMu24 or HLT.OldMu100 or HLT.TkMu100
+            HLT_PFJet_nominal[0] = HLT.AK8PFJet400_TrimMass30
+            HLT_Electron_nominal[0] = HLT.Ele32_WPTight_Gsf
+            HLT_Photon_nominal[0] = HLT.Photon200
 
         if(isMC):
             doublecounting = False
@@ -798,7 +893,7 @@ def reco(scenario, isMC, addPDF, training):
         if i%100 == 0:
             print("Processed ", i+1, " out of ", tree.GetEntries(), " events")
 
-        chain.GetEntry(i) #this is needed for branches that are not compatible with the NANOAOD convention (e.g. )
+        #chain.GetEntry(i) #this is needed for branches that are not compatible with the NANOAOD convention (e.g. )
         #print("Don't forget to change msdoftdrop from new JEC correction, _nom, ecc")
         
         if scenario == 'jesUp':
@@ -916,7 +1011,7 @@ def reco(scenario, isMC, addPDF, training):
                 systTree.setWeightName("LHEDown", copy.deepcopy(lheDown))
 
         tightMu = list(filter(lambda x : x.tightId and x.pt>30 and x.pfRelIso04_all<0.15 and abs(x.eta)<2.4,muon))
-        tightEle = list(filter(lambda x : x.mvaFall17V2Iso_WP80 and x.pt>30 and abs(x.eta)<2.5, electron))
+        tightEle = list(filter(lambda x : x.mvaFall17V2Iso_WP80 and x.pt>30 and (abs(x.eta)<1.444 or (abs(x.eta)>1.566 and abs(x.eta)<2.5)), electron))
 
         if(len(tightEle)>0):
             TightEl_dxy_nominal [0] = tightEle[0].dxy 
@@ -961,7 +1056,9 @@ def reco(scenario, isMC, addPDF, training):
                 good_top = list(filter(lambda x: 
                                                 (x.nu_pt>= train.pt_cut[0]) and (x.nu_pt<train.pt_cut[1])
                                                 and (x.Is_dR_merg == train.category)
-                                                and (x.el_index != -1) and abs(electron[int(x.el_index)].eta)<2.5
+                                                and (x.el_index != -1) and (abs(electron[int(x.el_index)].eta)<1.444 or (abs(electron[int(x.el_index)].eta)>1.566 and abs(electron[int(x.el_index)].eta)<2.5))
+                                                and abs(jets[int(x.bjet_index)].eta)<2.4 and ((jets[int(x.bjet_index)].jetId==2 or jets[int(x.bjet_index)].jetId==6) or (jets[int(x.bjet_index)].jetId==3 or jets[int(x.bjet_index)].jetId==7)) and (jets[int(x.bjet_index)].pt>50 or jets[int(x.bjet_index)].puId==True)
+                                                and electron[int(x.el_index)].pt>35
                                                 ,tops))
                 is_el=True
             else:
@@ -969,6 +1066,8 @@ def reco(scenario, isMC, addPDF, training):
                                                 (x.nu_pt>= train.pt_cut[0]) and (x.nu_pt<train.pt_cut[1])
                                                 and (x.Is_dR_merg == train.category)
                                                 and (x.mu_index != -1) and abs(muon[int(x.mu_index)].eta)<2.4
+                                                and abs(jets[int(x.bjet_index)].eta)<2.4 and ((jets[int(x.bjet_index)].jetId==2 or jets[int(x.bjet_index)].jetId==6) or (jets[int(x.bjet_index)].jetId==3 or jets[int(x.bjet_index)].jetId==7)) and (jets[int(x.bjet_index)].pt>50 or jets[int(x.bjet_index)].puId==True)
+                                                and muon[int(x.mu_index)].pt>30
                                                 ,tops))
                 is_el=False
 
@@ -1072,9 +1171,23 @@ def reco(scenario, isMC, addPDF, training):
                 Lep_M_nominal [0] = electron[int(lista[0].el_index)].mass 
                 Lep_Id_nominal [0] = electron[int(lista[0].el_index)].cutBased
                 if(isMC):
-                    lepSF_nominal[0] = electron[int(lista[0].el_index)].LooseeffSF
-                    lepUp_nominal[0] = electron[int(lista[0].el_index)].LooseeffSF_Up
-                    lepDown_nominal[0] = electron[int(lista[0].el_index)].LooseeffSF_Down
+                    lepStatSF_nominal[0] = 1.
+                    lepStatUp_nominal[0] = 1.
+                    lepStatDown_nominal[0] =1.
+
+                    lepRECOSystSF_nominal[0] = electron[int(lista[0].el_index)].RECOeffSF
+                    lepRECOSystUp_nominal[0] = electron[int(lista[0].el_index)].RECOeffSF_Up
+                    lepRECOSystDown_nominal[0] = electron[int(lista[0].el_index)].RECOeffSF_Down
+
+                    lepIDSystSF_nominal[0] = electron[int(lista[0].el_index)].LooseeffSF
+                    lepIDSystUp_nominal[0] = electron[int(lista[0].el_index)].LooseeffSF_Up
+                    lepIDSystDown_nominal[0] = electron[int(lista[0].el_index)].LooseeffSF_Down
+
+                    lepISOSystSF_nominal[0] = 1.
+                    lepISOSystUp_nominal[0] = 1.
+                    lepISOSystDown_nominal[0] =1.
+                    
+                    
             else: 
                 Top_flavour_nominal[0] = 13
                 prompt_el = True
@@ -1091,9 +1204,29 @@ def reco(scenario, isMC, addPDF, training):
                 Lep_phi_nominal [0] = muon[int(lista[0].mu_index)].phi 
                 Lep_M_nominal [0] = muon[int(lista[0].mu_index)].mass
                 if(isMC):
-                    lepSF_nominal[0] = muon[int(lista[0].mu_index)].LooseeffSF
-                    lepUp_nominal[0] = muon[int(lista[0].mu_index)].LooseeffSF_Up
-                    lepDown_nominal[0] = muon[int(lista[0].mu_index)].LooseeffSF_Down
+                    
+                    reco, reco_stat, reco_syst = getReco_SF(sample.label,  abs(muon[int(lista[0].mu_index)].eta))
+
+                    #sigma = math.sqrt((muon[int(lista[0].mu_index)].RECOeffSF_Up-muon[int(lista[0].mu_index)].RECOeffSF)**2 + (muon[int(lista[0].mu_index)].LooseeffSF_Up-muon[int(lista[0].mu_index)].LooseeffSF)**2)
+
+                    sigma = math.sqrt((reco_stat)**2 + (muon[int(lista[0].mu_index)].LooseeffSF_Up-muon[int(lista[0].mu_index)].LooseeffSF)**2)
+
+                    lepStatSF_nominal[0] = 1.
+                    lepStatUp_nominal[0] = 1+sigma  
+                    lepStatDown_nominal[0] = 1-sigma
+
+                    lepRECOSystSF_nominal[0] = reco
+                    lepRECOSystUp_nominal[0] = reco+reco_syst
+                    lepRECOSystDown_nominal[0] = reco-reco_syst
+
+                    lepIDSystSF_nominal[0] = muon[int(lista[0].mu_index)].LooseeffSF
+                    lepIDSystUp_nominal[0] = muon[int(lista[0].mu_index)].LooseeffSF_SystUp
+                    lepIDSystDown_nominal[0] = muon[int(lista[0].mu_index)].LooseeffSF_SystDown
+
+                    lepISOSystSF_nominal[0] = 1.
+                    lepISOSystUp_nominal[0] = 1.
+                    lepISOSystDown_nominal[0] =1.
+                    
                 if muon[int(lista[0].mu_index)].looseId: Lep_Id_nominal [0] = 1+int(muon[int(lista[0].mu_index)].looseId)+int(muon[int(lista[0].mu_index)].mediumId)+int(muon[int(lista[0].mu_index)].tightId)
                 else: Lep_Id_nominal [0] = 0
             
@@ -1101,22 +1234,63 @@ def reco(scenario, isMC, addPDF, training):
         #print("len(tightEle) ",len(tightEle))
         #print("len(tightMu) ",len(tightMu))
         if(len(all_coll_wp90)>0): 
-            goodfatjets = list(filter(lambda x: deltaR(x.eta,x.phi,Top_eta_nominal[0],Top_phi_nominal[0])>1.2 and deltaR(x.eta,x.phi,Jet_eta_nominal[0],Jet_phi_nominal[0])>1.2 and deltaR(x.eta,x.phi,Lep_eta_nominal[0],Lep_phi_nominal[0])>0.8 and (weird_division(x.particleNetMD_Xbb,x.particleNetMD_Xbb+x.particleNetMD_QCD)>=0.8 or (x.msd_nom>=60 and x.msd_nom<=220)),fatjets))
+            goodfatjets = list(filter(lambda x: deltaR(x.eta,x.phi,Top_eta_nominal[0],Top_phi_nominal[0])>1.2 and deltaR(x.eta,x.phi,Jet_eta_nominal[0],Jet_phi_nominal[0])>1.2 and deltaR(x.eta,x.phi,Lep_eta_nominal[0],Lep_phi_nominal[0])>0.8 and (weird_division(x.particleNetMD_Xbb,x.particleNetMD_Xbb+x.particleNetMD_QCD)>=0.8 or (x.particleNet_mass>=60 and x.particleNet_mass<=220)) and abs(x.eta)<2.4 and ((x.jetId==2 or x.jetId==6) or (x.jetId==3 or x.jetId==7)),fatjets))
             if(isMC): btagSF_nominal[0] = btagSFProducer(Jet_pt_nominal[0], Jet_eta_nominal[0], jets[int(lista[0].bjet_index)].hadronFlavour , Jet_btag_nominal[0], sample.label)[0]
         elif(len(tightEle)>0 and len(tightMu)==0):
-            goodfatjets = list(filter(lambda x: (deltaR(x.eta,x.phi,TightEl_eta_nominal[0],TightEl_phi_nominal[0])>0.8) and (weird_division(x.particleNetMD_Xbb,x.particleNetMD_Xbb+x.particleNetMD_QCD)>=0.8 or (x.msd_nom>=60 and x.msd_nom<=220)),fatjets))
+            goodfatjets = list(filter(lambda x: (deltaR(x.eta,x.phi,TightEl_eta_nominal[0],TightEl_phi_nominal[0])>0.8) and (weird_division(x.particleNetMD_Xbb,x.particleNetMD_Xbb+x.particleNetMD_QCD)>=0.8 or (x.particleNet_mass>=60 and x.particleNet_mass<=220)) and abs(x.eta)<2.4 and ((x.jetId==2 or x.jetId==6) or (x.jetId==3 or x.jetId==7)),fatjets))
             top_region_nominal[0]=-1
             if(isMC):
-                lepSF_nominal[0] = electron[int(allelectrons.index(tightEle[0]))].TighteffSF
-                lepUp_nominal[0] = electron[int(allelectrons.index(tightEle[0]))].TighteffSF_Up
-                lepDown_nominal[0] = electron[int(allelectrons.index(tightEle[0]))].TighteffSF_Down
+                lepStatSF_nominal[0] = 1.
+                lepStatUp_nominal[0] = 1.
+                lepStatDown_nominal[0] =1.
+
+                lepRECOSystSF_nominal[0] = electron[int(allelectrons.index(tightEle[0]))].RECOeffSF
+                lepRECOSystUp_nominal[0] = electron[int(allelectrons.index(tightEle[0]))].RECOeffSF_Up
+                lepRECOSystDown_nominal[0] = electron[int(allelectrons.index(tightEle[0]))].RECOeffSF_Down
+
+                lepIDSystSF_nominal[0] = electron[int(allelectrons.index(tightEle[0]))].TighteffSF
+                lepIDSystUp_nominal[0] = electron[int(allelectrons.index(tightEle[0]))].TighteffSF_Up
+                lepIDSystDown_nominal[0] = electron[int(allelectrons.index(tightEle[0]))].TighteffSF_Down
+
+                lepISOSystSF_nominal[0] = 1.
+                lepISOSystUp_nominal[0] = 1.
+                lepISOSystDown_nominal[0] =1.
+
+
         elif(len(tightEle)==0 and len(tightMu)>0):
-            goodfatjets = list(filter(lambda x: (deltaR(x.eta,x.phi,TightMu_eta_nominal[0],TightMu_phi_nominal[0])>0.8)  and (weird_division(x.particleNetMD_Xbb,x.particleNetMD_Xbb+x.particleNetMD_QCD)>=0.8 or (x.msd_nom>=60 and x.msd_nom<=220)),fatjets))
+            goodfatjets = list(filter(lambda x: (deltaR(x.eta,x.phi,TightMu_eta_nominal[0],TightMu_phi_nominal[0])>0.8)  and (weird_division(x.particleNetMD_Xbb,x.particleNetMD_Xbb+x.particleNetMD_QCD)>=0.8 or (x.particleNet_mass>=60 and x.particleNet_mass<=220)) and abs(x.eta)<2.4 and ((x.jetId==2 or x.jetId==6) or (x.jetId==3 or x.jetId==7)),fatjets))
             top_region_nominal[0]=-1
             if(isMC):
-                lepSF_nominal[0] = muon[int(allmuons.index(tightMu[0]))].TighteffSF
-                lepUp_nominal[0] = muon[int(allmuons.index(tightMu[0]))].TighteffSF_Up
-                lepDown_nominal[0] = muon[int(allmuons.index(tightMu[0]))].TighteffSF_Down
+                reco, reco_stat, reco_syst = getReco_SF(sample.label,  abs(muon[int(allmuons.index(tightMu[0]))].eta))
+                iso, iso_stat, iso_syst = getIsoSF_muon(sample.label, sample.year ,muon[int(allmuons.index(tightMu[0]))].pt,abs(muon[int(allmuons.index(tightMu[0]))].eta))
+                #sigma = math.sqrt((muon[int(allmuons.index(tightMu[0]))].RECOeffSF_Up-muon[int(allmuons.index(tightMu[0]))].RECOeffSF)**2 + (muon[int(allmuons.index(tightMu[0]))].TighteffSF_Up-muon[int(allmuons.index(tightMu[0]))].TighteffSF)**2+(muon[int(allmuons.index(tightMu[0]))].IsoTighteffSF_Up-muon[int(allmuons.index(tightMu[0]))].IsoTighteffSF)**2)
+                sigma = math.sqrt((reco_stat)**2 + (muon[int(allmuons.index(tightMu[0]))].TighteffSF_Up-muon[int(allmuons.index(tightMu[0]))].TighteffSF)**2+(iso_stat)**2)
+
+                lepStatSF_nominal[0] = 1.
+                lepStatUp_nominal[0] = 1+sigma
+                lepStatDown_nominal[0] = 1-sigma
+
+                lepRECOSystSF_nominal[0] = reco
+                lepRECOSystUp_nominal[0] = reco+reco_syst
+                lepRECOSystDown_nominal[0] = reco-reco_syst
+
+                """
+                lepRECOSystSF_nominal[0] = muon[int(allmuons.index(tightMu[0]))].RECOeffSF
+                lepRECOSystUp_nominal[0] = muon[int(allmuons.index(tightMu[0]))].RECOeffSF_SystUp
+                lepRECOSystDown_nominal[0] = muon[int(allmuons.index(tightMu[0]))].RECOeffSF_SystDown
+                """
+                lepIDSystSF_nominal[0] = muon[int(allmuons.index(tightMu[0]))].TighteffSF
+                lepIDSystUp_nominal[0] = muon[int(allmuons.index(tightMu[0]))].TighteffSF_SystUp
+                lepIDSystDown_nominal[0] = muon[int(allmuons.index(tightMu[0]))].TighteffSF_SystDown
+
+                lepISOSystSF_nominal[0] = iso
+                lepISOSystUp_nominal[0] = iso + iso_syst
+                lepISOSystDown_nominal[0] = iso - iso_syst
+                """
+                lepISOSystSF_nominal[0] = muon[int(allmuons.index(tightMu[0]))].IsoTighteffSF
+                lepISOSystUp_nominal[0] = muon[int(allmuons.index(tightMu[0]))].IsoTighteffSF_SystUp
+                lepISOSystDown_nominal[0] = muon[int(allmuons.index(tightMu[0]))].IsoTighteffSF_SystDown
+                """
         elif(len(tightEle)>0 and len(tightMu)>0):
             goodfatjets = []
 
@@ -1135,12 +1309,12 @@ def reco(scenario, isMC, addPDF, training):
         FatJet_partM_nominal[0]=goodfatjets[0].particleNet_mass
         FatJet_Xbb_nominal[0]=goodfatjets[0].particleNetMD_Xbb
         fatjet_vect= ROOT.TLorentzVector()
-        fatjet_vect.SetPtEtaPhiM(FatJet_pt_nominal[0],FatJet_eta_nominal[0],FatJet_phi_nominal[0],FatJet_M_nominal[0])
+        fatjet_vect.SetPtEtaPhiM(FatJet_pt_nominal[0],FatJet_eta_nominal[0],FatJet_phi_nominal[0],goodfatjets[0].mass)#FatJet_M_nominal[0])
         FatJet_XbbVsQCD_nominal[0]= weird_division(goodfatjets[0].particleNetMD_Xbb,goodfatjets[0].particleNetMD_Xbb+goodfatjets[0].particleNetMD_QCD)
         if(len(all_coll_wp90)>0):
             Tprime_dR_nominal[0] = deltaR(goodfatjets[0].eta,goodfatjets[0].phi,Top_eta_nominal[0],Top_phi_nominal[0])
             fatjet_vect= ROOT.TLorentzVector()
-            fatjet_vect.SetPtEtaPhiM(FatJet_pt_nominal[0],FatJet_eta_nominal[0],FatJet_phi_nominal[0],FatJet_M_nominal[0])
+            fatjet_vect.SetPtEtaPhiM(FatJet_pt_nominal[0],FatJet_eta_nominal[0],FatJet_phi_nominal[0],goodfatjets[0].mass)#FatJet_M_nominal[0])
             Tprime_vect = fatjet_vect+top_vect
             Tprime_pt_nominal [0] =  Tprime_vect.Pt()
             Tprime_eta_nominal [0] =  Tprime_vect.Eta()
@@ -1267,7 +1441,7 @@ def reco(scenario, isMC, addPDF, training):
             N_elVeryLoose_nominal[0] = len(list(filter(lambda x: allelectrons.index(x)!=int(lista[0].el_index) and x.cutBased>=1  and x.pfRelIso03_all<0.4, electron)))
             #N_elLoose_nominal[0] = len(list(filter(lambda x: allelectrons.index(x)!=int(lista[0].el_index) and x.cutBased>=1 and x.pt>30 and x.pfRelIso03_all<0.2, electron)))
 
-            if(isMC): trigSF_nominal[0], trigUp_nominal[0], trigDown_nominal[0] = getTrig_SF(sample.label, sample.year,Top_flavour_nominal[0], Lep_pt_nominal[0], Lep_eta_nominal[0],FatJet_M_nominal[0], FatJet_pt_nominal[0] ,1)
+            if(isMC): trigSF_nominal[0], trigUp_nominal[0], trigDown_nominal[0] = getTrig_SF(sample.label, sample.year,Top_flavour_nominal[0], Lep_pt_nominal[0], Lep_eta_nominal[0],FatJet_partM_nominal[0], FatJet_pt_nominal[0] ,1)
 
             
         else:
@@ -1277,7 +1451,7 @@ def reco(scenario, isMC, addPDF, training):
                 #N_muLoose_nominal[0] = len(list(filter(lambda x: allmuons.index(x)!=allmuons.index(tightMu[0]) and x.looseId and x.pfRelIso04_all<0.2 and x.pt>30, muon)))
                 if(len(tightEle)==0): 
                     if(isMC): 
-                        trigSF_nominal[0], trigUp_nominal[0], trigDown_nominal[0] = getTrig_SF(sample.label, sample.year,13, TightMu_pt_nominal[0], TightMu_eta_nominal[0],FatJet_M_nominal[0], FatJet_pt_nominal[0] ,-1)
+                        trigSF_nominal[0], trigUp_nominal[0], trigDown_nominal[0] = getTrig_SF(sample.label, sample.year,13, TightMu_pt_nominal[0], TightMu_eta_nominal[0],FatJet_partM_nominal[0], FatJet_pt_nominal[0] ,-1)
                         ###BDTSF_nominal[0], BDTUp_nominal[0], BDTDown_nominal[0] = getBDT_SF(sample.label, 0, 0, -1, 13,Top_M_nominal[0],0)
             else:
                 N_muTop_nominal[0] = len(list(filter(lambda x: x.looseId and x.miniPFRelIso_all<4 and abs(x.dxy)<0.02, muon))) 
@@ -1290,7 +1464,7 @@ def reco(scenario, isMC, addPDF, training):
                 #N_elLoose_nominal[0] = len(list(filter(lambda x: allelectrons.index(x)!=allelectrons.index(tightEle[0]) and x.cutBased>=1 and x.pt>30 and x.pfRelIso03_all<0.2, electron)))
                 if(len(tightMu)==0): 
                     if(isMC): 
-                        trigSF_nominal[0], trigUp_nominal[0], trigDown_nominal[0] = getTrig_SF(sample.label, sample.year,11, TightEl_pt_nominal[0], TightEl_eta_nominal[0],FatJet_M_nominal[0], FatJet_pt_nominal[0] ,-1)
+                        trigSF_nominal[0], trigUp_nominal[0], trigDown_nominal[0] = getTrig_SF(sample.label, sample.year,11, TightEl_pt_nominal[0], TightEl_eta_nominal[0],FatJet_partM_nominal[0], FatJet_pt_nominal[0] ,-1)
                         ###BDTSF_nominal[0], BDTUp_nominal[0], BDTDown_nominal[0] = getBDT_SF(sample.label, 0, 0, -1, 11,Top_M_nominal[0],0)
             else:
                 N_elTop_nominal[0]= len(list(filter(lambda x: x.mvaFall17V2noIso_WPL and abs(x.dxy)<0.05, electron)))
@@ -1330,12 +1504,96 @@ def reco(scenario, isMC, addPDF, training):
         systTree.setWeightName("BDTUp",copy.deepcopy(BDTUp_nominal[0]))
         systTree.setWeightName("BDTDown",copy.deepcopy(BDTDown_nominal[0]))
         
-        systTree.setWeightName("lepSF",copy.deepcopy(lepSF_nominal[0]))
-        systTree.setWeightName("lepUp",copy.deepcopy(lepUp_nominal[0]))
-        systTree.setWeightName("lepDown",copy.deepcopy(lepDown_nominal[0]))
-        systTree.setWeightName("trigSF",copy.deepcopy(trigSF_nominal[0]))
-        systTree.setWeightName("trigUp",copy.deepcopy(trigUp_nominal[0]))
-        systTree.setWeightName("trigDown",copy.deepcopy(trigDown_nominal[0]))
+        
+
+        if (abs(Top_flavour_nominal[0])==13 and top_region_nominal[0]!=-1) or (TightMu_pt_nominal[0]!=0 and top_region_nominal[0]==-1):
+
+            systTree.setWeightName("muStatSF",copy.deepcopy(lepStatSF_nominal[0]))
+            systTree.setWeightName("muStatUp",copy.deepcopy(lepStatUp_nominal[0]))
+            systTree.setWeightName("muStatDown",copy.deepcopy(abs(lepStatDown_nominal[0])))
+        
+            systTree.setWeightName("muRECOSystSF",copy.deepcopy(lepRECOSystSF_nominal[0]))
+            systTree.setWeightName("muRECOSystUp",copy.deepcopy(lepRECOSystUp_nominal[0]))
+            systTree.setWeightName("muRECOSystDown",copy.deepcopy(abs(lepRECOSystDown_nominal[0])))
+
+            systTree.setWeightName("muIDSystSF",copy.deepcopy(lepIDSystSF_nominal[0]))
+            systTree.setWeightName("muIDSystUp",copy.deepcopy(lepIDSystUp_nominal[0]))
+            systTree.setWeightName("muIDSystDown",copy.deepcopy(abs(lepIDSystDown_nominal[0])))
+
+            systTree.setWeightName("muISOSystSF",copy.deepcopy(lepISOSystSF_nominal[0]))
+            systTree.setWeightName("muISOSystUp",copy.deepcopy(lepISOSystUp_nominal[0]))
+            systTree.setWeightName("muISOSystDown",copy.deepcopy(abs(lepISOSystDown_nominal[0])))
+
+            systTree.setWeightName("mutrigSF",copy.deepcopy(trigSF_nominal[0]))
+            systTree.setWeightName("mutrigUp",copy.deepcopy(trigUp_nominal[0]))
+            systTree.setWeightName("mutrigDown",copy.deepcopy(trigDown_nominal[0]))
+
+
+            systTree.setWeightName("elStatSF",1.)
+            systTree.setWeightName("elStatUp",1.)#lepStatUp_nominal[0]))
+            systTree.setWeightName("elStatDown",1.)#lepStatDown_nominal[0]))
+
+            systTree.setWeightName("elRECOSystSF",1.)#lepRECOSystSF_nominal[0]))
+            systTree.setWeightName("elRECOSystUp",1.)#lepRECOSystUp_nominal[0]))
+            systTree.setWeightName("elRECOSystDown",1.)#lepRECOSystDown_nominal[0]))
+
+            systTree.setWeightName("elIDSystSF",1.)#lepIDSystSF_nominal[0]))
+            systTree.setWeightName("elIDSystUp",1.)#lepIDSystUp_nominal[0]))
+            systTree.setWeightName("elIDSystDown",1.)#lepIDSystDown_nominal[0]))
+
+            systTree.setWeightName("elISOSystSF",1.)#lepISOSystSF_nominal[0]))
+            systTree.setWeightName("elISOSystUp",1.)#lepISOSystUp_nominal[0]))
+            systTree.setWeightName("elISOSystDown",1.)#lepISOSystDown_nominal[0]))
+
+            systTree.setWeightName("eltrigSF",1.)#trigSF_nominal[0]))
+            systTree.setWeightName("eltrigUp",1.)#trigUp_nominal[0]))
+            systTree.setWeightName("eltrigDown",1.)#trigDown_nominal[0]))
+
+        else:
+
+            systTree.setWeightName("muStatSF",1.)
+            systTree.setWeightName("muStatUp",1.)#lepStatUp_nominal[0]))
+            systTree.setWeightName("muStatDown",1.)#lepStatDown_nominal[0]))
+
+            systTree.setWeightName("muRECOSystSF",1.)#lepRECOSystSF_nominal[0]))
+            systTree.setWeightName("muRECOSystUp",1.)#lepRECOSystUp_nominal[0]))
+            systTree.setWeightName("muRECOSystDown",1.)#lepRECOSystDown_nominal[0]))
+
+            systTree.setWeightName("muIDSystSF",1.)#lepIDSystSF_nominal[0]))
+            systTree.setWeightName("muIDSystUp",1.)#lepIDSystUp_nominal[0]))
+            systTree.setWeightName("muIDSystDown",1.)#lepIDSystDown_nominal[0]))
+
+            systTree.setWeightName("muISOSystSF",1.)#lepISOSystSF_nominal[0]))
+            systTree.setWeightName("muISOSystUp",1.)#lepISOSystUp_nominal[0]))
+            systTree.setWeightName("muISOSystDown",1.)#lepISOSystDown_nominal[0]))
+
+            systTree.setWeightName("mutrigSF",1.)#trigSF_nominal[0]))
+            systTree.setWeightName("mutrigUp",1.)#trigUp_nominal[0]))
+            systTree.setWeightName("mutrigDown",1.)#trigDown_nominal[0]))
+
+            systTree.setWeightName("elStatSF",copy.deepcopy(lepStatSF_nominal[0]))
+            systTree.setWeightName("elStatUp",copy.deepcopy(lepStatUp_nominal[0]))
+            systTree.setWeightName("elStatDown",copy.deepcopy(abs(lepStatDown_nominal[0])))
+
+            systTree.setWeightName("elRECOSystSF",copy.deepcopy(lepRECOSystSF_nominal[0]))
+            systTree.setWeightName("elRECOSystUp",copy.deepcopy(lepRECOSystUp_nominal[0]))
+            systTree.setWeightName("elRECOSystDown",copy.deepcopy(abs(lepRECOSystDown_nominal[0])))
+
+            systTree.setWeightName("elIDSystSF",copy.deepcopy(lepIDSystSF_nominal[0]))
+            systTree.setWeightName("elIDSystUp",copy.deepcopy(lepIDSystUp_nominal[0]))
+            systTree.setWeightName("elIDSystDown",copy.deepcopy(abs(lepIDSystDown_nominal[0])))
+
+            systTree.setWeightName("elISOSystSF",copy.deepcopy(lepISOSystSF_nominal[0]))
+            systTree.setWeightName("elISOSystUp",copy.deepcopy(lepISOSystUp_nominal[0]))
+            systTree.setWeightName("elISOSystDown",copy.deepcopy(abs(lepISOSystDown_nominal[0])))
+
+            systTree.setWeightName("eltrigSF",copy.deepcopy(trigSF_nominal[0]))
+            systTree.setWeightName("eltrigUp",copy.deepcopy(trigUp_nominal[0]))
+            systTree.setWeightName("eltrigDown",copy.deepcopy(trigDown_nominal[0]))
+            
+
+        
+
 
         systTree.fillTreesSysts(trees, scenario)
         h_cutFlow.GetXaxis().SetBinLabel(4,"No LooseLep and Best TvsQCD>0.6")

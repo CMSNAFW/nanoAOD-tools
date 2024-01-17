@@ -15,7 +15,10 @@ class MET_HLT_Filter(Module):
     def beginFile(self, inputFile, outputFile, inputTree, wrappedOutputTree):
         if self.year == 2017:
             self.out = wrappedOutputTree
-            self.out.branch("HLT_Ele32_WPTight_Gsf","B")
+            self.out.branch("HLT_Ele32_WPTight_Gsf","I")
+        elif self.year == 2016:
+            self.out = wrappedOutputTree
+            self.out.branch("HLT_TkMu50","I")
         else:
             pass
 
@@ -28,13 +31,15 @@ class MET_HLT_Filter(Module):
         flag = Object(event, 'Flag')
         trigobj = Collection(event, "TrigObj")
         electrons = Collection(event, "Electron")
-        Ele32 = [False]
+        Ele32 = [0]
 
         if(self.year == 2016):
             try:
                 good_HLT = HLT.IsoTkMu24 or HLT.TkMu50 or HLT.Mu50 or HLT.IsoMu24 or HLT.Ele27_WPTight_Gsf or HLT.Photon175 or HLT.AK8PFJet360_TrimMass30
             except:
                 good_HLT = HLT.IsoTkMu24 or HLT.Mu50 or HLT.IsoMu24 or HLT.Ele27_WPTight_Gsf or HLT.Photon175 or HLT.AK8PFJet360_TrimMass30
+                self.out.fillBranch("HLT_TkMu50", 0)
+
             good_MET = flag.goodVertices and flag.globalSuperTightHalo2016Filter and flag.HBHENoiseFilter and flag.HBHENoiseIsoFilter and flag.EcalDeadCellTriggerPrimitiveFilter and flag.BadPFMuonFilter and flag.eeBadScFilter and flag.BadPFMuonDzFilter
         elif(self.year == 2017):
             try:
@@ -48,8 +53,8 @@ class MET_HLT_Filter(Module):
                         dR = deltaR(obj.eta,obj.phi,el.deltaEtaSC + el.eta ,el.phi)
                         if (dR < 0.1) and len(bin(obj.filterBits))>12:
                             if bin(obj.filterBits)[-11]=='1' : 
-                                good_HLT = True
-                                Ele32[0] = True
+                                good_HLT = 1
+                                Ele32[0] = 1
             Ele32[0] = Ele32[0] or HLT.Ele35_WPTight_Gsf
             self.out.fillBranch("HLT_Ele32_WPTight_Gsf", Ele32[0])
                 
