@@ -139,19 +139,20 @@ class lepSFProducer(Module):
 
         # TightIso
 
-        if SelectionTag == "TightIso_2016preVFP":
+        if SelectionTag == "TightIsoWP_2016preVFP":
             mu_f = ["Mu_2016preVFP_ISO.root"]
             mu_h = ["NUM_TightRelIso_DEN_TightIDandIPCut_abseta_pt_"+err_tag]
 
-        if SelectionTag == "TightIso_2016postVFP":
+        if SelectionTag == "TightIsoWP_2016postVFP":
             mu_f = ["Mu_2016postVFP_ISO.root"]
             mu_h = ["NUM_TightRelIso_DEN_TightIDandIPCut_abseta_pt_"+err_tag]
 
-        if SelectionTag == "TightIso_2017":
+        if SelectionTag == "TightIsoWP_2017":
             mu_f = ["Mu_2017_ISO.root"]
             mu_h = ["NUM_TightRelIso_DEN_TightIDandIPCut_abseta_pt_"+err_tag]
+            #print("Taken file")
 
-        if SelectionTag == "TightIso_2018":
+        if SelectionTag == "TightIsoWP_2018":
             mu_f = ["Mu_2018_ISO.root"]
             mu_h = ["NUM_TightRelIso_DEN_TightIDandIPCut_abseta_pt_"+err_tag]
 
@@ -258,6 +259,7 @@ class lepSFProducer(Module):
                         self.out.branch("Muon_LooseeffSF_Down", "F", lenVar="nMuon")
                 else:
                     if "Iso" in self.SelectionTag:
+                        #print("Branched")
                         self.out.branch("Muon_IsoTighteffSF", "F", lenVar="nMuon")
                         self.out.branch("Muon_IsoTighteffSF_Up", "F", lenVar="nMuon")
                         self.out.branch("Muon_IsoTighteffSF_Down", "F", lenVar="nMuon")
@@ -340,6 +342,7 @@ class lepSFProducer(Module):
                         self.out.fillBranch("Muon_LooseeffSF_Down", [sf - errsf for errsf, sf in zip(sf_mu, sferr_mu)])
                 else:
                     if "Iso" in self.SelectionTag:
+                        #print("Filled with "+str(sf_mu))
                         self.out.fillBranch("Muon_IsoTighteffSF", sf_mu)
                         self.out.fillBranch("Muon_IsoTighteffSF_Up", [errsf + sf for errsf, sf in zip(sferr_mu, sf_mu)])
                         self.out.fillBranch("Muon_IsoTighteffSF_Down", [sf - errsf for errsf, sf in zip(sf_mu, sferr_mu)])
