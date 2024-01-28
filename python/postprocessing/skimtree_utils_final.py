@@ -367,8 +367,12 @@ def getNewBDT_SF(sample, top_region, lepton, top_truth=0):
   year = sample[-4:]
   if "2016" in sample:
     year = "2016"
+    if "pre" in sample:
+      year = "2016preVFP"
+    elif "post" in sample:
+      year = "2016postVFP"
   #path = "SF_" + year + "v6.json"
-  path = "SF_"+year+"ORv0.json"
+  path = "SF_"+year+"ORv9_noMedium.json"
   #path = "SF_" + year + "v2_PNM.json"
 
   with open(path,"r") as json_file:
@@ -381,16 +385,26 @@ def getNewBDT_SF(sample, top_region, lepton, top_truth=0):
   else:
     #if ("QCD" in sample) or ("TT" in sample) or ("WJets" in sample):
     if  ("TT" in sample) or ("WJets" in sample) or ("Tprime" in sample) or ("QCD" in sample) or ("ST" in sample):
-    
+    #if  ("TT" in sample) or ("Tprime" in sample) or ("ST" in sample):
     
       if ("TT" in sample) or ("Tprime" in sample) or ("ST" in sample): 
         key = "TT_"
-        if top_truth==1:
+        if top_truth==1 and top_region==1:
           key=key+"T"
-        else: key = "WJ_"
+        elif top_truth==1 and top_region==0:
+          key=key+"L"
+
+        else: 
+          key = "WJ_"
+          if top_region==1:key=key+"T"
+          elif top_region==0:key=key+"L"
 
 
-      if ("WJets" in sample): key = "WJ_"
+
+      if ("WJets" in sample): 
+        key = "WJ_"
+        if top_region==1:key=key+"T"
+        elif top_region==0:key=key+"L"
   
 
       if ("QCD" in sample): key = "QCD_"
@@ -413,28 +427,36 @@ def getNewPN_SF(sample, AK8_region, MC_Truth):
   year = sample[-4:]
   if "2016" in sample:
     year = "2016"
+    if "pre" in sample: 
+      year = "2016preVFP"
+    elif "post" in sample:
+      year = "2016postVFP"
   #path = "SF_" + year + "v6.json"
   #path = "SF_" + year + "v2_PNM.json"
-  path = "SF_"+year+"ORv0.json"
+  path = "SF_"+year+"ORv9_noMedium.json"
 
   with open(path,"r") as json_file:
     PN_SFs = json.load(json_file)
 
   if (not "TT" in sample) and (not "Tprime" in sample) and (not "ST" in sample) : key="WJ"
+  
   else:
     if "Tprime" in sample: 
       if "2016" in sample: return [0.87,0.99,0.75]
       if "2017" in sample: return [1.06,1.2,0.92]
       if "2018" in sample: return [0.93,1.06,0.8]
     else:
-      key="TT"
-      if MC_Truth == 200: key = key+"2q"
-      elif MC_Truth == 201 : key = key+"FJ"
-      else: key = "Oth"#key+"Ot"
+      #key="TT"
+      if MC_Truth == 201: key = key+"FJ"
+      #elif MC_Truth == 201 : key = key+"FJ"
+      #elif MC_Truth == 101 : key = key+"MJ"
+      else: key = "WJ"#key+"Ot"
   
-  if AK8_region ==0: key = key+"V"
+  #if AK8_region ==0: key = key+"V"
 
-  return PN_SFs["SF_"+key]
+  try:
+    return PN_SFs["SF_"+key]
+  except: return [1.,1.,1.]
     
     
 

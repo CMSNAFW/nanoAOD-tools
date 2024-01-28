@@ -786,7 +786,7 @@ def reco(scenario, isMC, addPDF, training):
         loosefatjets = Collection(event,"LooseFatJet")
         h_cutFlow.Fill("HLT_PresEvents",1)
         HLT = Object(event,"HLT")
-
+        #print("getting event")
         """
         if sample.year== 2016:
             HLT_Muon_nominal[0] = HLT.Mu50 or HLT.IsoMu24
@@ -823,6 +823,7 @@ def reco(scenario, isMC, addPDF, training):
             except:
                 HLT_Muon_nominal[0] = HLT.Mu50 or HLT.IsoMu27
 
+            #print("here")
             HLT_PFJet_nominal[0] = HLT.AK8PFJet500
             HLT_Electron_nominal[0] = int(chain.HLT_Ele32_WPTight_Gsf)
             HLT_Photon_nominal[0] = HLT.Photon200
