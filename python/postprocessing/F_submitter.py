@@ -11,12 +11,22 @@ parser = argparse.ArgumentParser(description="Submitter on Condor")
 
 parser.add_argument("-fh","--folder_histo",type =str, required = True, help = "Folder_path_for_histo")
 parser.add_argument("-fr","--folder_root",type = str, required = True, help = "Folder_path_for_root_skim_file")
+parser.add_argument("-rp","--post_processor_to_use", type = str, required= True, help = "Post_processor_to_use")
+
 
 options = parser.parse_args()
 
 folder_histo_count = options.folder_histo
 folder_root_skim = options.folder_root
+run_post = options.post_processor_to_use
 
+
+runner = "runner_2.sh" #Default runner
+
+if (run_post == "run_postproccesor"):
+    runner = "runner.sh"
+else: 
+    runner = "runner_2.sh"
 
 
 
@@ -55,7 +65,7 @@ def sub_writer(path, dat_name, outname, label, folder_histo_count, folder_root_s
     f.write("transfer_input_files    = $(Proxy_path)\n")
     #f.write("transfer_output_remaps  = \""+outname+"_Skim.root=root://eosuser.cern.ch///eos/user/"+inituser + "/" + username+"/DarkMatter/topcandidate_file/"+dat_name+"_Skim.root\"\n")
     f.write("+JobFlavour             = \"testmatch\"\n") # options are espresso = 20 minutes, microcentury = 1 hour, longlunch = 2 hours, workday = 8 hours, tomorrow = 1 day, testmatch = 3 days, nextweek     = 1 week
-    f.write("executable              = runner.sh\n")
+    f.write(f"executable              = {runner}\n")
     f.write("arguments               = "+path+" "+dat_name+" "+outname+" "+label+" "+ folder_histo_count + " " + folder_root_skim + " " + label_name +"\n")
     #f.write("input                   = input.txt\n")
     f.write("output                  = condor/output/"+ label_name+".out\n")
@@ -100,8 +110,8 @@ datasets= {
 #datasets = [TT_bar_2024.components[1]]
 
 
-#datasets = [tWb_Signal_4FS.components[0]]
-datasets = TT_bar_2024.components
+datasets = tWb_Signal_4FS.components
+#datasets = TT_bar_2024.components
 
 
 #datasets = []
@@ -139,7 +149,7 @@ for d in datasets:
     for i, f in enumerate(files):
         dat = 'root://cms-xrd-global.cern.ch//' + f
 
-        if i >= 202:
+        if i >= 0:
         # nome output incrementale
             outname = f"{d.label}_{i}_Skim.root"
             final_name = f"/eos/f/fconfort/NanoAOD_outputs/{outname}"
@@ -155,8 +165,8 @@ for d in datasets:
             os.popen('condor_submit condor.sub')
             time.sleep(3)
 
-            if i == 700:
-                break
+            #if i == 3:
+            #    break
 
 
 
