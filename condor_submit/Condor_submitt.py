@@ -44,7 +44,7 @@ elif username == "fconfort":
 def write_runner_sub(run_post_proccesor, output_path = "runner.sh"):
     with open(output_path, "w") as f:
         f.write("#!/usr/bin/bash\n")
-        f.write("cd /afs/cern.ch/user/f/fconfort/CMSSW_15_1_0/src/tWb_Single_top_CKM/analysis/condor\n")
+        f.write("cd /afs/cern.ch/user/f/fconfort/CMSSW_14_1_0/src/Physics/NanoAODTools/condor_submit\n")
         f.write("cmsenv\n")
         f.write("export XRD_NETWORKSTACK=IPv4\n")
         f.write(f"python3 {run_post_proccesor} $1 $2 $3 $4 $5 $6\n")
