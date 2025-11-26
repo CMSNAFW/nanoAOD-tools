@@ -1,0 +1,16 @@
+Proxy_filename          = x509up
+Proxy_path              = /afs/cern.ch/user/f/fscrivan/private/$(Proxy_filename)
+universe                = vanilla
+x509userproxy           = $(Proxy_path)
+use_x509userproxy       = true
+should_transfer_files   = YES
+when_to_transfer_output = ON_EXIT
+transfer_input_files    = $(Proxy_path)
++JobFlavour             = "tomorrow"
++Tag                    = "ZJetsToNuNu_HT2500_2024"
+executable              = runner_fra_regioni_new.sh
+arguments               = root://cms-xrd-global.cern.ch// /eos/user/f/fscrivan/datasets/ZJetsToNuNu_HT2500_2024_Skim.root ZJetsToNuNu_HT2500_2024_46_output.root ZJetsToNuNu_HT2500_2024 46
+output                  = condor_regioni_new/output/ZJetsToNuNu_HT2500_2024_46.out
+error                   = condor_regioni_new/error/ZJetsToNuNu_HT2500_2024_46.err
+log                     = condor_regioni_new/log/ZJetsToNuNu_HT2500_2024_46.log
+queue
