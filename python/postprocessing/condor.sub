@@ -1,0 +1,16 @@
+Proxy_filename          = x509up
+Proxy_path              = /afs/cern.ch/user/f/fscrivan/private/$(Proxy_filename)
+universe                = vanilla
+x509userproxy           = $(Proxy_path)
+use_x509userproxy       = true
+should_transfer_files   = YES
+when_to_transfer_output = ON_EXIT
+transfer_input_files    = $(Proxy_path)
++JobFlavour             = "workday"
++Tag                    = "DataJetMETG_2022"
+executable              = runner_fra.sh
+arguments               = root://cms-xrd-global.cern.ch///store/data/Run2022G/JetMET/NANOAOD/22Sep2023-v2/2560000/2fc91aa2-ab66-4c55-8abb-7d646c510a10.root /eos/user/f/fscrivan/datasets/DataJetMETG_2022_Skim.root 2fc91aa2-ab66-4c55-8abb-7d646c510a10_output.root DataJetMETG_2022 0
+output                  = condor/output/DataJetMETG_2022_0.out
+error                   = condor/error/DataJetMETG_2022_0.err
+log                     = condor/log/DataJetMETG_2022_0.log
+queue
