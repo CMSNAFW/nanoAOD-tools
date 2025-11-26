@@ -44,7 +44,7 @@ elif username == "fconfort":
 def write_runner_sub(run_post_proccesor, output_path = "runner.sh"):
     with open(output_path, "w") as f:
         f.write("#!/usr/bin/bash\n")
-        f.write("cd /afs/cern.ch/user/f/fconfort/CMSSW_14_1_0/src/Physics/NanoAODTools/condor_submit\n")
+        f.write("cd $HOME/CMSSW_14_1_0/src/PhysicsTools/NanoAODTools/condor_submit\n")
         f.write("cmsenv\n")
         f.write("export XRD_NETWORKSTACK=IPv4\n")
         f.write(f"python3 {run_post_proccesor} $1 $2 $3 $4 $5 $6\n")
@@ -150,7 +150,7 @@ if normal:
 
     entry = dataset_json[dataset]
 
-    #print(entry)
+
 
     class JSONDataset:
         def __init__(self, das, label, isData, year):
@@ -170,12 +170,10 @@ if normal:
     entry["year"]
     )
 
-    #print(dataset)
 
     print("Getting files from DAS...")
     files = get_files_string(dataset)
 
-    #print(files)    
 
     for i, f in enumerate(files):
         dat = "root://cms-xrd-global.cern.ch//" + f
