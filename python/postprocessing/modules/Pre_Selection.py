@@ -6,7 +6,7 @@ from PhysicsTools.NanoAODTools.postprocessing.framework.eventloop import Module
 from PhysicsTools.NanoAODTools.postprocessing.tools import *
 
 
-class Selection(Module):
+class Pre_Selection(Module):
     def __init__(self):
         pass
     #
@@ -29,7 +29,7 @@ class Selection(Module):
     def is_tight_electron(self,ele):
         eta = abs(ele.eta)
         reliso = ele.pfRelIso03_all
-        if ele.pt < 35: return False
+        if ele.corrected_pt < 35: return False
         if eta > 2.1: return False 
         if 1.44 < eta < 1.57: return False
         if not ele.mvaIso_WP90: return False
@@ -48,7 +48,7 @@ class Selection(Module):
 
     #Loose Electron 
     def is_loose_electron(self,ele):
-        if ele.pt < 15: return False
+        if ele.corrected_pt < 15: return False
         if abs(ele.eta) > 2.5: return False
         if ele.pfRelIso03_all > 0.2: return False
         return True
@@ -110,11 +110,11 @@ class Selection(Module):
         electrons = Collection(event,"Electron")
         muons = Collection(event,"Muon")
         jets = Collection(event,"Jet")
-        genparts = Collection(event,"GenPart")
+        #genparts = Collection(event,"GenPart")
         PV = Object(event,"PV")
 
         isGoodPV = (PV.ndof > 4 and abs(PV.z) < 20 and math.hypot(PV.x,PV.y)<2)
-        goodJets_veto = []
+        #goodJets_veto = []
         
         #See if it's a JetVeto 
         if (event.Flag_JetVetoed != 0):
@@ -127,10 +127,10 @@ class Selection(Module):
         looseEle = [e for e in electrons if self.is_loose_electron(e) and e not in goodEle]
 
         #Selection of Jets
-        goodJets =list(filter(self.is_good_Jet,goodJets_veto)) 
+        goodJets =list(filter(self.is_good_Jet,jets)) 
         bJets = list(filter(self.is_btag,goodJets))
 
-                nJets  = len(goodJets)
+        nJets  = len(goodJets)
         nBjets = len(bJets)
 
         #Jet condition  
