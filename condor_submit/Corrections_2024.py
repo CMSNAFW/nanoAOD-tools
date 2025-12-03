@@ -1,8 +1,7 @@
-from PhysicsTools.NanoAODTools.postprocessing.modules.MET_HLT_Filter_2024 import *
-from PhysicsTools.NanoAODTools.postprocessing.modules.ElectronSF import *
+from PhysicsTools.NanoAODTools.postprocessing.modules.MET_HLT_Filter import *
+from PhysicsTools.NanoAODTools.postprocessing.modules.electronSF import *
 from PhysicsTools.NanoAODTools.postprocessing.modules.eleScaleRes import *
-from PhysicsTools.NanoAODTools.postprocessing.modules.MuonSF import *
-#from PhysicsTools.NanoAODTools.postprocessing.modules.puWeightProducer import *
+from PhysicsTools.NanoAODTools.postprocessing.modules.muonSF import *
 from PhysicsTools.NanoAODTools.postprocessing.modules.jetCorr import *
 from PhysicsTools.NanoAODTools.postprocessing.modules.jetID import *
 from PhysicsTools.NanoAODTools.postprocessing.modules.jetVetoMap import *
@@ -10,32 +9,29 @@ from PhysicsTools.NanoAODTools.postprocessing.modules.puWeightProducer import *
 
 
 
-#from PhysicsTools.NATModules.modules.muonScaleRes import*
-#sfrom PhysicsTools.
-
 def get_SF_modules():
     corr_repo = "/cvmfs/cms-griddata.cern.ch/cat/metadata/"
     corr_tag = "Run3-24CDEReprocessingFGHIPrompt-Summer24-NanoAODv15"
 
     # Muon SF
     mu_idisosf_2024 = MuonSF(f"{corr_repo}MUO/{corr_tag}/latest/muon_Z.json.gz")
-    mu_idisosf_2024.addCorrection("NUM_TightID_DEN_TrackerMuons", 'nominal', "Muon_IDSF")
-    mu_idisosf_2024.addCorrection("NUM_TightID_DEN_TrackerMuons", 'systup', "Muon_IDSFUp")
-    mu_idisosf_2024.addCorrection("NUM_TightID_DEN_TrackerMuons", 'systdown', "Muon_IDSFDown")
+    mu_idisosf_2024.addCorrection("NUM_TightID_DEN_TrackerMuons", 'nominal', "IDSF")
+    mu_idisosf_2024.addCorrection("NUM_TightID_DEN_TrackerMuons", 'systup', "ISDFUp")
+    mu_idisosf_2024.addCorrection("NUM_TightID_DEN_TrackerMuons", 'systdown', "IDSFDown")
 
     # Electron SF
     reco24 = lambda pt: 'RecoAbove75' if pt>=75 else 'Reco20to75' 
     era24 = '2024Prompt'
     egm_corr_name = 'Electron-ID-SF'
     ele_recosf_2024 = ElectronSF(f"{corr_repo}EGM/{corr_tag}/latest/electron.json.gz")
-    ele_recosf_2024.addCorrection(egm_corr_name, era24, reco24, 'sf', 'Electron_RecoSF')
-    ele_recosf_2024.addCorrection(egm_corr_name, era24, reco24, 'sfdown', 'Electron_RecoSFDown')
-    ele_recosf_2024.addCorrection(egm_corr_name, era24, reco24, 'sfup', 'Electron_RecoSFUp')
+    ele_recosf_2024.addCorrection(egm_corr_name, era24, reco24, 'sf', "RecoSF")
+    ele_recosf_2024.addCorrection(egm_corr_name, era24, reco24, 'sfdown', "RecoSFDown")
+    ele_recosf_2024.addCorrection(egm_corr_name, era24, reco24, 'sfup', "RecoSFUp")
     
     ele_idsf_2024 = ElectronSF(f"{corr_repo}EGM/{corr_tag}/latest/electronID.json.gz")
-    ele_idsf_2024.addCorrection(egm_corr_name, '2024', 'wp80noiso', 'sf', "Electron_IDSF")
-    ele_idsf_2024.addCorrection(egm_corr_name, '2024', 'wp80noiso', 'sfdown', "Electron_IDSFDown")
-    ele_idsf_2024.addCorrection(egm_corr_name, '2024', 'wp80noiso', 'sfup', "Electron_IDSFUp")
+    ele_idsf_2024.addCorrection(egm_corr_name, '2024', 'wp80noiso', 'sf', "IDSF")
+    ele_idsf_2024.addCorrection(egm_corr_name, '2024', 'wp80noiso', 'sfdown', "IDSFDown")
+    ele_idsf_2024.addCorrection(egm_corr_name, '2024', 'wp80noiso', 'sfup', "IDSFUp")
    
     #Electron Scale resolution 
     ele_scale_res_2024 = eleScaleRes(
@@ -46,7 +42,8 @@ def get_SF_modules():
     )    
 
 
-    
+
+    # Work in progress - 02/12/25
     """
     #Muon Scale resolution 
     mu_scale_res_2024 = muonScaleRes(
@@ -82,7 +79,7 @@ def get_SF_modules():
         "Regrouped_RelativeSample_{year}",
     ]
 
-    key = 'Summer24Prompt24_V1'
+    key = 'Summer24Prompt24_V2' #On 02/12/2025 there was and update, from V1 to V2
     L1Key = f"{key}_MC_L1FastJet_AK4PFPuppi"
     L2Key = f"{key}_MC_L2Relative_AK4PFPuppi"
     L3Key = f"{key}_MC_L3Absolute_AK4PFPuppi"
@@ -106,4 +103,4 @@ def get_SF_modules():
     #JetVeto:
     jetVeto = jetvetomaps_2024()
 
-    return [met_filter, mu_idisosf_2024, ele_recosf_2024, ele_idsf_2024, pu_weight, jetCorrected, jetID, jetVeto]
+    return [met_filter, mu_idisosf_2024, ele_recosf_2024, ele_idsf_2024, ele_scale_res_2024, pu_weight, jetCorrected, jetID, jetVeto]

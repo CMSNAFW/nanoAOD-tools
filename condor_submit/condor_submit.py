@@ -2,7 +2,7 @@ import os
 import optparse
 import sys
 import time
-from get_file_fromdas import*
+from get_file_fromdas import *
 import argparse
 #from sample import *
 import json
@@ -16,6 +16,7 @@ parser = argparse.ArgumentParser(description = "Script to submitt to condor")
 parser.add_argument("-ds","--dataset", type = str, required = True, help = "Dataset name in Json")
 parser.add_argument("-f","--output_analysis", type = str, required = True, help= "Folder on eos to analyze data")
 parser.add_argument("-n","--normal_mode", default = False,  action = "store_true", help = "Normal mode for the analysis")
+parser.add_argument('--dryrun', dest='debug', action='store_true', default=False, help='dryrun')
 #parser.add_argument("-t","--test", default = False, action = "store_true", help = "Mode for test, start only 1000 jobs")
 #parser.add_argument("")
 
@@ -28,7 +29,7 @@ options = parser.parse_args()
 normal = options.normal_mode
 dataset = options.dataset
 folder = options.output_analysis
-
+debug = options.debug
 
 
 username = str(os.environ.get('USER'))
@@ -39,20 +40,30 @@ elif username == 'acagnott':
     uid = 140541
 elif username == "fconfort":
     uid = 179351
+elif username == "cdifraia":
+    uid = 159609
 
-
+    
 def write_runner_sub(run_post_proccesor, output_path = "runner.sh"):
     with open(output_path, "w") as f:
         f.write("#!/usr/bin/bash\n")
-        f.write("cd $HOME/CMSSW_14_1_0/src/PhysicsTools/NanoAODTools/condor_submit\n")
+        #f.write("cd $HOME/CMSSW_14_1_0/src/PhysicsTools/NanoAODTools/condor_submit\n")
+
+        ### Commands to enter in the proper folder, according to the owner environment ###
+        f.write("cd /afs/cern.ch/user/" + inituser + "/" + username + "/ \n")
+        f.write("source /cvmfs/cms.cern.ch/cmsset_default.sh \n")
+        ver = str(os.getcwd()).split("CMSSW")[1].split("/src")[0]
+        f.write("cd CMSSW"+ver+"/src \n")
+        f.write("eval `scramv1 runtime -sh` \n")
         f.write("cmsenv\n")
+        f.write("cd PhysicsTools/NanoAODTools/condor_submit\n")
         f.write("export XRD_NETWORKSTACK=IPv4\n")
-        f.write(f"python3 {run_post_proccesor} $1 $2 $3 $4 $5 $6\n")
+        f.write(f"python3 {run_post_proccesor} $1 $2 $3 $4 \n")
     os.chmod(output_path, 0o755)
 
 
 
-def sub_writer(path, dat_name, outname, label, folder, label_name):
+def sub_writer(path, label, folder, label_part):
     runner = "runner.sh"
     f = open("condor.sub", "w")
     f.write("Proxy_filename          = x509up\n")
@@ -66,11 +77,11 @@ def sub_writer(path, dat_name, outname, label, folder, label_name):
     #f.write("transfer_output_remaps  = \""+outname+"_Skim.root=root://eosuser.cern.ch///eos/user/"+inituser + "/" + username+"/DarkMatter/topcandidate_file/"+dat_name+"_Skim.root\"\n")
     f.write("+JobFlavour             = \"testmatch\"\n") # options are espresso = 20 minutes, microcentury = 1 hour, longlunch = 2 hours, workday = 8 hours, tomorrow = 1 day, testmatch = 3 days, nextweek     = 1 week
     f.write(f"executable              = {runner}\n")
-    f.write("arguments               = "+path+" "+dat_name+" "+outname+" "+label+" " + folder + " " + label_name +"\n")
+    f.write("arguments               = "+path+" "+label+" " + folder + " " + label_part +"\n")
     #f.write("input                   = input.txt\n")
-    f.write("output                  = condor/output/"+ label_name+".out\n")
-    f.write("error                   = condor/error/"+ label_name+".err\n")
-    f.write("log                     = condor/log/"+ label_name+".log\n")
+    f.write("output                  = condor/output/"+ label_part+".out\n")
+    f.write("error                   = condor/error/"+ label_part+".err\n")
+    f.write("log                     = condor/log/"+ label_part+".log\n")
 
     f.write("queue\n")
 
@@ -102,33 +113,40 @@ if normal:
         f.write("ROOT.PyConfig.IgnoreCommandLineOptions = True\n")
         f.write("from importlib import import_module\n")
         f.write("from PhysicsTools.NanoAODTools.postprocessing.framework.postprocessor import PostProcessor\n")
-        f.write("from sf_Module_2024 import get_SF_modules\n")
+        f.write("from Corrections_2024 import get_SF_modules\n")
+        f.write("from PhysicsTools.NanoAODTools.postprocessing.modules.Pre_Selection import Pre_Selection\n") #Pre_Selection module
         f.write("\n")
         f.write("# Important variables for the analysis\n")
         f.write("fnames = [sys.argv[1]]\n")
-        f.write("final_name = sys.argv[2]\n")
-        f.write("outname = sys.argv[3]\n")
-        f.write("label = sys.argv[4]\n")
-        f.write("folder_histo_events = sys.argv[5]\n")
-        f.write("label_name = sys.argv[6]\n")
+        #f.write("final_name = sys.argv[2]\n")
+        f.write("label = sys.argv[2]\n")
+        f.write("folder_histo_events = sys.argv[3]\n")
+        f.write("label_part = sys.argv[4]\n")
         f.write("\n")
         f.write("# Import modules for post-processor\n")
         f.write("modules = get_SF_modules()\n")
+        f.write("modules.append(Pre_Selection())\n") #Pre_Selection module added in the pipeline after corrections
         f.write("\n")
         f.write("# Create output folder\n")
-        f.write("output_analysis = folder_histo_events + '_' + label\n")
-        f.write("output_path = '/eos/user/f/fconfort/tWb_CKM/' + output_analysis\n")
+        f.write("output_analysis = label\n")
+        f.write("output_path = '/eos/user/"+inituser+"/"+username+"/tWb_CKM/' + output_analysis\n")
         f.write("os.makedirs(output_path, exist_ok=True)\n")
         f.write("\n")
         f.write("p = PostProcessor(\n")
-        f.write("    '/eos/user/f/fconfort/tWb_CKM/' + output_analysis,\n")
+        f.write("    '/eos/user/"+inituser+"/"+username+"/tWb_CKM/' + output_analysis,\n")
         f.write("    fnames,\n")
         f.write("    modules = modules,\n")
         f.write("    noOut = False,\n")
         #f.write("    histFileName = 'jetId_hist.root',\n")   # <--- aggiunto per salvare istogrammi
         #f.write("    histDirName = 'plots',\n")             # <--- cartella interna ROOT
-        f.write("    postfix = '_' + label_name,\n")
-        f.write("    maxEntries = 100,\n")
+        f.write("    postfix = '_' + label_part,\n")
+        if debug:
+            extra_str="maxEntries=100,"
+        else:
+            extra_str=""
+
+        f.write("    "+extra_str+"\n")
+        f.write("    outputbranchsel=os.path.abspath('./keep_and_drop.txt')\n")
         f.write(")\n")
         f.write("\n")
         f.write("p.run()\n")
@@ -178,19 +196,17 @@ if normal:
     for i, f in enumerate(files):
         dat = "root://cms-xrd-global.cern.ch//" + f
         
-        outname = f"{dataset.label}_{i}_Skim.root"
-        final_name = f"/eos/f/fconfort/NanoAOD_outputs/{outname}"
-        label_name = f"{dataset.label}_{i}"
         label = dataset.label
+        outname = f"{dataset.label}_{i}_Skim.root"
+        label_part = f"{dataset.label}_{i}"
 
-        sub_writer(dat, final_name, outname, label, folder, label_name)
+        sub_writer(dat, label, folder, label_part)
 
-        print(f"Submitting job for {label_name} — file {i}")
+        print(f"Submitting job for {label_part} - file {i}")
         print(dat)
 
         os.system("condor_submit condor.sub")
         time.sleep(2)
 
-        # REMOVE IF YOU WANT ALL FILES
-        if i == 0:
+        if debug:
             break

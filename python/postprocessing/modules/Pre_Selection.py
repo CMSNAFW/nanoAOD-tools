@@ -205,4 +205,3 @@ class Pre_Selection(Module):
 
 
         return goodEvent
-

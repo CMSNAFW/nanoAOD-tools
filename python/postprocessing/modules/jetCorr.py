@@ -331,6 +331,7 @@ class jetJERC(Module):
                         mass_scale_up.append(mass_JES_up)
                         mass_scale_dn.append(mass_JES_dn)
             else:
+                METpt_JEC_JER = newjet_pt_JEC
                 ## Data
                 ## No JER for Data
                 if iJet < len(jets):

@@ -8,3 +8,7 @@ build
 *.d
 *.so
 *.pcm
+
+condor_submit/condor/*
+condor_submit/condor.sub
+condor_submit/cdifraia.cc

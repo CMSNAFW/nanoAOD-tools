@@ -10,6 +10,8 @@ def get_files_string(dataset):
         uid = 140541
     elif username == "fconfort":
         uid = 179351
+    elif username == "cdifraia":
+        uid = 159609
 
     
     if not hasattr(dataset, "dataset"): 
