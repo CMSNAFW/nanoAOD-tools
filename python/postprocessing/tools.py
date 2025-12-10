@@ -284,10 +284,10 @@ def presel(jets, fatjets): #returns 2 collections of jets and fatjets
 """
 
 #definizione di Leo
-def is_good_Jet(jet):
-    if jet.jetIdTightLeptonVeto == 0 or jet.jetIdTight == 0: return False
-    if jet.pt < 30: return False
-    if abs(jet.eta) > 2.4: return False
+def is_good_Jet(jets):
+    if jets.jetIdTightLeptonVeto == 0 or jets.jetIdTight == 0: return False
+    if jets.pt < 30: return False
+    if abs(jets.eta) > 2.4: return False
     return True        
 def get_jet(jets):
     
@@ -296,13 +296,13 @@ def get_jet(jets):
 
 
 def is_good_FatJet(fatjets):
-    if fatjet.fatjetIdTightLeptonVeto== 0 or fatjet.fatjetIdTight == 0: return False
+    if fatjets.fatjetIdTightLeptonVeto== 0 or fatjets.fatjetIdTight == 0: return False
     
-    if abs(jet.eta) > 2.4: return False
+    if abs(fatjets.eta) > 2.4: return False
     return True  
 
 def get_fatjet(fatjets):
-    return list(filter(lambda x: is_good_Jet(x), fatjets)) 
+    return list(filter(lambda x: is_good_FatJet(x), fatjets)) 
 def presel(jets, fatjets): #returns 2 collections of jets and fatjets
     goodjets = get_jet(jets)
     goodfatjets = get_fatjet(fatjets)
